@@ -86,6 +86,14 @@
             android:layout_gravity="center"
             android:background="@drawable/buttonshape"
             android:id="@+id/loginBtn"/>
+        <com.google.android.gms.common.SignInButton
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Google 로그인"
+            android:id="@+id/SignIn_Button"
+            android:layout_marginTop="5dp"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
