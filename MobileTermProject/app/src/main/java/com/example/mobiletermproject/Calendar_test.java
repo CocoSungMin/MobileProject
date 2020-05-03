@@ -1,8 +1,14 @@
 package com.example.mobiletermproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
@@ -21,7 +27,7 @@ public class Calendar_test extends AppCompatActivity {
         setContentView(R.layout.activity_calendar_test);
 
 
-        MaterialCalendarView calenderView = findViewById(R.id.calendarView);
+        final MaterialCalendarView calenderView = findViewById(R.id.calendarView);
         // calender set up
         //calenderView.setOnDateChangedListener((OnDateSelectedListener) this);
         //calenderView.setOnMonthChangedListener((OnMonthChangedListener) this);
@@ -39,5 +45,34 @@ public class Calendar_test extends AppCompatActivity {
         //calenderView.setWeekDayTextAppearance(R.style.asdasd);
         //calenderView.setDateTextAppearance(R.style.asdasd);
 
+        Button testbtn = findViewById(R.id.ftest);
+        testbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // !!!!!!!! do not run !!!!!!!!!!!
+                Log.d("Calender", String.valueOf(calenderView.getCalendarMode()));
+                if(calenderView.getCalendarMode() == CalendarMode.MONTHS){
+                    calenderView.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS);
+                    Log.d("Calender", "months -> weeks");
+                }
+                else if(calenderView.getCalendarMode() == CalendarMode.WEEKS){
+                    calenderView.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS);
+                    Log.d("Calender", "weeks -> months");
+                }
+                else{
+                    Log.d("Calender", "No if chain");
+                }
+            }
+        });
+
+        Calendar calendar = Calendar.getInstance();
+        calenderView.setDateSelected(calendar.getTime(), true);
+        //----------- Date selected events ----------
+        calenderView.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                Toast.makeText(getApplicationContext(), " " + date, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
