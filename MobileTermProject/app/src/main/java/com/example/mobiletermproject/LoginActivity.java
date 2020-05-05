@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import org.w3c.dom.Text;
+
 public class LoginActivity extends AppCompatActivity {
 
     private SignInButton signInButton;
@@ -28,6 +33,9 @@ public class LoginActivity extends AppCompatActivity {
     private String TAG="mainTag";
     private FirebaseAuth mAuth;
     private int RC_SIGN_IN=123;
+    
+    private EditText emailText;
+    private EditText PwText ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +62,41 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 signIn();
+            }
+        });
+
+        emailText = (EditText) findViewById(R.id.idText);
+        PwText = (EditText)findViewById(R.id.passwordText);
+        Button login = (Button)findViewById(R.id.loginBtn);
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = emailText.getText().toString().trim();
+                String pwd = PwText.getText().toString().trim();
+
+                mAuth.signInWithEmailAndPassword(email, pwd)
+                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    Intent intent = new Intent(LoginActivity.this, Loading.class);
+                                    Toast.makeText(LoginActivity.this,"로그인 성공",Toast.LENGTH_SHORT).show();
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "로그인 오류", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        });
+
+        TextView Resigter = (TextView)findViewById(R.id.registerButton);
+        Resigter.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(LoginActivity.this,RegisterActicity.class);
+                startActivity(intent);
             }
         });
     }
