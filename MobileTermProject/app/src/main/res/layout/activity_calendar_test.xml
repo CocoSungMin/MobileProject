@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,6 +7,22 @@
     tools:context=".Calendar_test"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/loginIcon"
+        android:orientation="vertical"
+    >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:text = "Main Menu"
+            android:textStyle="bold"
+            android:textSize="40sp"
+            android:layout_gravity="center"
+            />
+    </LinearLayout>
     <com.prolificinteractive.materialcalendarview.MaterialCalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
@@ -14,17 +30,13 @@
         app:mcv_showOtherDates="all"
         app:mcv_selectionColor="#00F"
         tools:ignore="MissingConstraints" >
-
-
     </com.prolificinteractive.materialcalendarview.MaterialCalendarView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/loginIcon"
+        >
 
-    <Button
-        android:id="@+id/ftest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="161dp"
-        tools:layout_editor_absoluteY="469dp"
-        android:text="Test"
-        tools:ignore="MissingConstraints" />
+    </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

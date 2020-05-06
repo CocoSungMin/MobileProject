@@ -17,7 +17,7 @@ public class Loading extends Activity {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 //startActivity(intent);
-                startActivity(new Intent(Loading.this, MainMenu.class));
+                startActivity(new Intent(Loading.this, Calendar_test.class));
                 finish();
             }
         };

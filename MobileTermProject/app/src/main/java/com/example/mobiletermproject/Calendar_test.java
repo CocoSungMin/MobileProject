@@ -45,25 +45,7 @@ public class Calendar_test extends AppCompatActivity {
         //calenderView.setWeekDayTextAppearance(R.style.asdasd);
         //calenderView.setDateTextAppearance(R.style.asdasd);
 
-        Button testbtn = findViewById(R.id.ftest);
-        testbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // !!!!!!!! do not run !!!!!!!!!!!
-                Log.d("Calender", String.valueOf(calenderView.getCalendarMode()));
-                if(calenderView.getCalendarMode() == CalendarMode.MONTHS){
-                    calenderView.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS);
-                    Log.d("Calender", "months -> weeks");
-                }
-                else if(calenderView.getCalendarMode() == CalendarMode.WEEKS){
-                    calenderView.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS);
-                    Log.d("Calender", "weeks -> months");
-                }
-                else{
-                    Log.d("Calender", "No if chain");
-                }
-            }
-        });
+
 
         Calendar calendar = Calendar.getInstance();
         calenderView.setDateSelected(calendar.getTime(), true);

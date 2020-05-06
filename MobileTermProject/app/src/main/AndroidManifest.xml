@@ -12,8 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".Calendar_test"></activity>
-        <activity android:name=".MainMenu" />
-        <activity android:name=".ListActivty" />
         <activity android:name=".Loading" />
         <activity android:name=".LoginActivity">
             <intent-filter>
