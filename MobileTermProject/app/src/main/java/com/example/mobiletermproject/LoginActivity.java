@@ -99,6 +99,16 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        //103번줄부터 110번 줄은 로그인 오류로 calendar로 바로 가기위한 임시 코드, 추후 삭제할 것
+        Button btn1= findViewById(R.id.button2);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this,Calendar_test.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     // [START on_start_check_user]

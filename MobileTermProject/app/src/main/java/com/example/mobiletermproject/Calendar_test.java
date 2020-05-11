@@ -8,8 +8,10 @@ import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -21,6 +23,7 @@ import java.util.Date;
 
 public class Calendar_test extends AppCompatActivity {
 
+    private BottomSheetBehavior bottomSheetBehavior;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +57,18 @@ public class Calendar_test extends AppCompatActivity {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 Toast.makeText(getApplicationContext(), " " + date, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        LinearLayout linearLayout = findViewById(R.id.schedule_bottom_sheet);
+
+        bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
+
+        Button button = findViewById(R.id.btn_show_schedulr_botton_sheet);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
         });
     }
