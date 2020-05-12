@@ -3,9 +3,13 @@ package com.example.mobiletermproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -22,12 +26,49 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Calendar_test extends AppCompatActivity {
+    //메뉴부분
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int curId = item.getItemId();
+        switch (curId) {
+            case R.id.menu_info:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.menu_group1:
+                Toast.makeText(this, "그룹 페이지1", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.menu_group2:
+                Toast.makeText(this, "그룹 페이지2", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.menu_set:
+                Toast.makeText(this, "그룹 설정 페이지", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
 
     private BottomSheetBehavior bottomSheetBehavior;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_test);
+
+        //액션바 부분
+        getSupportActionBar().setTitle("시간엄수");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
 
 
         final MaterialCalendarView calenderView = findViewById(R.id.calendarView);
