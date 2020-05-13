@@ -45,7 +45,7 @@
 
         <include layout="@layout/schedule_bottom_sheet"/>
 
-        <!-- 값확인용 텍스트뷰 -->
+        <!--          값확인용 텍스트뷰          -->
         <TextView
             android:id="@+id/asdTest"
             android:layout_width="match_parent"
@@ -53,6 +53,7 @@
             android:text="asdfasdf"
             android:textSize="20sp"
             android:paddingTop="450dp"/>
+        <!--                                   -->
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
