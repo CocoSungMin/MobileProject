@@ -81,8 +81,6 @@ public class Calendar_test extends AppCompatActivity {
         //캘린더 설정//////////////////////////////////////////////////////////////////////
         final MaterialCalendarView calenderView = findViewById(R.id.calendarView);
         // calender set up
-        //calenderView.setOnDateChangedListener((OnDateSelectedListener) this);
-        //calenderView.setOnMonthChangedListener((OnMonthChangedListener) this);
         calenderView.setTopbarVisible(true);
 
         calenderView.state().edit()
@@ -91,16 +89,12 @@ public class Calendar_test extends AppCompatActivity {
                 .setMaximumDate(CalendarDay.from(2030,11,31))
                 .setCalendarDisplayMode(CalendarMode.MONTHS)
                 .commit();
-
         calenderView.setShowOtherDates(MaterialCalendarView.SHOW_OUT_OF_RANGE);
         calenderView.setDynamicHeightEnabled(true);
         calenderView.addDecorators(
                 new SundayDecorator(),
                 new SaturdayDecorator()
         );
-        //calenderView.setWeekDayTextAppearance(R.style.asdasd);
-        //calenderView.setDateTextAppearance(R.style.asdasd);
-
 
         //----------- Date selected events ----------
         calenderView.setOnDateChangedListener(new OnDateSelectedListener() {
@@ -146,5 +140,15 @@ public class Calendar_test extends AppCompatActivity {
                 bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
         });
+
+        Button btnAdd = findViewById(R.id.asdTest2);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Calendar_test.this, CreateSchedule.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }

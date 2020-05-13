@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="Software Engineering is an engineering discipline which is concerned with all aspects of software production"
+                android:text="야 일정 추가 기능은"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
@@ -51,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="–	Mentcare: A system used to maintain records of people receiving care for mental health problems"
+                android:text="오또케 만들어야 하냐~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
