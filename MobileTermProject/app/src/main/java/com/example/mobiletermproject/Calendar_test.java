@@ -94,6 +94,10 @@ public class Calendar_test extends AppCompatActivity {
 
         calenderView.setShowOtherDates(MaterialCalendarView.SHOW_OUT_OF_RANGE);
         calenderView.setDynamicHeightEnabled(true);
+        calenderView.addDecorators(
+                new SundayDecorator(),
+                new SaturdayDecorator()
+        );
         //calenderView.setWeekDayTextAppearance(R.style.asdasd);
         //calenderView.setDateTextAppearance(R.style.asdasd);
 
@@ -102,9 +106,9 @@ public class Calendar_test extends AppCompatActivity {
         calenderView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                //Toast.makeText(getApplicationContext(), " " + date, Toast.LENGTH_SHORT).show();
                 //바텀시트 날짜 변경
                 botSheetDate.setText(String.format("%s월 %s일", String.valueOf(date.getMonth()+1), String.valueOf(date.getDay())));
+                //바텀시트 내용 업데이트 추후 추가
             }
         });
         //////////////////////////////////////////////////////////////////////////////
@@ -133,6 +137,7 @@ public class Calendar_test extends AppCompatActivity {
                 }
             }
         });
+        //////////////////////////////////////////////////////////////////////////////
 
         Button button = findViewById(R.id.btn_show_schedulr_botton_sheet);
         button.setOnClickListener(new View.OnClickListener() {
