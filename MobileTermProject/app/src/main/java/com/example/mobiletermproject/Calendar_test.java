@@ -2,13 +2,13 @@ package com.example.mobiletermproject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.provider.CalendarContract;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,45 +18,41 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
-import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Objects;
 
 public class Calendar_test extends AppCompatActivity {
     //메뉴부분
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.appbar_menu, menu);
+
+        return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int curId = item.getItemId();
-        switch (curId) {
-            case R.id.menu_info:
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.menu_group1:
-                Toast.makeText(this, "그룹 페이지1", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.menu_group2:
-                Toast.makeText(this, "그룹 페이지2", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.menu_set:
-                Toast.makeText(this, "그룹 설정 페이지", Toast.LENGTH_SHORT).show();
-                break;
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.search :
+                Toast.makeText(getApplicationContext(), "Search Click", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.option :
+                Toast.makeText(getApplicationContext(), "Option Click", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
 
@@ -67,12 +63,20 @@ public class Calendar_test extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_test);
 
-        final TextView botSheetDate = findViewById(R.id.botsheetDate);
+        //툴바 부분
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.myAppName);
+        setSupportActionBar(toolbar);
 
-        //액션바 부분
-        getSupportActionBar().setTitle("시간엄수");
+
+
+        //액션바 부분인데 툴바 사용해가지고 일단 주석처리
+        /*getSupportActionBar().setTitle("시간엄수");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
+
+
+        final TextView botSheetDate = findViewById(R.id.botsheetDate);
 
         //오늘 날짜 바텀시트 설정
         @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("M월 dd일");

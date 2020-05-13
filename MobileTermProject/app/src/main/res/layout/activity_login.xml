@@ -31,6 +31,7 @@
                 android:layout_gravity="center"
                 android:text="시간 엄수"
                 android:textColor="#ffffff"
+                android:fontFamily="@font/font"
                 android:textSize="25dp"
                 android:textStyle="bold" />
             <TextView
@@ -38,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="시간을 지켜라!"
+                android:fontFamily="@font/font"
                 android:textColor="#ffffff"
                 android:textSize="18dp"
                 android:textStyle="bold" />
@@ -57,7 +59,7 @@
             android:textColor="#ffffff"
             android:textColorHint="#ffffff"
             android:id="@+id/idText"
-
+            android:fontFamily="@font/font"
             android:layout_marginTop="50dp"
             android:background="@color/colorPrimary"/>
         <EditText
@@ -70,6 +72,7 @@
             android:textColor="#ffffff"
             android:textColorHint="#ffffff"
             android:id="@+id/passwordText"
+            android:fontFamily="@font/font"
 
             android:layout_marginTop="10dp"
             android:background="@color/colorPrimary"/>
@@ -80,6 +83,7 @@
             android:textStyle="bold"
             android:textColor="#ffffff"
             android:text="Login"
+            android:fontFamily="@font/font"
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
             android:background="@drawable/buttonshape"
@@ -99,6 +103,7 @@
             android:textSize="18dp"
             android:layout_marginTop="10dp"
             android:text="회원가입"
+            android:fontFamily="@font/font"
             android:id="@+id/registerButton"/>
 
         <Button
