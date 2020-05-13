@@ -30,9 +30,10 @@
                 android:background="@color/colorAccent"/>
 
             <TextView
+                android:id="@+id/botsheetDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Schedule"
+                android:text="Date"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:textSize="20dp"/>

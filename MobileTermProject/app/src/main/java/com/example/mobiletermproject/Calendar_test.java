@@ -3,6 +3,7 @@ package com.example.mobiletermproject;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
@@ -22,6 +24,7 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -55,20 +58,22 @@ public class Calendar_test extends AppCompatActivity {
     }
 
 
-
-
     private BottomSheetBehavior bottomSheetBehavior;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_test);
 
+        final TextView botSheetDate = findViewById(R.id.botsheetDate);
+
         //액션바 부분
         getSupportActionBar().setTitle("시간엄수");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        //오늘 날짜 바텀시트 설정
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("M월 dd일");
+        botSheetDate.setText(String.format("%s",format.format(Calendar.getInstance().getTime())));
 
 
         final MaterialCalendarView calenderView = findViewById(R.id.calendarView);
@@ -90,14 +95,13 @@ public class Calendar_test extends AppCompatActivity {
         //calenderView.setDateTextAppearance(R.style.asdasd);
 
 
-
-        Calendar calendar = Calendar.getInstance();
-        calenderView.setDateSelected(calendar.getTime(), true);
         //----------- Date selected events ----------
         calenderView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                Toast.makeText(getApplicationContext(), " " + date, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), " " + date, Toast.LENGTH_SHORT).show();
+                //바텀시트 날짜 변경
+                botSheetDate.setText(String.format("%s월 %s일", String.valueOf(date.getMonth()+1), String.valueOf(date.getDay())));
             }
         });
 
