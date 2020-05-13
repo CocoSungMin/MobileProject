@@ -3,16 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="480dp"
     android:id="@+id/schedule_bottom_sheet"
     android:background="@android:color/transparent"
     app:layout_behavior="@string/bottom_sheet_behavior"
-    app:behavior_hideable="true"
-    app:behavior_peekHeight="80dp">
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="300dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:cardBackgroundColor="@color/colorPrimaryDark"
         app:cardCornerRadius="20dp"
         app:cardElevation="20dp">
@@ -36,7 +36,7 @@
                 android:text="Date"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
-                android:textSize="20dp"/>
+                android:textSize="20sp"/>
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Medium"
@@ -45,7 +45,7 @@
                 android:layout_marginTop="15dp"
                 android:text="Software Engineering is an engineering discipline which is concerned with all aspects of software production"
                 android:textColor="@android:color/white"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Medium"

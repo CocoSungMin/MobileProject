@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +28,7 @@ import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class Calendar_test extends AppCompatActivity {
     //메뉴부분
@@ -59,6 +61,7 @@ public class Calendar_test extends AppCompatActivity {
 
 
     private BottomSheetBehavior bottomSheetBehavior;
+    @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +78,7 @@ public class Calendar_test extends AppCompatActivity {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("M월 dd일");
         botSheetDate.setText(String.format("%s",format.format(Calendar.getInstance().getTime())));
 
-
+        //캘린더 설정//////////////////////////////////////////////////////////////////////
         final MaterialCalendarView calenderView = findViewById(R.id.calendarView);
         // calender set up
         //calenderView.setOnDateChangedListener((OnDateSelectedListener) this);
@@ -104,10 +107,32 @@ public class Calendar_test extends AppCompatActivity {
                 botSheetDate.setText(String.format("%s월 %s일", String.valueOf(date.getMonth()+1), String.valueOf(date.getDay())));
             }
         });
+        //////////////////////////////////////////////////////////////////////////////
 
+        //BottomSheet
         LinearLayout linearLayout = findViewById(R.id.schedule_bottom_sheet);
-
         bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
+        //초기 높이 조절
+        bottomSheetBehavior.setPeekHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,230,getResources().getDisplayMetrics()));
+
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                //내려간 상태
+                if(slideOffset == bottomSheet.SCREEN_STATE_OFF){
+                    calenderView.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
+                }
+                //올라간 상태
+                else if(slideOffset == bottomSheet.SCREEN_STATE_ON){
+                    calenderView.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS).commit();
+                }
+            }
+        });
 
         Button button = findViewById(R.id.btn_show_schedulr_botton_sheet);
         button.setOnClickListener(new View.OnClickListener() {
