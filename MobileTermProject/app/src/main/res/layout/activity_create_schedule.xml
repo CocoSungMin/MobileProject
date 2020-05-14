@@ -29,22 +29,28 @@
             android:layout_height="wrap_content"
             >
             <Spinner
-                android:layout_width="200dp"
-                android:layout_height="30dp"
-                android:id="@+id/YearSpinner"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:id="@+id/stramfm"/>
+            <Spinner
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:id="@+id/Hour"
                 android:text="Year"
                 />
             <Spinner
                 android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:id="@+id/MonthSpinner"
+                android:layout_height="50dp"
+                android:id="@+id/Minute"
                 android:hint = "Month"
                 />
-            <Spinner
+            <Button
                 android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:id="@+id/DaySpinner"
-                android:hint = "Month"
+                android:layout_height="50dp"
+                android:id="@+id/DayButton"
+                android:text="YYYY/MM/DD"
+                android:textSize="10sp"
+                android:onClick="mOnPopupClick"
                 />
         </LinearLayout>
 
@@ -68,17 +74,24 @@
             android:layout_height="wrap_content"
             >
             <Spinner
-                android:layout_width="200dp"
-                android:layout_height="30dp"
-                android:id="@+id/endYear" />
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:id="@+id/endamfm"/>
             <Spinner
                 android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:id="@+id/endMonth"/>
+                android:layout_height="50dp"
+                android:id="@+id/endHour" />
             <Spinner
                 android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:id="@+id/endDay"/>
+                android:layout_height="50dp"
+                android:id="@+id/endMinute"/>
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:textSize="10sp"
+                android:id="@+id/endDayButton"
+                android:text="YYYY/MM/DD"
+                android:onClick="mOnPopupClick2"/>
         </LinearLayout>
     </LinearLayout>
 
