@@ -1,48 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/schedule_bottom_sheet"
     android:layout_width="match_parent"
-    android:layout_height="400dp"
+    android:layout_height="wrap_content"
     android:background="@android:color/transparent"
     app:behavior_hideable="false"
-    app:behavior_peekHeight="300dp"
-    app:layout_behavior="@string/bottom_sheet_behavior">
+    app:behavior_peekHeight="22dp"
+    app:layout_behavior="@string/bottom_sheet_behavior"
+    android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cardBackgroundColor="@color/colorPrimaryDark"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="20dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:background="?attr/colorPrimary">
+        <View
+            android:layout_width="30dp"
+            android:layout_height="6dp"
+            android:layout_gravity="center"
+            android:background="@color/colorAccent" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <View
-                android:layout_width="30dp"
-                android:layout_height="5dp"
-                android:layout_gravity="center"
-                android:background="@color/colorAccent" />
-
+            android:orientation="horizontal"
+            android:paddingTop="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Schedule"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Today :"
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_marginLeft="120dp"
+                android:layout_marginRight="3dp"/>
             <TextView
                 android:id="@+id/botsheetDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Date"
                 android:textColor="@android:color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="15sp"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:background="?attr/colorPrimary"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp">
+
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="야 일정 추가 기능은"
+                android:layout_marginTop="5dp"
+                android:text="야 일정 추가 기능은 리스트뷰로~"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
@@ -51,14 +86,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="오또케 만들어야 하냐~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+                android:text="Nested View test"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
         </LinearLayout>
 
 
-    </androidx.cardview.widget.CardView>
+    </androidx.core.widget.NestedScrollView>
 
 
 </LinearLayout>

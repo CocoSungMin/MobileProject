@@ -110,7 +110,7 @@ public class Calendar_test extends AppCompatActivity {
             }
         });
         //////////////////////////////////////////////////////////////////////////////
-
+        /*Bottom Sheet 올릴 때 모션이 안좋아서 잠깐 빼뒀습니당
         //BottomSheet
         LinearLayout linearLayout = findViewById(R.id.schedule_bottom_sheet);
         bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
@@ -134,16 +134,9 @@ public class Calendar_test extends AppCompatActivity {
                     calenderView.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS).commit();
                 }
             }
-        });
+        });*/
         //////////////////////////////////////////////////////////////////////////////
 
-        Button button = findViewById(R.id.btn_show_schedulr_botton_sheet);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            }
-        });
 
         Button btnAdd = findViewById(R.id.asdTest2);
         btnAdd.setOnClickListener(new View.OnClickListener() {
