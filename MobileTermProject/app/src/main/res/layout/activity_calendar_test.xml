@@ -49,8 +49,13 @@
 
         <Button
             android:id="@+id/btn_show_schedulr_botton_sheet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:textSize="20sp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/addbuttonshape"
+            android:textColor="@android:color/white"
             android:text="Up" />
 
         <include layout="@layout/schedule_bottom_sheet" />
@@ -65,10 +70,15 @@
             android:textSize="20sp"/>
         <Button
             android:id="@+id/asdTest2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ADD schdule"
-            android:layout_gravity="right"/>
+            android:text="+"
+            android:textColor="#FFFFFF"
+            android:textSize="32sp"
+            android:layout_gravity="right"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/addbuttonshape"
+            />
         <!--                                   -->
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

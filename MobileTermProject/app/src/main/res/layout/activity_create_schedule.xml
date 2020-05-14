@@ -16,42 +16,71 @@
         android:hint="제목을 입력하세요."
         />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="시작"/>
-
-        <Button
-            android:id="@+id/startDate"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="yyyy-MM-dd"
-            android:background="@android:color/white"
-            />
+            >
+            <Spinner
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:id="@+id/YearSpinner"
+                android:text="Year"
+                />
+            <Spinner
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:id="@+id/MonthSpinner"
+                android:hint = "Month"
+                />
+            <Spinner
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:id="@+id/DaySpinner"
+                android:hint = "Month"
+                />
+        </LinearLayout>
 
-    </RelativeLayout>
 
-    <RelativeLayout
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:text="종료"/>
-
-        <Button
-            android:id="@+id/endDate"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="yyyy-MM-dd"
-            android:background="@android:color/white"
-            />
-    </RelativeLayout>
+            >
+            <Spinner
+                android:layout_width="200dp"
+                android:layout_height="30dp"
+                android:id="@+id/endYear" />
+            <Spinner
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:id="@+id/endMonth"/>
+            <Spinner
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:id="@+id/endDay"/>
+        </LinearLayout>
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
@@ -65,5 +94,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="내용을 입력하세요."
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="등록"
+        android:id="@+id/addSchedule"
         />
 </LinearLayout>
