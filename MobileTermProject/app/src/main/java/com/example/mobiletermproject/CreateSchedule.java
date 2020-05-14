@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.util.HashMap;
@@ -154,21 +155,24 @@ public class CreateSchedule extends AppCompatActivity {
             user.put("End Date", getDataend.getText().toString());
             user.put("Content", content.getText().toString());
 
-            db.collection("users").
-                    add(user).
-                    addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            final String finalId = id;
+            db.collection("user").document(finalId)
+                    .set(user, SetOptions.merge())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Log.d(TAG, "DocumentSnapshot added with ID" + documentReference.getId());
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
                             startActivity(intent);
                             finish();
+
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.w(TAG, "Error adding document", e);
-                }
-            });
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
         }
         else{
             Toast.makeText(this,"Fail",Toast.LENGTH_SHORT);
