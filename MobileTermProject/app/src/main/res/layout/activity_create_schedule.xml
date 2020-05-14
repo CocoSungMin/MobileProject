@@ -113,5 +113,6 @@
         android:layout_height="50dp"
         android:text="등록"
         android:id="@+id/addSchedule"
+        android:onClick="registerSchedule"
         />
 </LinearLayout>
