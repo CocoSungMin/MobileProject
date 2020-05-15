@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +20,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -28,6 +36,8 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Calendar_test extends AppCompatActivity {
     //메뉴부분
@@ -68,6 +78,27 @@ public class Calendar_test extends AppCompatActivity {
         toolbar.setTitle(R.string.myAppName);
         setSupportActionBar(toolbar);
 
+        String id = null;
+        FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
+        if (user1 != null) {
+            String uid = user1.getUid();
+            id = uid;
+        }
+        final Map<String, Object>[] schedule = new Map[]{new HashMap<>()};
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(id)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(DocumentSnapshot document : task.getResult()){
+                                Log.d("TAG",document.getData().toString());
+                            }
+                        }
+                    }
+                });
 
 
         //액션바 부분인데 툴바 사용해가지고 일단 주석처리

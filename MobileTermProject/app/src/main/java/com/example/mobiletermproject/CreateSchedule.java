@@ -144,8 +144,6 @@ public class CreateSchedule extends AppCompatActivity {
         if(id != null) {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             Map<String, Object> user = new HashMap<>();
-            user.put("id", id);
-            user.put("ScheduleName", title.getText().toString());
             user.put("StartTime", stramfm.getSelectedItem().toString() + " " +
                     Hourstr.getSelectedItem().toString() + " : " + Mitstr.getSelectedItem().toString());
             user.put("Start Date", getDatestr.getText().toString());
@@ -156,7 +154,7 @@ public class CreateSchedule extends AppCompatActivity {
             user.put("Content", content.getText().toString());
 
             final String finalId = id;
-            db.collection("user").document(finalId)
+            db.collection(finalId).document(title.getText().toString())
                     .set(user, SetOptions.merge())
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
