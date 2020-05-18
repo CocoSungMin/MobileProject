@@ -129,6 +129,7 @@ public class Calendar_test extends AppCompatActivity {
         calenderView.addDecorators(
                 new SundayDecorator(),
                 new SaturdayDecorator()
+                //new EventDecorator()
         );
 
         //----------- Date selected events ----------
