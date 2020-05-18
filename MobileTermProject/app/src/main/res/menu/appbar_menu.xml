@@ -20,12 +20,23 @@
     appAsAction="always"-->
         <item
             android:id="@+id/search"
-            android:icon="@drawable/icon"
+            android:icon="@drawable/me"
             android:title="Item"
             app:showAsAction="always" />
         <item
             android:id="@+id/option"
-            android:icon="@mipmap/ic_launcher_round"
+            android:icon="@drawable/team"
             android:title="Item"
             app:showAsAction="always" />
+     <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/group1"
+            android:title="그룹 1" />
+        <item
+            android:id="@+id/group2"
+            android:title="그룹 2" />
+        <item
+            android:id="@+id/group3"
+            android:title="그룹 3" />
+    </group>
 </menu>

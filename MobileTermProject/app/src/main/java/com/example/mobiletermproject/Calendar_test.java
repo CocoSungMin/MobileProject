@@ -40,25 +40,37 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Calendar_test extends AppCompatActivity {
+    Menu menu;
     //메뉴부분
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         getMenuInflater().inflate(R.menu.appbar_menu, menu);
-
+        this.menu = menu;
+        menu.getItem(0).setChecked(true);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        switch (item.getItemId())
+        int id = item.getItemId();
+        switch (id)
         {
             case R.id.search :
                 Toast.makeText(getApplicationContext(), "Search Click", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.option :
                 Toast.makeText(getApplicationContext(), "Option Click", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.group1 :
+                item.setChecked(false);
+                return true;
+            case R.id.group2 :
+                item.setChecked(false);
+                return true;
+            case R.id.group3 :
+                item.setChecked(false);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
