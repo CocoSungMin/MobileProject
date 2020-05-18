@@ -78,6 +78,7 @@ public class Calendar_test extends AppCompatActivity {
         toolbar.setTitle(R.string.myAppName);
         setSupportActionBar(toolbar);
 
+        /*
         String id = null;
         FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
         if (user1 != null) {
@@ -99,7 +100,7 @@ public class Calendar_test extends AppCompatActivity {
                         }
                     }
                 });
-
+         */
 
         //액션바 부분인데 툴바 사용해가지고 일단 주석처리
         /*getSupportActionBar().setTitle("시간엄수");

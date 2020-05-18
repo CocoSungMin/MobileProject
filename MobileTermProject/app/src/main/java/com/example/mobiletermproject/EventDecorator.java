@@ -1,5 +1,6 @@
 package com.example.mobiletermproject;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -17,10 +18,18 @@ import java.util.Calendar;
 
 public class EventDecorator implements DayViewDecorator {
     private final Calendar calendar = Calendar.getInstance();
+    //private final Drawable drawble;
 
     public EventDecorator(){
 
     }
+
+    /*
+    public SetBackgroundDrawableDecorator(Context context){
+        drawble = context.getResources().getDrawable(R.drawable.buttonshape);
+    }
+    */
+
 
     @Override
     public boolean shouldDecorate(CalendarDay day) {
@@ -32,28 +41,6 @@ public class EventDecorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
-        view.setBackgroundDrawable(new Drawable() {
-            @Override
-            public void draw(@NonNull Canvas canvas) {
-                Paint paint = new Paint();
-                paint.setColor(Color.RED);
-                canvas.drawCircle(0,0,10,paint);
-            }
-
-            @Override
-            public void setAlpha(int alpha) {
-
-            }
-
-            @Override
-            public void setColorFilter(@Nullable ColorFilter colorFilter) {
-
-            }
-
-            @Override
-            public int getOpacity() {
-                return 0;
-            }
-        });
+        //view.setBackgroundDrawable()
     }
 }
