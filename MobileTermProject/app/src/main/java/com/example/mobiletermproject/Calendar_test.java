@@ -58,19 +58,19 @@ public class Calendar_test extends AppCompatActivity {
         switch (id)
         {
             case R.id.search :
-                Toast.makeText(getApplicationContext(), "Search Click", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "이거 누르면 마이페이지로 화면 변환", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.option :
-                Toast.makeText(getApplicationContext(), "Option Click", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "이거 누르면 그룹관리(사용자 추가)로 화면 변환", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.group1 :
-                item.setChecked(false);
+                Toast.makeText(getApplicationContext(), "이거 누르면 그룹1로 화면 변환", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.group2 :
-                item.setChecked(false);
+                Toast.makeText(getApplicationContext(), "이거 누르면 그룹2로 화면 변환", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.group3 :
-                item.setChecked(false);
+                Toast.makeText(getApplicationContext(), "이거 누르면 그룹3로 화면 변환", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -87,7 +87,7 @@ public class Calendar_test extends AppCompatActivity {
 
         //툴바 부분
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.myAppName);
+        toolbar.setTitle(" ");
         setSupportActionBar(toolbar);
 
         /*
