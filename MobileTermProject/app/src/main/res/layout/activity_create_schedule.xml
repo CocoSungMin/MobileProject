@@ -115,4 +115,12 @@
         android:id="@+id/addSchedule"
         android:onClick="registerSchedule"
         />
+
+    <!-- DatePickerDialog로 UI변경해볼까 해서 임시로 추가한 코드(120~125) -->
+    <EditText
+        android:id="@+id/date_time_input"
+        android:hint="Select Date and Time"
+        android:inputType="none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>
