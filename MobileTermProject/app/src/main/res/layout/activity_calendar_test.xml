@@ -60,7 +60,7 @@
 
 
         <Button
-            android:id="@+id/asdTest2"
+            android:id="@+id/btnAddSchedule"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="bottom|end"

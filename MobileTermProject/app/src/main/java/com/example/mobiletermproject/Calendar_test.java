@@ -141,8 +141,8 @@ public class Calendar_test extends AppCompatActivity {
         calenderView.setDynamicHeightEnabled(true);
         calenderView.addDecorators(
                 new SundayDecorator(),
-                new SaturdayDecorator()
-                //new EventDecorator()
+                new SaturdayDecorator(),
+                new EventDecorator(this)
         );
 
         //----------- Date selected events ----------
@@ -183,7 +183,8 @@ public class Calendar_test extends AppCompatActivity {
         //////////////////////////////////////////////////////////////////////////////
 
 
-        Button btnAdd = findViewById(R.id.asdTest2);
+        //스케쥴 추가 버튼
+        Button btnAdd = findViewById(R.id.btnAddSchedule);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

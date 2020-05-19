@@ -1,5 +1,6 @@
 package com.example.mobiletermproject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -18,17 +19,11 @@ import java.util.Calendar;
 
 public class EventDecorator implements DayViewDecorator {
     private final Calendar calendar = Calendar.getInstance();
-    //private final Drawable drawble;
+    private final Drawable drawble;
 
-    public EventDecorator(){
-
+    public EventDecorator(Activity context){
+        drawble = context.getResources().getDrawable(R.drawable.event_dot);
     }
-
-    /*
-    public SetBackgroundDrawableDecorator(Context context){
-        drawble = context.getResources().getDrawable(R.drawable.buttonshape);
-    }
-    */
 
 
     @Override
@@ -41,6 +36,6 @@ public class EventDecorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
-        //view.setBackgroundDrawable()
+        view.setBackgroundDrawable(drawble);
     }
 }
