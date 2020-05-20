@@ -178,13 +178,15 @@ public class CreateSchedule extends AppCompatActivity {
         MitEnd = findViewById(R.id.endMinute);
 
         /*
-        String[] startDate = getDatestr.getText().toString().split(".");
-        String[] endDate = getDataend.getText().toString().split(".");
+        String[] startDate = getDatestr.getText().toString().split("/");
+        String[] endDate = getDataend.getText().toString().split("/");
 
-        Schedule schedule = new Schedule(title.toString(), content.toString(),
-                LocalDateTime.of(Integer.parseInt(startDate[0]),Integer.parseInt(startDate[1]),Integer.parseInt(startDate[2]),Integer.parseInt(Hourstr.toString()),Integer.parseInt(Mitstr.toString())),
-                LocalDateTime.of(Integer.parseInt(endDate[0]),Integer.parseInt(endDate[1]),Integer.parseInt(endDate[2]),Integer.parseInt(HourEnd.toString()),Integer.parseInt(MitEnd.toString())));
-         */
+        Schedule schedule = new Schedule(title.getText().toString(), content.getText().toString(),
+                LocalDateTime.of(Integer.parseInt(startDate[0]),Integer.parseInt(startDate[1]),Integer.parseInt(startDate[2]),Integer.parseInt(Hourstr.getSelectedItem().toString()),Integer.parseInt(Mitstr.getSelectedItem().toString())),
+                LocalDateTime.of(Integer.parseInt(endDate[0]),Integer.parseInt(endDate[1]),Integer.parseInt(endDate[2]),Integer.parseInt(HourEnd.getSelectedItem().toString()),Integer.parseInt(MitEnd.getSelectedItem().toString())));
+
+        Log.d("value test", schedule.toString());
+        */
 
         String id = null;
         FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();

@@ -38,5 +38,11 @@ public class Schedule {
     public LocalDateTime getEndDate(){return endTime;}
 
     /*뭐뭐 필요한지 보고 추가해야 할듯 싶습니다.*/
-
+    public String toString(){
+        String str = title;
+        str += " " + content;
+        str += " " + startTime.toString();
+        str += " " + endTime.toString();
+        return str;
+    }
 }
