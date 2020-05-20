@@ -1,12 +1,14 @@
 package com.example.mobiletermproject;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -34,6 +36,7 @@ import com.google.firebase.firestore.SetOptions;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,9 +48,6 @@ public class CreateSchedule extends AppCompatActivity {
     private static final String TAG = "tag";
     private EditText schduleTitle;
     private EditText schduleContent;
-
-    private CalendarDay startDate;
-    private CalendarDay endDate;
 
     private ArrayAdapter adapter;
     private Spinner Hourstr;
@@ -164,6 +164,7 @@ public class CreateSchedule extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void registerSchedule(View v){
         final Intent intent = new Intent(this,Calendar_test.class);
 
@@ -175,6 +176,16 @@ public class CreateSchedule extends AppCompatActivity {
         endamfm = findViewById(R.id.endamfm);
         HourEnd = findViewById(R.id.endHour);
         MitEnd = findViewById(R.id.endMinute);
+
+        /*
+        String[] startDate = getDatestr.getText().toString().split(".");
+        String[] endDate = getDataend.getText().toString().split(".");
+
+        Schedule schedule = new Schedule(title.toString(), content.toString(),
+                LocalDateTime.of(Integer.parseInt(startDate[0]),Integer.parseInt(startDate[1]),Integer.parseInt(startDate[2]),Integer.parseInt(Hourstr.toString()),Integer.parseInt(Mitstr.toString())),
+                LocalDateTime.of(Integer.parseInt(endDate[0]),Integer.parseInt(endDate[1]),Integer.parseInt(endDate[2]),Integer.parseInt(HourEnd.toString()),Integer.parseInt(MitEnd.toString())));
+         */
+
         String id = null;
         FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
         if (user1 != null) {
