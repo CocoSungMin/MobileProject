@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        TextView Resigter = (TextView)findViewById(R.id.registerButton);
+        Button Resigter = (Button) findViewById(R.id.registerButton);
         Resigter.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
