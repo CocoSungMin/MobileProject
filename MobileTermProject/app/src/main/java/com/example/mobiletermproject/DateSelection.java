@@ -48,7 +48,7 @@ public class DateSelection extends AppCompatActivity {
         calenderView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                selection = String.valueOf(date.getYear())+"/"+String.valueOf(date.getMonth()+1)+"/"+String.valueOf(date.getDay());
+                selection = String.valueOf(date.getYear())+"."+String.valueOf(date.getMonth()+1)+"."+String.valueOf(date.getDay());
             }
         });
     }
