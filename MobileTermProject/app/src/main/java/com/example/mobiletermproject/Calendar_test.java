@@ -160,7 +160,7 @@ public class Calendar_test extends AppCompatActivity {
                 //바텀시트 날짜 변경
                 botSheetDate.setText(String.format("%s월 %s일", String.valueOf(date.getMonth()+1), String.valueOf(date.getDay())));
                 //바텀시트 내용 업데이트 추후 추가
-                SearchDB(date); // bottom sheet 내용 추가 하는 method 아래에 있음
+                SearchScheduleDB(date); // bottom sheet 내용 추가 하는 method 아래에 있음
             }
         });
         //////////////////////////////////////////////////////////////////////////////
@@ -204,7 +204,9 @@ public class Calendar_test extends AppCompatActivity {
 
     }
 
-    public void SearchDB(CalendarDay date) {
+
+
+    public void SearchScheduleDB(CalendarDay date) {
         temp.clear();
         final String ScDate = String.valueOf(date.getYear()) + "." + String.valueOf(date.getMonth() + 1) + "." + String.valueOf(date.getDay());
         Log.d("TAG", "selected" + ScDate);
