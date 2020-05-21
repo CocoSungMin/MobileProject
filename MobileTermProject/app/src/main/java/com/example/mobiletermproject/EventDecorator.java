@@ -51,7 +51,6 @@ public class EventDecorator implements DayViewDecorator {
         int eventday = calendar.get(calendar.DAY_OF_WEEK);
         ClassifySchedule();
 
-
         return eventday == Calendar.WEDNESDAY;
     }
 
@@ -96,5 +95,8 @@ public class EventDecorator implements DayViewDecorator {
 
     public void ClassifySchedule() {
         existSchedule();
+    }
+    public void toNum(){
+
     }
 }

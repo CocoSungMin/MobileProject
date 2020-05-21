@@ -209,7 +209,6 @@ public class Calendar_test extends AppCompatActivity {
     public void SearchScheduleDB(CalendarDay date) {
         temp.clear();
         final String ScDate = String.valueOf(date.getYear()) + "." + String.valueOf(date.getMonth() + 1) + "." + String.valueOf(date.getDay());
-        Log.d("TAG", "selected" + ScDate);
         String id = null;
         FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
         if (user1 != null) {
@@ -230,7 +229,6 @@ public class Calendar_test extends AppCompatActivity {
                                         + document.get("StartTime") + " ~ "
                                         + document.get("EndTime").toString()
                                         + "\n" + document.get("Content").toString());
-                                Log.d("Tag1", "temp : " + temp.toString());
                             }
                         }
                         compSchedule();
@@ -242,7 +240,6 @@ public class Calendar_test extends AppCompatActivity {
     public void compSchedule(){
         Log.d("Tag1","Temp state : \n"+temp.toString());
         ArrayAdapter sch = new ArrayAdapter(getApplicationContext(),android.R.layout.simple_list_item_1, temp);
-        Log.d("Tag1","Sch : \n"+sch.toString());
         ListView list = findViewById(R.id.scheduleList);
         list.setAdapter(sch);
     }
