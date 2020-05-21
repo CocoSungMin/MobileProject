@@ -62,6 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:background="?attr/colorPrimary"
+        android:fillViewport="true"
         >
 
         <LinearLayout
@@ -72,31 +73,10 @@
             android:paddingRight="8dp">
 
 
-            <TextView
-                style="@style/TextAppearance.AppCompat.Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="야 일정 추가 기능은 리스트뷰로~"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Nested View test"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
+           <ListView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:id="@+id/scheduleList"/>
 
         </LinearLayout>
 

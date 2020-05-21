@@ -14,8 +14,10 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
@@ -35,11 +38,16 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Calendar_test extends AppCompatActivity {
+
+    ArrayAdapter sch;
+    ArrayList<String> temp= new ArrayList<String>();
     Menu menu;
     //메뉴부분
     @Override
@@ -152,6 +160,7 @@ public class Calendar_test extends AppCompatActivity {
                 //바텀시트 날짜 변경
                 botSheetDate.setText(String.format("%s월 %s일", String.valueOf(date.getMonth()+1), String.valueOf(date.getDay())));
                 //바텀시트 내용 업데이트 추후 추가
+                SearchDB(date); // bottom sheet 내용 추가 하는 method 아래에 있음
             }
         });
         //////////////////////////////////////////////////////////////////////////////
@@ -193,5 +202,46 @@ public class Calendar_test extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void SearchDB(CalendarDay date) {
+        temp.clear();
+        final String ScDate = String.valueOf(date.getYear()) + "." + String.valueOf(date.getMonth() + 1) + "." + String.valueOf(date.getDay());
+        Log.d("TAG", "selected" + ScDate);
+        String id = null;
+        FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
+        if (user1 != null) {
+            id = user1.getUid();
+        }
+        final Map<String, Object>[] schedule = new Map[]{new HashMap<>()};
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(id).
+                whereEqualTo("Start Date", ScDate)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                temp.add(document.get("Title").toString() + "\n"
+                                        + document.get("StartTime") + " ~ "
+                                        + document.get("EndTime").toString()
+                                        + "\n" + document.get("Content").toString());
+                                Log.d("Tag1", "temp : " + temp.toString());
+                            }
+                        }
+                        compSchedule();
+                    }
+                });
+    }
+
+
+    public void compSchedule(){
+        Log.d("Tag1","Temp state : \n"+temp.toString());
+        ArrayAdapter sch = new ArrayAdapter(getApplicationContext(),android.R.layout.simple_list_item_1, temp);
+        Log.d("Tag1","Sch : \n"+sch.toString());
+        ListView list = findViewById(R.id.scheduleList);
+        list.setAdapter(sch);
     }
 }
