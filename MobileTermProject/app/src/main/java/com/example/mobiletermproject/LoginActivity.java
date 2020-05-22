@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        signInButton = findViewById(R.id.SignIn_Button);
+        TextView signInButton = findViewById(R.id.SignIn_Button);
 
         // [START config_signin]
         // Configure Google Sign In
@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        Button Resigter = (Button) findViewById(R.id.registerButton);
+        TextView Resigter = (TextView) findViewById(R.id.registerButton);
         Resigter.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         //103번줄부터 110번 줄은 로그인 오류로 calendar로 바로 가기위한 임시 코드, 추후 삭제할 것
-        Button btn1= findViewById(R.id.button2);
+        TextView btn1= findViewById(R.id.button2);
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

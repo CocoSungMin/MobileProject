@@ -39,7 +39,7 @@ public class RegisterActicity extends AppCompatActivity {
         email_join = (EditText) findViewById(R.id.idText);
         pwd_join = (EditText) findViewById(R.id.passwordText);
         btn = (Button) findViewById(R.id.registerButton);
-        cancleBtn = (Button)findViewById(R.id.cancleButton);
+        cancleBtn = (Button)findViewById(R.id.cancelButton);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
