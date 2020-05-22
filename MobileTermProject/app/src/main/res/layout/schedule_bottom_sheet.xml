@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="8dp"
-        android:background="?attr/colorPrimary">
+        android:background="@color/MainColor">
         <View
             android:layout_width="30dp"
             android:layout_height="6dp"
@@ -61,7 +61,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="350dp"
-        android:background="?attr/colorPrimary"
+        android:background="@color/MainColor"
         android:fillViewport="true"
         >
 
