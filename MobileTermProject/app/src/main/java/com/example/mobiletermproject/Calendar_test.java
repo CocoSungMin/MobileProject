@@ -48,8 +48,9 @@ import java.util.Map;
 public class Calendar_test extends AppCompatActivity {
 
     ArrayAdapter sch;
-    ArrayList<String> temp= new ArrayList<String>();
+    ArrayList<ItemData> temp= new ArrayList<ItemData>();
     Menu menu;
+
     //메뉴부분
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -226,10 +227,12 @@ public class Calendar_test extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                temp.add(document.get("Title").toString() + "\n"
-                                        + document.get("StartTime") + " ~ "
-                                        + document.get("EndTime").toString()
-                                        + "\n" + document.get("Content").toString());
+                                ItemData oItem = new ItemData();
+                                oItem.Title = document.get("Title").toString();
+                                oItem.Time = document.get("StartTime").toString()+" ~ "
+                                        +document.get("EndTime").toString();
+                                oItem.Content = document.get("Content").toString();
+                                temp.add(oItem);
                             }
                         }
                         compSchedule();
@@ -240,8 +243,8 @@ public class Calendar_test extends AppCompatActivity {
 
     public void compSchedule(){
         Log.d("Tag1","Temp state : \n"+temp.toString());
-        ArrayAdapter sch = new ArrayAdapter(getApplicationContext(),android.R.layout.simple_list_item_1, temp);
+        ListAdapter oAdapter = new ListAdapter(temp);
         ListView list = findViewById(R.id.scheduleList);
-        list.setAdapter(sch);
+        list.setAdapter(oAdapter);
     }
 }
