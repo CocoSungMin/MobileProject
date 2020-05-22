@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/loginIcon"
     android:orientation="vertical"
+    android:background="@drawable/login_background"
     tools:context=".LoginActivity">
 
     <LinearLayout
@@ -16,10 +16,17 @@
         >
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="258dp"
+            android:id="@+id/imageView"
+            android:layout_width="358dp"
+            android:layout_height="157dp"
+            android:layout_marginTop="72dp"
             android:layout_gravity="center"
-            android:src="@drawable/icon" />
+            android:src="@drawable/login_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,6 +34,7 @@
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
             android:text="시간 엄수"
+            android:fontFamily="@font/font"
             android:textColor="#ffffff"
             android:textSize="25dp"
             android:textStyle="bold" />
@@ -34,7 +42,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="시간을 지켜라!"
+            android:text="여기부분 다시 할 예정"
+            android:fontFamily="@font/font"
             android:textColor="#ffffff"
             android:textSize="18dp"
             android:textStyle="bold" />
@@ -53,9 +62,10 @@
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_gravity="center"
-            android:text="로딩 중 ...."
+            android:text="로딩 중...."
+            android:fontFamily="@font/font"
             android:textAlignment="center"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="20dp"
             android:textStyle="bold" />
 
