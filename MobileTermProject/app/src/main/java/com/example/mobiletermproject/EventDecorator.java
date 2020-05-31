@@ -35,11 +35,11 @@ import java.util.Map;
 public class EventDecorator implements DayViewDecorator {
     private final Calendar calendar = Calendar.getInstance();
     private final Drawable drawble;
-    ArrayList<String>result = new ArrayList<String>();
+    ArrayList<String> result = new ArrayList<String>();
     Date date;
     int calScheduleNum[];
 
-    public EventDecorator(Activity context){
+    public EventDecorator(Activity context) {
         drawble = context.getResources().getDrawable(R.drawable.event_dot);
     }
 
@@ -84,19 +84,21 @@ public class EventDecorator implements DayViewDecorator {
                     }
                 });
     }
-    public void setResult(ArrayList<String>temp){
+
+    public void setResult(ArrayList<String> temp) {
         result.addAll(temp);
         HashSet<String> non_overlap = new HashSet<String>(result);
         result = new ArrayList<String>(non_overlap);
         //DB에서 중복된 날짜 값 제거하는 거임
-        Log.d("Tag1","중복값 제거 : \n"+result.toString());
+        Log.d("Tag1", "중복값 제거 : \n" + result.toString());
 
     }
 
     public void ClassifySchedule() {
         existSchedule();
     }
-    public void toNum(){
+
+    public void toNum() {
 
     }
 }

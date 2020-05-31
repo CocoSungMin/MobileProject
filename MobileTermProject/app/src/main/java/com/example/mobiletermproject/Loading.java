@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Window;
+
 public class Loading extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {

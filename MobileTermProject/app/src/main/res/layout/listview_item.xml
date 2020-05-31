@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
     <ImageView
         android:layout_width="50dp"
         android:layout_height="match_parent"
-        app:srcCompat="@drawable/ic_radio_button_checked_black_24dp"/>
+        app:srcCompat="@drawable/ic_radio_button_checked_black_24dp" />
 
 
     <LinearLayout
@@ -20,39 +21,39 @@
             android:id="@+id/textTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="제목"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/font"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:textStyle="bold"
+            android:text="제목"
             android:textColor="#33aabb"
-            android:fontFamily="@font/font"
-            android:layout_marginTop="10dp"
             android:textSize="30sp"
-            />
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/textDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="일정 시간"
-            android:textSize="15sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/font"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:fontFamily="@font/font"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            />
+            android:text="일정 시간"
+            android:textSize="15sp" />
+
         <TextView
+            android:id="@+id/textContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textContent"
 
-            android:textSize="20sp"
-            android:text="내용"
-            android:gravity="center_vertical"
-            android:textColor="#FFFFFF"
-            android:paddingLeft="10dp"
+            android:layout_marginBottom="10dp"
             android:fontFamily="@font/font"
-            android:layout_marginBottom="10dp"/>
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:text="내용"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
     </LinearLayout>
 
 </LinearLayout>

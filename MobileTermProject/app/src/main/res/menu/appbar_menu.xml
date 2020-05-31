@@ -18,17 +18,17 @@
         android:title="그룹관리"
         app:showAsAction="withText"/>
     appAsAction="always"-->
-        <item
-            android:id="@+id/search"
-            android:icon="@drawable/me"
-            android:title="Item"
-            app:showAsAction="always" />
-        <item
-            android:id="@+id/option"
-            android:icon="@drawable/team"
-            android:title="Item"
-            app:showAsAction="always" />
-     <group android:checkableBehavior="single">
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/me"
+        android:title="Item"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/option"
+        android:icon="@drawable/team"
+        android:title="Item"
+        app:showAsAction="always" />
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/group1"
             android:title="그룹 1" />

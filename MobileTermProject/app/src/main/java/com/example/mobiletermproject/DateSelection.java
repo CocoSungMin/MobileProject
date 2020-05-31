@@ -34,8 +34,8 @@ public class DateSelection extends AppCompatActivity {
 
         calenderView.state().edit()
                 .setFirstDayOfWeek(Calendar.SUNDAY)
-                .setMinimumDate(CalendarDay.from(2017,0,1))
-                .setMaximumDate(CalendarDay.from(2030,11,31))
+                .setMinimumDate(CalendarDay.from(2017, 0, 1))
+                .setMaximumDate(CalendarDay.from(2030, 11, 31))
                 .setCalendarDisplayMode(CalendarMode.MONTHS)
                 .commit();
         calenderView.setShowOtherDates(MaterialCalendarView.SHOW_OUT_OF_RANGE);
@@ -48,27 +48,28 @@ public class DateSelection extends AppCompatActivity {
         calenderView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                selection = String.valueOf(date.getYear())+"."+String.valueOf(date.getMonth()+1)+"."+String.valueOf(date.getDay());
+                selection = String.valueOf(date.getYear()) + "." + String.valueOf(date.getMonth() + 1) + "." + String.valueOf(date.getDay());
             }
         });
     }
 
-    public void mOnClose(View v){
+    public void mOnClose(View v) {
         Intent intent = new Intent();
-        intent.putExtra("result",selection);
-        setResult(RESULT_OK,intent);
+        intent.putExtra("result", selection);
+        setResult(RESULT_OK, intent);
         finish();
     }
+
     @Override
-    public boolean onTouchEvent(MotionEvent event){
-        if(event.getAction() == MotionEvent.ACTION_OUTSIDE){
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
             return false;
         }
         return true;
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         return;
     }
 

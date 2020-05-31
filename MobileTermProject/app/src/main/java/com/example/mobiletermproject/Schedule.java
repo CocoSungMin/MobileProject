@@ -17,7 +17,7 @@ public class Schedule {
     private LocalDateTime endTime;
     //시간
 
-    public Schedule(){
+    public Schedule() {
     }
 
     public Schedule(String title, String content, LocalDateTime start, LocalDateTime end){
@@ -38,7 +38,7 @@ public class Schedule {
     public LocalDateTime getEndDate(){return endTime;}
 
     /*뭐뭐 필요한지 보고 추가해야 할듯 싶습니다.*/
-    public String toString(){
+    public String toString() {
         String str = title;
         str += " " + content;
         str += " " + startTime.toString();

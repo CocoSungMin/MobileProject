@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/schedule_bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
+    android:orientation="vertical"
     app:behavior_hideable="false"
     app:behavior_peekHeight="22dp"
-    app:layout_behavior="@string/bottom_sheet_behavior"
-    android:orientation="vertical">
+    app:layout_behavior="@string/bottom_sheet_behavior">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/MainColor"
         android:orientation="vertical"
-        android:padding="8dp"
-        android:background="@color/MainColor">
+        android:padding="8dp">
+
         <View
             android:layout_width="30dp"
             android:layout_height="6dp"
@@ -29,34 +29,36 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingTop="5dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Schedule"
                 android:fontFamily="@font/font"
+                android:text="Schedule"
                 android:textColor="@android:color/white"
                 android:textSize="25sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Today :"
+                android:layout_marginLeft="120dp"
+                android:layout_marginRight="3dp"
                 android:fontFamily="@font/font"
+                android:text="Today :"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
-                android:textStyle="bold"
-                android:layout_marginLeft="120dp"
-                android:layout_marginRight="3dp"/>
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/botsheetDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Date"
                 android:fontFamily="@font/font"
+                android:text="Date"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
@@ -65,8 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="350dp"
         android:background="@color/MainColor"
-        android:fillViewport="true"
-        >
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,10 +77,10 @@
             android:paddingRight="8dp">
 
 
-           <ListView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:id="@+id/scheduleList"/>
+            <ListView
+                android:id="@+id/scheduleList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

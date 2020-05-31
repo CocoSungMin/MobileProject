@@ -48,13 +48,14 @@ import java.util.Map;
 public class Calendar_test extends AppCompatActivity {
 
     ArrayAdapter sch;
-    ArrayList<ItemData> temp= new ArrayList<ItemData>();
+    ArrayList<ItemData> temp = new ArrayList<ItemData>();
     Menu menu;
+    MaterialCalendarView calenderView;
+    BottomSheetBehavior bottomSheetBehavior;
 
     //메뉴부분
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbar_menu, menu);
         this.menu = menu;
         menu.getItem(0).setChecked(true);
@@ -62,24 +63,22 @@ public class Calendar_test extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch (id)
-        {
-            case R.id.search :
+        switch (id) {
+            case R.id.search:
                 Toast.makeText(getApplicationContext(), "이거 누르면 마이페이지로 화면 변환", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.option :
+            case R.id.option:
                 Toast.makeText(getApplicationContext(), "이거 누르면 그룹관리(사용자 추가)로 화면 변환", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.group1 :
+            case R.id.group1:
                 Toast.makeText(getApplicationContext(), "이거 누르면 그룹1로 화면 변환", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.group2 :
+            case R.id.group2:
                 Toast.makeText(getApplicationContext(), "이거 누르면 그룹2로 화면 변환", Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.group3 :
+            case R.id.group3:
                 Toast.makeText(getApplicationContext(), "이거 누르면 그룹3로 화면 변환", Toast.LENGTH_SHORT).show();
                 return true;
             default:
@@ -88,7 +87,8 @@ public class Calendar_test extends AppCompatActivity {
     }
 
 
-    private BottomSheetBehavior bottomSheetBehavior;
+
+
     @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,17 +134,17 @@ public class Calendar_test extends AppCompatActivity {
 
         //오늘 날짜 바텀시트 설정
         @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("M월 dd일");
-        botSheetDate.setText(String.format("%s",format.format(Calendar.getInstance().getTime())));
+        botSheetDate.setText(String.format("%s", format.format(Calendar.getInstance().getTime())));
 
         //캘린더 설정//////////////////////////////////////////////////////////////////////
-        final MaterialCalendarView calenderView = findViewById(R.id.calendarView);
+        calenderView = findViewById(R.id.calendarView);
         // calender set up
         calenderView.setTopbarVisible(true);
 
         calenderView.state().edit()
                 .setFirstDayOfWeek(Calendar.SUNDAY)
-                .setMinimumDate(CalendarDay.from(2017,0,1))
-                .setMaximumDate(CalendarDay.from(2030,11,31))
+                .setMinimumDate(CalendarDay.from(2017, 0, 1))
+                .setMaximumDate(CalendarDay.from(2030, 11, 31))
                 .setCalendarDisplayMode(CalendarMode.MONTHS)
                 .commit();
         calenderView.setShowOtherDates(MaterialCalendarView.SHOW_OUT_OF_RANGE);
@@ -155,17 +155,18 @@ public class Calendar_test extends AppCompatActivity {
                 new EventDecorator(this)
         );
 
-        //----------- Date selected events ----------
         calenderView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 //바텀시트 날짜 변경
-                botSheetDate.setText(String.format("%s월 %s일", String.valueOf(date.getMonth()+1), String.valueOf(date.getDay())));
+                botSheetDate.setText(String.format("%s월 %s일", String.valueOf(date.getMonth() + 1), String.valueOf(date.getDay())));
                 //바텀시트 내용 업데이트 추후 추가
                 SearchScheduleDB(date); // bottom sheet 내용 추가 하는 method 아래에 있음
             }
         });
         //////////////////////////////////////////////////////////////////////////////
+
+
         /*Bottom Sheet 올릴 때 모션이 안좋아서 잠깐 빼뒀습니당
         //BottomSheet
         LinearLayout linearLayout = findViewById(R.id.schedule_bottom_sheet);
@@ -207,10 +208,9 @@ public class Calendar_test extends AppCompatActivity {
     }
 
 
-
     public void SearchScheduleDB(CalendarDay date) {
         temp.clear();
-        final String ScDate = String.valueOf(date.getYear()) + "." + String.valueOf(date.getMonth() + 1) + "." + String.valueOf(date.getDay());
+        final String scDate = String.valueOf(date.getYear()) + "." + String.valueOf(date.getMonth() + 1) + "." + String.valueOf(date.getDay());
         String id = null;
         FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
         if (user1 != null) {
@@ -220,7 +220,7 @@ public class Calendar_test extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(id).
-                whereEqualTo("Start Date", ScDate)
+                whereEqualTo("Start Date", scDate)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -229,8 +229,8 @@ public class Calendar_test extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 ItemData oItem = new ItemData();
                                 oItem.Title = document.get("Title").toString();
-                                oItem.Time = document.get("StartTime").toString()+" ~ "
-                                        +document.get("EndTime").toString();
+                                oItem.Time = document.get("StartTime").toString() + " ~ "
+                                        + document.get("EndTime").toString();
                                 oItem.Content = document.get("Content").toString();
                                 temp.add(oItem);
                             }
@@ -241,8 +241,8 @@ public class Calendar_test extends AppCompatActivity {
     }
 
 
-    public void compSchedule(){
-        Log.d("Tag1","Temp state : \n"+temp.toString());
+    public void compSchedule() {
+        Log.d("Tag1", "Temp state : \n" + temp.toString());
         ListAdapter oAdapter = new ListAdapter(temp);
         ListView list = findViewById(R.id.scheduleList);
         list.setAdapter(oAdapter);

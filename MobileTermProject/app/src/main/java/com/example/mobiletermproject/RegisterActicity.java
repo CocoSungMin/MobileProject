@@ -20,11 +20,10 @@ import com.google.firebase.auth.FirebaseAuth;
 public class RegisterActicity extends AppCompatActivity {
     private ArrayAdapter adapter;
     private Spinner spinner;
-
-    private EditText email_join;
-    private EditText pwd_join;
-    private Button btn;
-    private Button cancleBtn;
+    private EditText emailJoin;
+    private EditText pwdJoin;
+    private Button registerBtn;
+    private Button cancelBtn;
     FirebaseAuth firebaseAuth;
 
     @Override
@@ -32,22 +31,22 @@ public class RegisterActicity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_acticity);
 
-        spinner=(Spinner)findViewById(R.id.jobSpinner);
-        adapter = ArrayAdapter.createFromResource(this,R.array.job,android.R.layout.simple_spinner_dropdown_item);
+        spinner = (Spinner) findViewById(R.id.jobSpinner);
+        adapter = ArrayAdapter.createFromResource(this, R.array.job, android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-        email_join = (EditText) findViewById(R.id.idText);
-        pwd_join = (EditText) findViewById(R.id.passwordText);
-        btn = (Button) findViewById(R.id.registerButton);
-        cancleBtn = (Button)findViewById(R.id.cancelButton);
+        emailJoin = (EditText) findViewById(R.id.idText);
+        pwdJoin = (EditText) findViewById(R.id.passwordText);
+        registerBtn = (Button) findViewById(R.id.registerButton);
+        cancelBtn = (Button) findViewById(R.id.cancelButton);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = email_join.getText().toString();
-                String pwd = pwd_join.getText().toString();
+                String email = emailJoin.getText().toString();
+                String pwd = pwdJoin.getText().toString();
 
                 firebaseAuth.createUserWithEmailAndPassword(email, pwd)
                         .addOnCompleteListener(RegisterActicity.this, new OnCompleteListener<AuthResult>() {
@@ -55,7 +54,7 @@ public class RegisterActicity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Intent intent = new Intent(RegisterActicity.this, LoginActivity.class);
-                                    Toast.makeText(RegisterActicity.this,"Success",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegisterActicity.this, "Success", Toast.LENGTH_SHORT).show();
                                     startActivity(intent);
                                     finish();
                                 } else {
@@ -67,11 +66,11 @@ public class RegisterActicity extends AppCompatActivity {
             }
         });
 
-        cancleBtn.setOnClickListener(new View.OnClickListener(){
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-                Intent cancled = new Intent(RegisterActicity.this,LoginActivity.class);
-                startActivity(cancled);
+            public void onClick(View v) {
+                Intent canceled = new Intent(RegisterActicity.this, LoginActivity.class);
+                startActivity(canceled);
                 finish();
             }
         });

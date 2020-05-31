@@ -8,8 +8,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -24,18 +26,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import org.w3c.dom.Text;
-
 public class LoginActivity extends AppCompatActivity {
 
     private SignInButton signInButton;
     private GoogleSignInClient mGoogleSignInClient;
-    private String TAG="mainTag";
+    private String TAG = "mainTag";
     private FirebaseAuth mAuth;
-    private int RC_SIGN_IN=123;
-    
+    private int RC_SIGN_IN = 123;
+
     private EditText emailText;
-    private EditText PwText ;
+    private EditText pwText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,45 +66,54 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         emailText = (EditText) findViewById(R.id.idText);
-        PwText = (EditText)findViewById(R.id.passwordText);
-        Button login = (Button)findViewById(R.id.loginBtn);
+        pwText = (EditText) findViewById(R.id.passwordText);
+        Button login = (Button) findViewById(R.id.loginBtn);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = emailText.getText().toString().trim();
-                String pwd = PwText.getText().toString().trim();
+                String email = emailText.getText().toString();
+                String pwd = pwText.getText().toString();
 
-                mAuth.signInWithEmailAndPassword(email, pwd)
-                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Intent intent = new Intent(LoginActivity.this, Loading.class);
-                                    Toast.makeText(LoginActivity.this,"로그인 성공",Toast.LENGTH_SHORT).show();
-                                    startActivity(intent);
-                                } else {
-                                    Toast.makeText(LoginActivity.this, "로그인 오류", Toast.LENGTH_SHORT).show();
+
+                if (emailText.getText().toString().equals("") || pwText.getText().toString().equals("")) {
+                    Toast.makeText(LoginActivity.this, "ID 또는 PW가 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    email = email.trim();
+                    pwd = pwd.trim();
+
+                    mAuth.signInWithEmailAndPassword(email, pwd)
+                            .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        Intent intent = new Intent(LoginActivity.this, Loading.class);
+                                        Toast.makeText(LoginActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "로그인 오류", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        });
+                            });
+                }
             }
         });
 
-        TextView Resigter = (TextView) findViewById(R.id.registerButton);
-        Resigter.setOnClickListener(new View.OnClickListener(){
+        TextView resigter = (TextView) findViewById(R.id.registerButton);
+        resigter.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-                Intent intent = new Intent(LoginActivity.this,RegisterActicity.class);
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActicity.class);
                 startActivity(intent);
             }
         });
+
         //103번줄부터 110번 줄은 로그인 오류로 calendar로 바로 가기위한 임시 코드, 추후 삭제할 것
-        TextView btn1= findViewById(R.id.button2);
+        TextView btn1 = findViewById(R.id.button2);
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this,Calendar_test.class);
+                Intent intent = new Intent(LoginActivity.this, Calendar_test.class);
                 startActivity(intent);
             }
         });
@@ -158,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             //updateUI(user);
                             Toast.makeText(getApplicationContext(), "Complete", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(LoginActivity.this,Loading.class);
+                            Intent intent = new Intent(LoginActivity.this, Loading.class);
                             startActivity(intent);
 
                         } else {

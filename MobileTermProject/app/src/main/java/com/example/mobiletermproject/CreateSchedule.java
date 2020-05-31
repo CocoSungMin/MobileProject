@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
@@ -18,32 +17,21 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TabHost;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GetTokenResult;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
-import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-
-import io.opencensus.tags.Tag;
-import io.opencensus.tags.Tags;
 
 public class CreateSchedule extends AppCompatActivity {
     private static final String TAG = "tag";
@@ -62,7 +50,7 @@ public class CreateSchedule extends AppCompatActivity {
     private EditText title;
     private EditText content;
     //DatePickerDialog로 UI변경해볼까 해서 임시로 추가한 코드(64)
-    EditText date_time_in;
+    EditText dateTimeIn;
 
 
     @Override
@@ -70,8 +58,8 @@ public class CreateSchedule extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_schedule);
         //DatePickerDialog로 UI변경해볼까 해서 임시로 추가한 코드(72~23)
-        date_time_in=findViewById(R.id.date_time_input);
-        date_time_in.setInputType(InputType.TYPE_NULL);
+        dateTimeIn = findViewById(R.id.date_time_input);
+        dateTimeIn.setInputType(InputType.TYPE_NULL);
 
         schduleTitle = findViewById(R.id.schduleTitle);
         schduleContent = findViewById(R.id.schduleContent);
@@ -81,59 +69,60 @@ public class CreateSchedule extends AppCompatActivity {
 
         stramfm = findViewById(R.id.stramfm);
         endamfm = findViewById(R.id.endamfm);
-        adapter=ArrayAdapter.createFromResource(this,R.array.amfm,android.R.layout.simple_spinner_dropdown_item);
+        adapter = ArrayAdapter.createFromResource(this, R.array.amfm, android.R.layout.simple_spinner_dropdown_item);
         stramfm.setAdapter(adapter);
         endamfm.setAdapter(adapter);
 
         Hourstr = findViewById(R.id.Hour);
-        adapter = ArrayAdapter.createFromResource(this,R.array.Hour,android.R.layout.simple_spinner_dropdown_item);
+        adapter = ArrayAdapter.createFromResource(this, R.array.Hour, android.R.layout.simple_spinner_dropdown_item);
         Hourstr.setAdapter(adapter);
 
         Mitstr = findViewById(R.id.Minute);
-        adapter = ArrayAdapter.createFromResource(this,R.array.Minute,android.R.layout.simple_spinner_dropdown_item);
+        adapter = ArrayAdapter.createFromResource(this, R.array.Minute, android.R.layout.simple_spinner_dropdown_item);
         Mitstr.setAdapter(adapter);
 
 
         HourEnd = findViewById(R.id.endHour);
-        adapter = ArrayAdapter.createFromResource(this,R.array.Hour,android.R.layout.simple_spinner_dropdown_item);
+        adapter = ArrayAdapter.createFromResource(this, R.array.Hour, android.R.layout.simple_spinner_dropdown_item);
         HourEnd.setAdapter(adapter);
 
         MitEnd = findViewById(R.id.endMinute);
-        adapter = ArrayAdapter.createFromResource(this,R.array.Minute,android.R.layout.simple_spinner_dropdown_item);
+        adapter = ArrayAdapter.createFromResource(this, R.array.Minute, android.R.layout.simple_spinner_dropdown_item);
         MitEnd.setAdapter(adapter);
         //DatePickerDialog로 UI변경해볼까 해서 임시로 추가한 코드(104~109)
-        date_time_in.setOnClickListener(new View.OnClickListener() {
+        dateTimeIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDateTimeDialog(date_time_in);
+                showDateTimeDialog(dateTimeIn);
             }
         });
 
     }
+
     //DatePickerDialog로 UI변경해볼까 해서 임시로 추가한 코드(113~136)
     private void showDateTimeDialog(final EditText date_time_in) {
-        final Calendar calendar= Calendar.getInstance();
-        DatePickerDialog.OnDateSetListener dateSetListener=new DatePickerDialog.OnDateSetListener() {
+        final Calendar calendar = Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                calendar.set(Calendar.YEAR,year);
-                calendar.set(Calendar.MONTH,month);
-                calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
-                TimePickerDialog.OnTimeSetListener timeSetListener=new TimePickerDialog.OnTimeSetListener() {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
-                        calendar.set(Calendar.MINUTE,minute);
-                        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yy-MM-dd HH:mm");
+                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        calendar.set(Calendar.MINUTE, minute);
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd HH:mm");
                         date_time_in.setText(simpleDateFormat.format(calendar.getTime()));
 
                     }
                 };
-                new TimePickerDialog(CreateSchedule.this,timeSetListener,calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),false).show();
+                new TimePickerDialog(CreateSchedule.this, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show();
 
             }
         };
-        new DatePickerDialog(CreateSchedule.this,dateSetListener,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
+        new DatePickerDialog(CreateSchedule.this, dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     public void mOnPopupClick(View v) {
@@ -141,6 +130,7 @@ public class CreateSchedule extends AppCompatActivity {
         intent.putExtra("data", "Date select");
         startActivityForResult(intent, 1);
     }
+
     public void mOnPopupClick2(View v) {
         Intent intent = new Intent(this, DateSelection.class);
         intent.putExtra("data", "Date select");
@@ -166,8 +156,8 @@ public class CreateSchedule extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void registerSchedule(View v){
-        final Intent intent = new Intent(this,Calendar_test.class);
+    public void registerSchedule(View v) {
+        final Intent intent = new Intent(this, Calendar_test.class);
 
         title = findViewById(R.id.schduleTitle);
         content = findViewById(R.id.schduleContent);
@@ -196,10 +186,11 @@ public class CreateSchedule extends AppCompatActivity {
             id = uid;
         }
 
-        if(id != null) {
+        if (id != null) {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             Map<String, Object> user = new HashMap<>();
-            user.put("Title",title.getText().toString());
+
+            user.put("Title", title.getText().toString());
             user.put("StartTime", stramfm.getSelectedItem().toString() + " " +
                     Hourstr.getSelectedItem().toString() + " : " + Mitstr.getSelectedItem().toString());
             user.put("Start Date", getDatestr.getText().toString());
@@ -228,13 +219,10 @@ public class CreateSchedule extends AppCompatActivity {
                         }
                     });
         }
-        else{
-            Toast.makeText(this,"Fail",Toast.LENGTH_SHORT);
+        else {
+            Toast.makeText(this, "Fail", Toast.LENGTH_SHORT);
         }
-
-
     }
-
 
 
 }

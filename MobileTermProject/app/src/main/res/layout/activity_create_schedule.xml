@@ -13,49 +13,47 @@
         android:id="@+id/schduleTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="제목을 입력하세요."
-        />
+        android:hint="제목을 입력하세요." />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="시작"/>
+            android:text="시작" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
+
             <Spinner
+                android:id="@+id/stramfm"
                 android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:id="@+id/stramfm"/>
+                android:layout_height="50dp" />
+
             <Spinner
-                android:layout_width="100dp"
-                android:layout_height="50dp"
                 android:id="@+id/Hour"
-                android:text="Year"
-                />
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="Year" />
+
             <Spinner
-                android:layout_width="100dp"
-                android:layout_height="50dp"
                 android:id="@+id/Minute"
-                android:hint = "Month"
-                />
-            <Button
                 android:layout_width="100dp"
                 android:layout_height="50dp"
+                android:hint="Month" />
+
+            <Button
                 android:id="@+id/DayButton"
-                android:text="YYYY/MM/DD"
-                android:textSize="10sp"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
                 android:onClick="mOnPopupClick"
-                />
+                android:text="YYYY/MM/DD"
+                android:textSize="10sp" />
         </LinearLayout>
-
-
-
 
 
     </LinearLayout>
@@ -64,63 +62,66 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:text="종료"/>
+            android:text="종료" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
+
             <Spinner
+                android:id="@+id/endamfm"
                 android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:id="@+id/endamfm"/>
+                android:layout_height="50dp" />
+
             <Spinner
+                android:id="@+id/endHour"
                 android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:id="@+id/endHour" />
+                android:layout_height="50dp" />
+
             <Spinner
+                android:id="@+id/endMinute"
                 android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:id="@+id/endMinute"/>
+                android:layout_height="50dp" />
+
             <Button
+                android:id="@+id/endDayButton"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
-                android:textSize="10sp"
-                android:id="@+id/endDayButton"
+                android:onClick="mOnPopupClick2"
                 android:text="YYYY/MM/DD"
-                android:onClick="mOnPopupClick2"/>
+                android:textSize="10sp" />
         </LinearLayout>
     </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="내용"
         android:paddingTop="30dp"
-        />
+        android:text="내용" />
 
     <EditText
         android:id="@+id/schduleContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="내용을 입력하세요."
-        />
+        android:hint="내용을 입력하세요." />
+
     <Button
+        android:id="@+id/addSchedule"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="등록"
-        android:id="@+id/addSchedule"
         android:onClick="registerSchedule"
-        />
+        android:text="등록" />
 
     <!-- DatePickerDialog로 UI변경해볼까 해서 임시로 추가한 코드(120~125) -->
     <EditText
         android:id="@+id/date_time_input"
-        android:hint="Select Date and Time"
-        android:inputType="none"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="Select Date and Time"
+        android:inputType="none" />
 </LinearLayout>

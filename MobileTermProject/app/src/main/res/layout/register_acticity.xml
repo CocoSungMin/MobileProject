@@ -3,169 +3,174 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/login_background"
-    tools:context=".RegisterActicity"
-    >
+    android:orientation="vertical"
+    tools:context=".RegisterActicity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/MainColor">
+            android:background="@color/MainColor"
+            android:orientation="vertical">
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="회원 가입"
-                android:fontFamily="@font/font"
-                android:textColor="#ffffff"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:fontFamily="@font/font"
+                android:text="회원 가입"
+                android:textColor="#ffffff"
                 android:textSize="30dp"
                 android:textStyle="bold" />
 
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="100dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="100dp">
 
             <EditText
                 android:id="@+id/idText"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_person_outline_black_24dp"
-                android:drawableTint="#E6FFFFFF"
-                android:drawablePadding="8dp"
-                android:fontFamily="@font/font"
-                android:hint="ID"
-                android:paddingLeft="12dp"
-                android:textColorHint="#E6FFFFFF"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/login_id_input"
-                android:padding="10dp" />
+                android:drawableLeft="@drawable/ic_person_outline_black_24dp"
+                android:drawablePadding="8dp"
+                android:drawableTint="#E6FFFFFF"
+                android:fontFamily="@font/font"
+                android:hint="ID"
+                android:padding="10dp"
+                android:paddingLeft="12dp"
+                android:textColorHint="#E6FFFFFF" />
 
             <EditText
-                android:inputType="textPassword"
+                android:id="@+id/passwordText"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/login_id_input"
                 android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
-                android:drawableTint="#E6FFFFFF"
                 android:drawablePadding="8dp"
+                android:drawableTint="#E6FFFFFF"
                 android:fontFamily="@font/font"
                 android:hint="Password"
-                android:paddingLeft="12dp"
-                android:textColorHint="#E6FFFFFF"
-                android:layout_gravity="center"
-                android:padding="10dp"
-                android:id="@+id/passwordText"
-
-                android:layout_marginTop="10dp" />
-            <EditText
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
-                android:drawableTint="#E6FFFFFF"
-                android:drawablePadding="8dp"
-                android:fontFamily="@font/font"
                 android:inputType="textPassword"
-                android:paddingLeft="12dp"
-                android:textColorHint="#E6FFFFFF"
-                android:hint="Confirm Password"
-                android:background="@drawable/login_id_input"
-                android:layout_gravity="center"
                 android:padding="10dp"
+                android:paddingLeft="12dp"
+
+                android:textColorHint="#E6FFFFFF" />
+
+            <EditText
                 android:id="@+id/checkpasswordText"
-                android:layout_marginTop="10dp" />
-
-            <EditText
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_email_black_24dp"
-                android:drawableTint="#E6FFFFFF"
-                android:drawablePadding="8dp"
-                android:inputType="textPassword"
-                android:paddingLeft="12dp"
-                android:textColorHint="#E6FFFFFF"
-                android:hint="E-mail"
-                android:background="@drawable/login_id_input"
-                android:fontFamily="@font/font"
                 android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/login_id_input"
+                android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
+                android:drawablePadding="8dp"
+                android:drawableTint="#E6FFFFFF"
+                android:fontFamily="@font/font"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
                 android:padding="10dp"
+                android:paddingLeft="12dp"
+                android:textColorHint="#E6FFFFFF" />
+
+            <EditText
                 android:id="@+id/emailText"
-                android:layout_marginTop="10dp" />
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/login_id_input"
+                android:drawableLeft="@drawable/ic_email_black_24dp"
+                android:drawablePadding="8dp"
+                android:drawableTint="#E6FFFFFF"
+                android:fontFamily="@font/font"
+                android:hint="E-mail"
+                android:inputType="textPassword"
+                android:padding="10dp"
+                android:paddingLeft="12dp"
+                android:textColorHint="#E6FFFFFF" />
+
             <RadioGroup
+                android:id="@+id/genderGroup"
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
-                android:id = "@+id/genderGroup"
                 android:layout_gravity="center"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
                 <RadioButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="여성"
-                    android:textColor="#FFFFFF"
-                    android:fontFamily="@font/font"
                     android:id="@+id/genderWoman"
-                    android:layout_weight="1"
-                    android:checked="true"/>
-                <RadioButton
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="남성"
-                    android:textColor="#FFFFFF"
+                    android:layout_weight="1"
+                    android:checked="true"
                     android:fontFamily="@font/font"
+                    android:text="여성"
+                    android:textColor="#FFFFFF" />
+
+                <RadioButton
                     android:id="@+id/genderMan"
-                    android:layout_weight="1" />
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/font"
+                    android:text="남성"
+                    android:textColor="#FFFFFF" />
             </RadioGroup>
 
             <Spinner
                 android:id="@+id/jobSpinner"
                 android:layout_width="280dp"
                 android:layout_height="44dp"
-                android:textColor="#ffffff"
-                android:fontFamily="@font/font"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"></Spinner>
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/font"
+                android:textColor="#ffffff"></Spinner>
 
 
             <Button
+                android:id="@+id/registerButton"
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:textColor="#ffffff"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/login_button"
+                android:fontFamily="@font/font"
                 android:text="Sign in"
-                android:fontFamily="@font/font"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                android:id="@+id/registerButton"/>
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
             <Button
+                android:id="@+id/cancelButton"
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:fontFamily="@font/font"
-                android:textColor="#ffffff"
-                android:background="@drawable/login_button"
-                android:text="Cancel"
-                android:layout_marginTop="10dp"
                 android:layout_gravity="center"
-                android:id="@+id/cancelButton"/>
+                android:layout_marginTop="10dp"
+                android:background="@drawable/login_button"
+                android:fontFamily="@font/font"
+                android:text="Cancel"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
 
         </LinearLayout>
