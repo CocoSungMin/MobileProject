@@ -1,16 +1,9 @@
 package com.example.mobiletermproject;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@RequiresApi(api = Build.VERSION_CODES.O)
 public class Schedule {
     private String ID = "";//firebase db의 값
 

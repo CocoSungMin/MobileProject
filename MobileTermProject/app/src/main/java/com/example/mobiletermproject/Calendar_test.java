@@ -2,7 +2,6 @@ package com.example.mobiletermproject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -43,7 +42,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-@RequiresApi(api = Build.VERSION_CODES.O)
 public class Calendar_test extends AppCompatActivity {
     Menu menu;
     MaterialCalendarView calenderView = null;
@@ -231,7 +229,6 @@ public class Calendar_test extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(id).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
