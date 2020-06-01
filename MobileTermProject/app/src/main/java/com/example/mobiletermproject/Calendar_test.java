@@ -1,23 +1,21 @@
 package com.example.mobiletermproject;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Typeface;
-import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,8 +26,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -37,21 +36,22 @@ import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
-import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class Calendar_test extends AppCompatActivity {
-
-    ArrayAdapter sch;
-    ArrayList<ItemData> temp = new ArrayList<ItemData>();
     Menu menu;
-    MaterialCalendarView calenderView;
+    MaterialCalendarView calenderView = null;
     BottomSheetBehavior bottomSheetBehavior;
+    TextView botSheetDate;
+    ArrayList<Schedule> schedules = new ArrayList<>();//디비에서 불러온 스케줄들 다 여기 있습니다.
+
+    EventDecorator eventDecorator;
 
     //메뉴부분
     @Override
@@ -61,6 +61,7 @@ public class Calendar_test extends AppCompatActivity {
         menu.getItem(0).setChecked(true);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -87,8 +88,6 @@ public class Calendar_test extends AppCompatActivity {
     }
 
 
-
-
     @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,37 +99,13 @@ public class Calendar_test extends AppCompatActivity {
         toolbar.setTitle(" ");
         setSupportActionBar(toolbar);
 
-        /*
-        String id = null;
-        FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
-        if (user1 != null) {
-            String uid = user1.getUid();
-            id = uid;
-        }
-        final Map<String, Object>[] schedule = new Map[]{new HashMap<>()};
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(id)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(DocumentSnapshot document : task.getResult()){
-                                Log.d("TAG",document.getData().toString());
-                            }
-                        }
-                    }
-                });
-         */
-
         //액션바 부분인데 툴바 사용해가지고 일단 주석처리
         /*getSupportActionBar().setTitle("시간엄수");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
 
 
-        final TextView botSheetDate = findViewById(R.id.botsheetDate);
+        botSheetDate = findViewById(R.id.botsheetDate);
 
         //오늘 날짜 바텀시트 설정
         @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("M월 dd일");
@@ -152,50 +127,49 @@ public class Calendar_test extends AppCompatActivity {
         calenderView.addDecorators(
                 new SundayDecorator(),
                 new SaturdayDecorator(),
-                new EventDecorator(this)
+                eventDecorator = new EventDecorator(this,schedules)
         );
 
         calenderView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                //바텀시트 날짜 변경
-                botSheetDate.setText(String.format("%s월 %s일", String.valueOf(date.getMonth() + 1), String.valueOf(date.getDay())));
-                //바텀시트 내용 업데이트 추후 추가
-                SearchScheduleDB(date); // bottom sheet 내용 추가 하는 method 아래에 있음
+                updateBotSheet(date);
             }
         });
+
         //////////////////////////////////////////////////////////////////////////////
 
 
-        /*Bottom Sheet 올릴 때 모션이 안좋아서 잠깐 빼뒀습니당
-        //BottomSheet
-        LinearLayout linearLayout = findViewById(R.id.schedule_bottom_sheet);
-        bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
-        //초기 높이 조절
-        bottomSheetBehavior.setPeekHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,230,getResources().getDisplayMetrics()));
-
-        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                //내려간 상태
-                if(slideOffset == bottomSheet.SCREEN_STATE_OFF){
-                    calenderView.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
-                }
-                //올라간 상태
-                else if(slideOffset == bottomSheet.SCREEN_STATE_ON){
-                    calenderView.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS).commit();
-                }
-            }
-        });*/
+//        Bottom Sheet 올릴 때 모션이 안좋아서 잠깐 빼뒀습니당
+//        //BottomSheet
+//        LinearLayout linearLayout = findViewById(R.id.schedule_bottom_sheet);
+//        bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
+//        //초기 높이 조절
+//        bottomSheetBehavior.setPeekHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,230,getResources().getDisplayMetrics()));
+//
+//        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+//            @Override
+//            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+//
+//            }
+//
+//            @Override
+//            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+//                //내려간 상태
+//                if(slideOffset == bottomSheet.SCREEN_STATE_OFF){
+//                    calenderView.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
+//                }
+//                //올라간 상태
+//                else if(slideOffset == bottomSheet.SCREEN_STATE_ON){
+//                    calenderView.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS).commit();
+//                }
+//            }
+//        });
         //////////////////////////////////////////////////////////////////////////////
 
 
         //스케쥴 추가 버튼
+
         Button btnAdd = findViewById(R.id.btnAddSchedule);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -207,44 +181,74 @@ public class Calendar_test extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateSchedules();
+        calenderView.removeDecorator(eventDecorator);
+        eventDecorator = new EventDecorator(this, schedules);
+        calenderView.addDecorators(eventDecorator);
+    }
 
-    public void SearchScheduleDB(CalendarDay date) {
-        temp.clear();
-        final String scDate = String.valueOf(date.getYear()) + "." + String.valueOf(date.getMonth() + 1) + "." + String.valueOf(date.getDay());
+    // 바텀 시트 업데이트
+    public void updateBotSheet(@NonNull CalendarDay date) {
+        //날짜 변경
+        botSheetDate.setText(String.format("%s월 %s일", String.valueOf(date.getMonth() + 1), String.valueOf(date.getDay())));
+
+        LocalDate d = LocalDate.of(date.getYear(), date.getMonth() + 1, date.getDay());
+
+        //내용 변경
+        ListAdapter oAdapter = new ListAdapter(getSelectedSchedule(d));
+        ListView list = findViewById(R.id.scheduleList);
+        list.setAdapter(oAdapter);
+    }
+
+    public ArrayList<ItemData> getSelectedSchedule(LocalDate d) {
+        ArrayList<ItemData> list = new ArrayList<>();
+
+        for (Schedule sch : schedules) {
+            if (sch.containsDate(d)) {
+                ItemData item = new ItemData();
+                item.Title = sch.getTitle();
+                item.Time = sch.getStartTime() + " ~ " + sch.getEndTime();
+                item.Content = sch.getContent();
+
+                list.add(item);
+            }
+        }
+
+        return list;
+    }
+
+
+    // 디비 값 변동 생길시 자동 업데이트 (근데 너무 자주함...)
+    public void updateSchedules() {
         String id = null;
         FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
         if (user1 != null) {
             id = user1.getUid();
         }
-        final Map<String, Object>[] schedule = new Map[]{new HashMap<>()};
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(id).
-                whereEqualTo("Start Date", scDate)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                ItemData oItem = new ItemData();
-                                oItem.Title = document.get("Title").toString();
-                                oItem.Time = document.get("StartTime").toString() + " ~ "
-                                        + document.get("EndTime").toString();
-                                oItem.Content = document.get("Content").toString();
-                                temp.add(oItem);
-                            }
-                        }
-                        compSchedule();
+        db.collection(id).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w("MainActivity update", "Listen failed.", e);
+                    return;
+                }
+                int count = queryDocumentSnapshots.size();
+                schedules.clear();
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    if (doc != null) {
+                        //Log.d("dbtest", doc.getId());
+                        Schedule sch = doc.toObject(Schedule.class);
+                        sch.setID(doc.getId());
+                        schedules.add(sch);
                     }
-                });
-    }
-
-
-    public void compSchedule() {
-        Log.d("Tag1", "Temp state : \n" + temp.toString());
-        ListAdapter oAdapter = new ListAdapter(temp);
-        ListView list = findViewById(R.id.scheduleList);
-        list.setAdapter(oAdapter);
+                }
+            }
+        });
     }
 }

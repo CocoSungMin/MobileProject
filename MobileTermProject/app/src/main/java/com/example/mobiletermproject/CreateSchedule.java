@@ -29,6 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -168,16 +169,22 @@ public class CreateSchedule extends AppCompatActivity {
         HourEnd = findViewById(R.id.endHour);
         MitEnd = findViewById(R.id.endMinute);
 
-        /*
-        String[] startDate = getDatestr.getText().toString().split("/");
-        String[] endDate = getDataend.getText().toString().split("/");
+        //////////////////
+        String[] startDate = getDatestr.getText().toString().split("[.]");
+        String[] endDate = getDataend.getText().toString().split("[.]");
+
+        int strH = Integer.parseInt(Hourstr.getSelectedItem().toString());
+        int strM = Integer.parseInt(Mitstr.getSelectedItem().toString());
+        int endH = Integer.parseInt(HourEnd.getSelectedItem().toString());
+        int endM = Integer.parseInt(MitEnd.getSelectedItem().toString());
 
         Schedule schedule = new Schedule(title.getText().toString(), content.getText().toString(),
-                LocalDateTime.of(Integer.parseInt(startDate[0]),Integer.parseInt(startDate[1]),Integer.parseInt(startDate[2]),Integer.parseInt(Hourstr.getSelectedItem().toString()),Integer.parseInt(Mitstr.getSelectedItem().toString())),
-                LocalDateTime.of(Integer.parseInt(endDate[0]),Integer.parseInt(endDate[1]),Integer.parseInt(endDate[2]),Integer.parseInt(HourEnd.getSelectedItem().toString()),Integer.parseInt(MitEnd.getSelectedItem().toString())));
+                LocalDateTime.of(Integer.parseInt(startDate[0]), Integer.parseInt(startDate[1]), Integer.parseInt(startDate[2]), strH, strM),
+                LocalDateTime.of(Integer.parseInt(endDate[0]), Integer.parseInt(endDate[1]), Integer.parseInt(endDate[2]), endH, endM));
 
-        Log.d("value test", schedule.toString());
-        */
+        Log.d("test", schedule.toString());
+        //////////////////
+
 
         String id = null;
         FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
@@ -190,19 +197,11 @@ public class CreateSchedule extends AppCompatActivity {
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             Map<String, Object> user = new HashMap<>();
 
-            user.put("Title", title.getText().toString());
-            user.put("StartTime", stramfm.getSelectedItem().toString() + " " +
-                    Hourstr.getSelectedItem().toString() + " : " + Mitstr.getSelectedItem().toString());
-            user.put("Start Date", getDatestr.getText().toString());
-            user.put("EndTime", endamfm.getSelectedItem().toString() + " " +
-                    HourEnd.getSelectedItem().toString() + " : " +
-                    MitEnd.getSelectedItem().toString());
-            user.put("End Date", getDataend.getText().toString());
-            user.put("Content", content.getText().toString());
+            user.put("schedule", schedule);
 
             final String finalId = id;
             db.collection(finalId).document()
-                    .set(user, SetOptions.merge())
+                    .set(schedule, SetOptions.merge())
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -218,8 +217,7 @@ public class CreateSchedule extends AppCompatActivity {
                             Log.w(TAG, "Error writing document", e);
                         }
                     });
-        }
-        else {
+        } else {
             Toast.makeText(this, "Fail", Toast.LENGTH_SHORT);
         }
     }
