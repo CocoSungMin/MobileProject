@@ -2,30 +2,57 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/login_background">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="제목" />
-
-    <EditText
-        android:id="@+id/schduleTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="제목을 입력하세요." />
+        android:fontFamily="@font/font"
+        android:layout_gravity="center"
+        android:textSize="50sp"
+        android:layout_marginTop="30dp"
+        android:textColor="#CCC6C6"
+        android:text="일정 추가" />
 
     <LinearLayout
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="시작" />
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font"
+            android:textSize="25sp"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="70dp"
+            android:textColor="#CCC6C6"
+            android:text="시작 날짜" />
+
+
+        <Button
+            android:layout_marginTop="5dp"
+            android:background="@drawable/login_button"
+            android:id="@+id/DayButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="mOnPopupClick"
+            android:textColor="#CCC6C6"
+            android:fontFamily="@font/font"
+            android:text="YYYY/MM/DD"
+            android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:paddingLeft="70dp"
+            android:layout_marginTop="7dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -45,17 +72,7 @@
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:hint="Month" />
-
-            <Button
-                android:id="@+id/DayButton"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:onClick="mOnPopupClick"
-                android:text="YYYY/MM/DD"
-                android:textSize="10sp" />
         </LinearLayout>
-
-
     </LinearLayout>
 
     <LinearLayout
@@ -63,13 +80,33 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:text="종료" />
+            android:fontFamily="@font/font"
+            android:paddingLeft="70dp"
+            android:textSize="25sp"
+            android:textColor="#CCC6C6"
+            android:text="종료 날짜" />
+
+            <Button
+                android:background="@drawable/login_button"
+                android:id="@+id/endDayButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="mOnPopupClick2"
+                android:text="YYYY/MM/DD"
+                android:fontFamily="@font/font"
+                android:textColor="#CCC6C6"
+                android:textSize="18sp" />
+        </LinearLayout>
 
         <LinearLayout
+            android:paddingLeft="70dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -88,37 +125,70 @@
                 android:layout_width="100dp"
                 android:layout_height="50dp" />
 
-            <Button
-                android:id="@+id/endDayButton"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:onClick="mOnPopupClick2"
-                android:text="YYYY/MM/DD"
-                android:textSize="10sp" />
         </LinearLayout>
     </LinearLayout>
 
     <TextView
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="30dp"
-        android:text="내용" />
+        android:fontFamily="@font/font"
+        android:paddingLeft="70dp"
+        android:text="제목"
+        android:textColor="#CCC6C6"
+        android:textSize="25sp"/>
+
+    <EditText
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:id="@+id/schduleTitle"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_id_input"
+        android:fontFamily="@font/font"
+
+        android:hint="제목을 입력하세요."
+        android:paddingLeft="20dp"
+        android:textSize="30sp" />
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/font"
+        android:paddingLeft="70dp"
+        android:text="내용"
+        android:textColor="#CCC6C6"
+        android:textSize="25sp"/>
 
     <EditText
         android:id="@+id/schduleContent"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/login_id_input"
+        android:fontFamily="@font/font"
+        android:layout_gravity="center"
+        android:textSize="30sp"
+        android:paddingLeft="20dp"
+        android:layout_marginTop="10dp"
         android:hint="내용을 입력하세요." />
 
     <Button
+        android:background="@drawable/select_button"
         android:id="@+id/addSchedule"
-        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:layout_width="150dp"
         android:layout_height="50dp"
+        android:textSize="30sp"
+        android:fontFamily="@font/font"
         android:onClick="registerSchedule"
         android:text="등록" />
 
     <!-- DatePickerDialog로 UI변경해볼까 해서 임시로 추가한 코드(120~125) -->
-    <EditText
+   <EditText
+
+       android:layout_marginTop="50dp"
         android:id="@+id/date_time_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
