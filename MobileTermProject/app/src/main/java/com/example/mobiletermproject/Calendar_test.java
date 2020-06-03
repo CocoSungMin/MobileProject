@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -48,7 +49,7 @@ public class Calendar_test extends AppCompatActivity {
     BottomSheetBehavior bottomSheetBehavior;
     TextView botSheetDate;
     ArrayList<Schedule> schedules = new ArrayList<>();//디비에서 불러온 스케줄들 다 여기 있습니다.
-
+    CalendarDay selectedDay;
     EventDecorator eventDecorator;
 
     //메뉴부분
@@ -132,6 +133,7 @@ public class Calendar_test extends AppCompatActivity {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 updateBotSheet(date);
+                selectedDay = date;
             }
         });
 
@@ -199,6 +201,14 @@ public class Calendar_test extends AppCompatActivity {
         ListAdapter oAdapter = new ListAdapter(getSelectedSchedule(d));
         ListView list = findViewById(R.id.scheduleList);
         list.setAdapter(oAdapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                showPopUp();
+            }
+        });
+
     }
 
     public ArrayList<ItemData> getSelectedSchedule(LocalDate d) {
@@ -248,4 +258,12 @@ public class Calendar_test extends AppCompatActivity {
             }
         });
     }
+    public void showPopUp(){
+        Intent popUp = new Intent(this , SchedulePopUp.class);
+        LocalDate d = LocalDate.of(selectedDay.getYear(), selectedDay.getMonth() + 1, selectedDay.getDay());
+        popUp.putExtra("Date",d.toString());
+        popUp.putExtra("dbset",schedules);
+        startActivity(popUp);
+    }
+
 }

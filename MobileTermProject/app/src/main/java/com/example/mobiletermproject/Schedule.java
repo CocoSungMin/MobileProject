@@ -1,10 +1,11 @@
 package com.example.mobiletermproject;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Schedule {
+public class Schedule implements Serializable {
     private String ID = "";//firebase db의 값
 
     private String title = "";

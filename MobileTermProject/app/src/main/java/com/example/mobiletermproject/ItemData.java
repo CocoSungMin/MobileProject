@@ -1,6 +1,8 @@
 package com.example.mobiletermproject;
 
-public class ItemData {
+import java.io.Serializable;
+
+public class ItemData implements Serializable {
     public String Title;
     public String Time;
     public String Content;
