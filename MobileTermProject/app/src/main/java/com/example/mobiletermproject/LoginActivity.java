@@ -113,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, Calendar_test.class);
+                Intent intent = new Intent(LoginActivity.this, Calendar_main.class);
                 startActivity(intent);
             }
         });

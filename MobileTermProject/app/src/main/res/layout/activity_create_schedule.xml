@@ -146,7 +146,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/login_id_input"
         android:fontFamily="@font/font"
-
+        android:drawableTint="#E6FFFFFF"
+        android:textColor="@color/colorWhite"
         android:hint="제목을 입력하세요."
         android:paddingLeft="20dp"
         android:textSize="30sp" />
@@ -169,6 +170,8 @@
         android:fontFamily="@font/font"
         android:layout_gravity="center"
         android:textSize="30sp"
+        android:drawableTint="#E6FFFFFF"
+        android:textColor="@color/colorWhite"
         android:paddingLeft="20dp"
         android:layout_marginTop="10dp"
         android:hint="내용을 입력하세요." />

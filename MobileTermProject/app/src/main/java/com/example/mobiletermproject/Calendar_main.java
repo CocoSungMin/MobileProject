@@ -1,29 +1,27 @@
 package com.example.mobiletermproject;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.EventListener;
@@ -40,15 +38,19 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
-public class Calendar_test extends AppCompatActivity {
+public class Calendar_main extends AppCompatActivity {
+    DrawerLayout drawerLayout;
+    ActionBarDrawerToggle actionBarDrawerToggle;
+    Toolbar toolbar;
+    NavigationView navigationView;
+
     Menu menu;
     MaterialCalendarView calenderView = null;
     BottomSheetBehavior bottomSheetBehavior;
     TextView botSheetDate;
     ArrayList<Schedule> schedules = new ArrayList<>();//디비에서 불러온 스케줄들 다 여기 있습니다.
+
     CalendarDay selectedDay;
     EventDecorator eventDecorator;
 
@@ -60,7 +62,6 @@ public class Calendar_test extends AppCompatActivity {
         menu.getItem(0).setChecked(true);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -87,18 +88,26 @@ public class Calendar_test extends AppCompatActivity {
     }
 
 
+
     @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calendar_test);
+        setContentView(R.layout.activity_calendar_main);
 
-        //툴바 부분
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(" ");
         setSupportActionBar(toolbar);
 
-        //액션바 부분인데 툴바 사용해가지고 일단 주석처리
+        drawerLayout =findViewById(R.id.drawer);
+        navigationView = findViewById(R.id.navigationView);
+
+        actionBarDrawerToggle= new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+        actionBarDrawerToggle.syncState();
+
+//액션바 부분인데 툴바 사용해가지고 일단 주석처리
         /*getSupportActionBar().setTitle("시간엄수");
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
@@ -174,7 +183,7 @@ public class Calendar_test extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Calendar_test.this, CreateSchedule.class);
+                Intent intent = new Intent(Calendar_main.this, CreateSchedule.class);
                 startActivity(intent);
             }
         });
@@ -208,7 +217,6 @@ public class Calendar_test extends AppCompatActivity {
                 showPopUp();
             }
         });
-
     }
 
     public ArrayList<ItemData> getSelectedSchedule(LocalDate d) {
@@ -258,6 +266,7 @@ public class Calendar_test extends AppCompatActivity {
             }
         });
     }
+
     public void showPopUp(){
         Intent popUp = new Intent(this , SchedulePopUp.class);
         LocalDate d = LocalDate.of(selectedDay.getYear(), selectedDay.getMonth() + 1, selectedDay.getDay());

@@ -60,7 +60,7 @@ public class Loading extends Activity {
             bar.incrementProgressBy(5);
             if (bar.getProgress() == bar.getMax()) {
                 LoadingState.setText("Done");
-                startActivity(new Intent(Loading.this, Calendar_test.class));
+                startActivity(new Intent(Loading.this, Calendar_main.class));
                 finish();
             } else {
                 LoadingState.setText("Loading..." + bar.getProgress());

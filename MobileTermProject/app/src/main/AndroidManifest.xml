@@ -13,11 +13,11 @@
         android:theme="@style/AppTheme">
         <activity android:name=".SchedulePopUp"
             android:theme="@style/Theme.AppCompat.Dialog"
-            android:parentActivityName=".Calendar_test"/>
+            android:parentActivityName=".Calendar_main"/>
         <activity android:name=".DateSelection" android:theme="@style/Theme.AppCompat.Dialog"/>
         <activity android:name=".CreateSchedule" />
-        <activity android:name=".Calendar_test" />
         <activity android:name=".Loading" />
+        <activity android:name=".Calendar_main" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

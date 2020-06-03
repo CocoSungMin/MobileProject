@@ -154,7 +154,7 @@ public class CreateSchedule extends AppCompatActivity {
     }
 
     public void registerSchedule(View v) {
-        final Intent intent = new Intent(this, Calendar_test.class);
+        final Intent intent = new Intent(this, Calendar_main.class);
 
         title = findViewById(R.id.schduleTitle);
         content = findViewById(R.id.schduleContent);
