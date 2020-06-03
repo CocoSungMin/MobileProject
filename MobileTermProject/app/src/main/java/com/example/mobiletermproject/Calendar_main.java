@@ -88,7 +88,6 @@ public class Calendar_main extends AppCompatActivity {
     }
 
 
-
     @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,10 +98,10 @@ public class Calendar_main extends AppCompatActivity {
         toolbar.setTitle(" ");
         setSupportActionBar(toolbar);
 
-        drawerLayout =findViewById(R.id.drawer);
+        drawerLayout = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.navigationView);
 
-        actionBarDrawerToggle= new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         actionBarDrawerToggle.syncState();
@@ -135,7 +134,7 @@ public class Calendar_main extends AppCompatActivity {
         calenderView.addDecorators(
                 new SundayDecorator(),
                 new SaturdayDecorator(),
-                eventDecorator = new EventDecorator(this,schedules)
+                eventDecorator = new EventDecorator(this, schedules)
         );
 
         calenderView.setOnDateChangedListener(new OnDateSelectedListener() {
@@ -206,15 +205,16 @@ public class Calendar_main extends AppCompatActivity {
 
         LocalDate d = LocalDate.of(date.getYear(), date.getMonth() + 1, date.getDay());
 
+        final ArrayList<ItemData> selectedSchedule = getSelectedSchedule(d);
         //내용 변경
-        ListAdapter oAdapter = new ListAdapter(getSelectedSchedule(d));
+        ListAdapter oAdapter = new ListAdapter(selectedSchedule);
         ListView list = findViewById(R.id.scheduleList);
         list.setAdapter(oAdapter);
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showPopUp();
+                showPopUp(schedules.get(schedules.indexOf(new Schedule(selectedSchedule.get(position).ID))));
             }
         });
     }
@@ -225,6 +225,7 @@ public class Calendar_main extends AppCompatActivity {
         for (Schedule sch : schedules) {
             if (sch.containsDate(d)) {
                 ItemData item = new ItemData();
+                item.ID = sch.getID();
                 item.Title = sch.getTitle();
                 item.Time = sch.getStartTime() + " ~ " + sch.getEndTime();
                 item.Content = sch.getContent();
@@ -267,11 +268,10 @@ public class Calendar_main extends AppCompatActivity {
         });
     }
 
-    public void showPopUp(){
-        Intent popUp = new Intent(this , SchedulePopUp.class);
-        LocalDate d = LocalDate.of(selectedDay.getYear(), selectedDay.getMonth() + 1, selectedDay.getDay());
-        popUp.putExtra("Date",d.toString());
-        popUp.putExtra("dbset",schedules);
+    public void showPopUp(Schedule schedule) {
+        Intent popUp = new Intent(this, SchedulePopUp.class);
+
+        popUp.putExtra("schedule", schedule);
         startActivity(popUp);
     }
 

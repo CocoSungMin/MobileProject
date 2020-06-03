@@ -18,7 +18,7 @@
         <activity android:name=".CreateSchedule" />
         <activity android:name=".Loading" />
         <activity android:name=".Calendar_main" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

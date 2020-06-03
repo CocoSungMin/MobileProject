@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/schedule_bottom_sheet"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@android:color/transparent"
     android:orientation="vertical"
     app:behavior_hideable="false"
-    app:behavior_peekHeight="22dp"
+    app:behavior_peekHeight="250dp"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
 
@@ -24,48 +24,54 @@
             android:layout_gravity="center"
             android:background="@color/colorAccent" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
             android:orientation="horizontal"
             android:paddingTop="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:fontFamily="@font/font"
-                android:text="Schedule"
+                android:text="일정"
                 android:textColor="@android:color/white"
-                android:textSize="25sp"
+                android:textSize="28sp"
                 android:textStyle="bold" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="120dp"
-                android:layout_marginRight="3dp"
+                android:layout_alignLeft="@+id/botsheetDate"
+                android:layout_marginLeft="-40dp"
                 android:fontFamily="@font/font"
-                android:text="Today :"
+                android:text="날짜 :"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/botsheetDate"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
                 android:fontFamily="@font/font"
+                android:paddingRight="30dp"
                 android:text="Date"
                 android:textColor="@android:color/white"
                 android:textSize="15sp"
                 android:textStyle="bold" />
-        </LinearLayout>
+
+
+        </RelativeLayout>
     </LinearLayout>
 
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="match_parent"
         android:background="@color/MainColor"
         android:fillViewport="true">
 

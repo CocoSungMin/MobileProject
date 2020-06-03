@@ -49,11 +49,11 @@ public class ListAdapter extends BaseAdapter {
 
         TextView oTextTitle = (TextView) convertView.findViewById(R.id.textTitle);
         TextView oTextDate = (TextView) convertView.findViewById(R.id.textDate);
-        TextView oTextContent = (TextView) convertView.findViewById(R.id.textContent);
+        //TextView oTextContent = (TextView) convertView.findViewById(R.id.textContent);
 
         oTextTitle.setText(m_oData.get(position).Title);
         oTextDate.setText(m_oData.get(position).Time);
-        oTextContent.setText(m_oData.get(position).Content);
+        //oTextContent.setText(m_oData.get(position).Content);
         return convertView;
     }
 
