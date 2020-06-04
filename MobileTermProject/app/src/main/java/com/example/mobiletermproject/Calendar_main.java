@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,7 +41,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class Calendar_main extends AppCompatActivity {
+public class Calendar_main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
     Toolbar toolbar;
@@ -55,8 +56,8 @@ public class Calendar_main extends AppCompatActivity {
     CalendarDay selectedDay;
     EventDecorator eventDecorator;
 
-    //메뉴부분
-    @Override
+    //drawble 메뉴 사용하면서 주석처리
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.appbar_menu, menu);
         this.menu = menu;
@@ -86,7 +87,7 @@ public class Calendar_main extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    }*/
 
 
     @Override
@@ -94,10 +95,10 @@ public class Calendar_main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_main);
 
+        //drawble 메뉴
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(" ");
         setSupportActionBar(toolbar);
-
         drawerLayout = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.navigationView);
 
@@ -105,11 +106,7 @@ public class Calendar_main extends AppCompatActivity {
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
         actionBarDrawerToggle.syncState();
-
-//액션바 부분인데 툴바 사용해가지고 일단 주석처리
-        /*getSupportActionBar().setTitle("시간엄수");
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFF339999));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
+        navigationView.setNavigationItemSelectedListener(this);
 
 
         botSheetDate = findViewById(R.id.botsheetDate);
@@ -190,6 +187,7 @@ public class Calendar_main extends AppCompatActivity {
         updateSchedules();
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -202,6 +200,17 @@ public class Calendar_main extends AppCompatActivity {
         calenderView.setDateSelected(selectedDay, true);
     }
 
+
+    //뒤로 가기 버튼 누르면 메뉴 들어감
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = findViewById(R.id.drawer);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     // 바텀 시트 업데이트
     public void updateBotSheet(@NonNull CalendarDay date) {
@@ -279,4 +288,20 @@ public class Calendar_main extends AppCompatActivity {
         startActivity(popUp);
     }
 
+    //drawble 메뉴 리스너
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.group1) {
+            Toast.makeText(getApplicationContext(), "그룹1 화면으로 전환", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.group2) {
+            Toast.makeText(getApplicationContext(), "그룹2 화면으로 전환", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.add_group) {
+            Toast.makeText(getApplicationContext(), "그룹추가 화면으로 전환", Toast.LENGTH_SHORT).show();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }
