@@ -18,7 +18,6 @@ public class EventDecorator implements DayViewDecorator {
     public EventDecorator(Activity context, ArrayList<Schedule> list) {
         drawble = context.getResources().getDrawable(R.drawable.event_dot);
         this.list = list;
-        Log.d("dbtest", list.toString() + "2");
     }
 
     @Override
