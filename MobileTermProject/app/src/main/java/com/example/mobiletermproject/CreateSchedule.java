@@ -48,6 +48,9 @@ public class CreateSchedule extends AppCompatActivity {
     //DatePickerDialog로 UI변경해볼까 해서 임시로 추가한 코드(64)
     EditText dateTimeIn;
 
+    boolean isEdit = false;
+    String editID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +96,25 @@ public class CreateSchedule extends AppCompatActivity {
             }
         });
 
+        //일정 수정으로 왔을 시
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            isEdit = true;
+            Schedule sch = (Schedule) bundle.getSerializable("selSchedule");
+            editID = sch.getID();
+
+            title.setText(sch.getTitle());
+            content.setText(sch.getContent());
+
+            getDatestr.setText(sch.startDateToString());
+            getDataend.setText(sch.endDateToString());
+
+            Hourstr.setSelection(sch.startTimeByClass().getHour());
+            Mitstr.setSelection(sch.startTimeByClass().getMinute() / 5);
+            HourEnd.setSelection(sch.endTimeByClass().getHour());
+            MitEnd.setSelection(sch.endTimeByClass().getMinute() / 5);
+        }
     }
 
     //DatePickerDialog로 UI변경해볼까 해서 임시로 추가한 코드(113~136)
@@ -180,21 +202,38 @@ public class CreateSchedule extends AppCompatActivity {
             user.put("schedule", schedule);
 
             final String finalId = id;
-            db.collection(finalId).document()
-                    .set(schedule, SetOptions.merge())
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "DocumentSnapshot successfully written!");
-                            finish();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.w(TAG, "Error writing document", e);
-                        }
-                    });
+            if (isEdit) {//수정일 경우
+                db.collection(finalId).document(editID).set(schedule, SetOptions.merge())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                                finish();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+            } else {// 그냥 추가일 경우
+                db.collection(finalId).document()
+                        .set(schedule, SetOptions.merge())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                                finish();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+            }
         } else {
             Toast.makeText(this, "Fail", Toast.LENGTH_SHORT);
         }

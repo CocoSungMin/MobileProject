@@ -54,7 +54,14 @@ public class SchedulePopUp extends Activity {
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CreateSchedule.class);
+                Bundle bundle = new Bundle();
 
+                bundle.putSerializable("selSchedule", schedule);
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+                finish();
             }
         });
 

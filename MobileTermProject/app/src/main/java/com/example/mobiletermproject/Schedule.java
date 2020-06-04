@@ -120,4 +120,14 @@ public class Schedule implements Serializable {
             return true;
         return false;
     }
+
+    public String startDateToString(){
+        String[] strings = this.startTime.split("[ ]");
+        return strings[0].replace('-','.');
+    }
+
+    public String endDateToString(){
+        String[] strings = this.endTime.split("[ ]");
+        return strings[0].replace('-','.');
+    }
 }
