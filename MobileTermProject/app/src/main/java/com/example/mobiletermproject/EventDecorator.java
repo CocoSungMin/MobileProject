@@ -27,7 +27,6 @@ public class EventDecorator implements DayViewDecorator {
 
         for (Schedule s : list) {
             if (s.containsDate(d)) {
-                Log.d("dbtest", "event true");
                 return true;
             }
         }

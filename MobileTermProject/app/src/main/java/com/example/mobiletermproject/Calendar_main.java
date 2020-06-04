@@ -20,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +36,6 @@ import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -88,7 +89,6 @@ public class Calendar_main extends AppCompatActivity {
     }
 
 
-    @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,9 +114,6 @@ public class Calendar_main extends AppCompatActivity {
 
         botSheetDate = findViewById(R.id.botsheetDate);
 
-        //오늘 날짜 바텀시트 설정
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("M월 dd일");
-        botSheetDate.setText(String.format("%s", format.format(Calendar.getInstance().getTime())));
 
         //캘린더 설정//////////////////////////////////////////////////////////////////////
         calenderView = findViewById(R.id.calendarView);
@@ -140,10 +137,13 @@ public class Calendar_main extends AppCompatActivity {
         calenderView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                Log.d("dbtest", "ondateselected called");
                 updateBotSheet(date);
                 selectedDay = date;
             }
         });
+
+        selectedDay = CalendarDay.today();
 
         //////////////////////////////////////////////////////////////////////////////
 
@@ -187,16 +187,21 @@ public class Calendar_main extends AppCompatActivity {
             }
         });
 
+        updateSchedules();
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        updateSchedules();
+    protected void onResume() {
+        super.onResume();
+        
         calenderView.removeDecorator(eventDecorator);
         eventDecorator = new EventDecorator(this, schedules);
         calenderView.addDecorators(eventDecorator);
+
+        updateBotSheet(selectedDay);
+        calenderView.setDateSelected(selectedDay, true);
     }
+
 
     // 바텀 시트 업데이트
     public void updateBotSheet(@NonNull CalendarDay date) {
@@ -251,17 +256,16 @@ public class Calendar_main extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
-                    Log.w("MainActivity update", "Listen failed.", e);
+                    Log.d("Update Schedules", "Listen failed.", e);
                     return;
                 }
-                int count = queryDocumentSnapshots.size();
-                schedules.clear();
-                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                    if (doc != null) {
-                        //Log.d("dbtest", doc.getId());
+                if (queryDocumentSnapshots != null) {
+                    schedules.clear();
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                         Schedule sch = doc.toObject(Schedule.class);
                         sch.setID(doc.getId());
                         schedules.add(sch);
+                        Log.d("dbtest", doc.getId());
                     }
                 }
             }
