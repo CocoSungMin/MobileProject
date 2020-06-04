@@ -13,15 +13,22 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 
@@ -40,9 +47,10 @@ public class Loading extends Activity {
         bar = (ProgressBar) findViewById(R.id.progress);
         LoadingState = findViewById(R.id.LoadingText);
         handler = new ProgressHandler();
-        updateSchedules();
+        getSchedules();
 
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -68,6 +76,14 @@ public class Loading extends Activity {
     protected void onStop() {
         super.onStop();
         isRunning = false;
+
+        //로딩에서 미리 받아서 메인으로 스케줄 보냄
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("schedules", schedules);
+
+        Intent intent = new Intent(getApplicationContext(), Calendar_main.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     public class ProgressHandler extends Handler {
@@ -75,9 +91,6 @@ public class Loading extends Activity {
             bar.incrementProgressBy(5);
             if (bar.getProgress() == bar.getMax()) {
                 LoadingState.setText("Done");
-                Intent intent = new Intent(Loading.this, Calendar_main.class);
-                intent.putExtra("DB",schedules);
-                startActivity(intent);
                 finish();
             } else {
                 LoadingState.setText("Loading..." + bar.getProgress());
@@ -85,7 +98,7 @@ public class Loading extends Activity {
         }
     }
 
-    public void updateSchedules() {
+    public void getSchedules() {
         String id = null;
         FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
         if (user1 != null) {
@@ -93,25 +106,21 @@ public class Loading extends Activity {
         }
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(id).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection(id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.d("Update Schedules", "Listen failed.", e);
-                    return;
-                }
-                if (queryDocumentSnapshots != null) {
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot document = task.getResult();
                     schedules.clear();
-                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    for (QueryDocumentSnapshot doc : document) {
                         Schedule sch = doc.toObject(Schedule.class);
                         sch.setID(doc.getId());
                         schedules.add(sch);
-                        Log.d("dbtest", doc.getId());
                     }
+                } else {
+                    Log.d("Loading", "data get failed: ", task.getException());
                 }
             }
         });
     }
-
 }
-

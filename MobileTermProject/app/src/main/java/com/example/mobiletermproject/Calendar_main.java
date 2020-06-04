@@ -1,6 +1,5 @@
 package com.example.mobiletermproject;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,8 +20,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -95,8 +92,13 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_main);
 
-        Intent intent = getIntent();
-        schedules = (ArrayList<Schedule>) intent.getSerializableExtra("DB");
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            schedules = (ArrayList<Schedule>) bundle.getSerializable("schedules");
+        }
+        // 오늘 설정
+        selectedDay = CalendarDay.today();
+
         //drawble 메뉴
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(" ");
@@ -114,7 +116,7 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         botSheetDate = findViewById(R.id.botsheetDate);
 
 
-        //캘린더 설정//////////////////////////////////////////////////////////////////////
+        /*                 캘린더 설정                */
         calenderView = findViewById(R.id.calendarView);
         // calender set up
         calenderView.setTopbarVisible(true);
@@ -136,15 +138,10 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         calenderView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                Log.d("dbtest", "ondateselected called");
                 updateBotSheet(date);
                 selectedDay = date;
             }
         });
-
-        selectedDay = CalendarDay.today();
-
-        //////////////////////////////////////////////////////////////////////////////
 
 
 //        Bottom Sheet 올릴 때 모션이 안좋아서 잠깐 빼뒀습니당
@@ -186,13 +183,14 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         });
 
         updateSchedules();
+
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        
+
         calenderView.removeDecorator(eventDecorator);
         eventDecorator = new EventDecorator(this, schedules);
         calenderView.addDecorators(eventDecorator);
@@ -275,8 +273,9 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
                         Schedule sch = doc.toObject(Schedule.class);
                         sch.setID(doc.getId());
                         schedules.add(sch);
-                        Log.d("dbtest", doc.getId());
+                        //Log.d("dbtest", doc.getId() + "    Main");
                     }
+
                 }
             }
         });

@@ -33,8 +33,6 @@ import java.util.Map;
 
 public class CreateSchedule extends AppCompatActivity {
     private static final String TAG = "tag";
-    private EditText schduleTitle;
-    private EditText schduleContent;
 
     private ArrayAdapter adapter;
     private Spinner Hourstr;
@@ -59,11 +57,11 @@ public class CreateSchedule extends AppCompatActivity {
         dateTimeIn = findViewById(R.id.date_time_input);
         dateTimeIn.setInputType(InputType.TYPE_NULL);
 
-        schduleTitle = findViewById(R.id.schduleTitle);
-        schduleContent = findViewById(R.id.schduleContent);
-
         getDataend = findViewById(R.id.endDayButton);
         getDatestr = findViewById(R.id.DayButton);
+
+        title = findViewById(R.id.schduleTitle);
+        content = findViewById(R.id.schduleContent);
 
         stramfm = findViewById(R.id.stramfm);
         endamfm = findViewById(R.id.endamfm);
@@ -154,18 +152,6 @@ public class CreateSchedule extends AppCompatActivity {
     }
 
     public void registerSchedule(View v) {
-        final Intent intent = new Intent(this, Calendar_main.class);
-
-        title = findViewById(R.id.schduleTitle);
-        content = findViewById(R.id.schduleContent);
-        stramfm = findViewById(R.id.stramfm);
-        Hourstr = findViewById(R.id.Hour);
-        Mitstr = findViewById(R.id.Minute);
-        endamfm = findViewById(R.id.endamfm);
-        HourEnd = findViewById(R.id.endHour);
-        MitEnd = findViewById(R.id.endMinute);
-
-        //////////////////
         String[] startDate = getDatestr.getText().toString().split("[.]");
         String[] endDate = getDataend.getText().toString().split("[.]");
 
@@ -178,9 +164,7 @@ public class CreateSchedule extends AppCompatActivity {
                 LocalDateTime.of(Integer.parseInt(startDate[0]), Integer.parseInt(startDate[1]), Integer.parseInt(startDate[2]), strH, strM),
                 LocalDateTime.of(Integer.parseInt(endDate[0]), Integer.parseInt(endDate[1]), Integer.parseInt(endDate[2]), endH, endM));
 
-        Log.d("test", schedule.toString());
-        //////////////////
-
+        ////////////////////////////////////////////
 
         String id = null;
         FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
@@ -202,9 +186,7 @@ public class CreateSchedule extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d(TAG, "DocumentSnapshot successfully written!");
-                            startActivity(intent);
                             finish();
-
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
