@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/MainColor"
     tools:context=".SchedulePopUp">
 
@@ -17,11 +17,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/font"
             android:text="일정 정보"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:textStyle="bold" />
+            android:textSize="20sp"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:fontFamily="@font/font"
+            android:textColor="#FFFFFF"
+            android:id="@+id/scheduleName"/>
     </LinearLayout>
 
     <LinearLayout
@@ -33,22 +35,69 @@
         android:paddingRight="8dp">
 
         <TextView
-            android:id="@+id/scheduleName"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="제목 :" />
+            android:text="ScheduleTime : "
+            android:textSize="30sp"
+            android:fontFamily="@font/font"
+            android:textColor="@color/loginIcon"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/startscheduleTime"
+            android:textSize="15sp"
+            android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:fontFamily="@font/font"
+            android:text="2020-6-20 17:00:00 ~ 2020-6-20 18:00:00"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="To"
+            android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:fontFamily="@font/font"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/endscheduleTime"
+            android:textSize="15sp"
+            android:textColor="#ffffff"
+            android:layout_gravity="center"
+            android:fontFamily="@font/font"
+            android:text="2020-6-20 17:00:00 ~ 2020-6-20 18:00:00"/>
+
 
         <TextView
-            android:id="@+id/scheduleTime"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="시간 : " />
+            android:text="Schedule Contents"
+            android:textColor="@color/loginIcon"
+            android:textSize="30sp"
+            android:fontFamily="@font/font"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp" />
 
-        <TextView
-            android:id="@+id/scheduleContent"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="내용:" />
+            android:background="@drawable/backgroundline">
+            <TextView
+                android:padding="6dp"
+                android:fontFamily="@font/font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/scheduleContent"
+                android:layout_marginTop="5dp"
+                android:textSize="15sp"
+                android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                android:textColor="#ffffff"
+                />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

@@ -22,7 +22,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class SchedulePopUp extends Activity {
     Schedule schedule;
     TextView popUpSheetName;
-    TextView popUpSheetTime;
+    TextView startPopUpSheetTime;
+    TextView endPopUpSheetTime;
     TextView popUpSheetContent;
 
     @Override
@@ -37,11 +38,13 @@ public class SchedulePopUp extends Activity {
         // intent로 넘어온 값 받아용~
 
         popUpSheetName = findViewById(R.id.scheduleName);
-        popUpSheetTime = findViewById(R.id.scheduleTime);
+        startPopUpSheetTime = findViewById(R.id.startscheduleTime);
+        endPopUpSheetTime = findViewById(R.id.endscheduleTime);
         popUpSheetContent = findViewById(R.id.scheduleContent);
 
         popUpSheetName.setText(schedule.getTitle());
-        popUpSheetTime.setText(schedule.getStartTime() + " ~ " + schedule.getEndTime());
+        startPopUpSheetTime.setText(schedule.getStartTime());
+        endPopUpSheetTime.setText(schedule.getEndTime());
         popUpSheetContent.setText(schedule.getContent());
 
         Button editBtn = (Button) findViewById(R.id.scheduleEdit);
