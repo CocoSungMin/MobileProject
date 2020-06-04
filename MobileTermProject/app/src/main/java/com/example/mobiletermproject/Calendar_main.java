@@ -174,7 +174,6 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
 
 
         //스케쥴 추가 버튼
-
         Button btnAdd = findViewById(R.id.btnAddSchedule);
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -297,7 +296,8 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         } else if (id == R.id.group2) {
             Toast.makeText(getApplicationContext(), "그룹2 화면으로 전환", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.add_group) {
-            Toast.makeText(getApplicationContext(), "그룹추가 화면으로 전환", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Calendar_main.this, JoinGroup.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer);

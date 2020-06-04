@@ -16,6 +16,7 @@
             android:parentActivityName=".Calendar_main"/>
         <activity android:name=".DateSelection" android:theme="@style/Theme.AppCompat.Dialog"/>
         <activity android:name=".CreateSchedule" />
+        <activity android:name=".JoinGroup"/>
         <activity android:name=".Loading" />
         <activity android:name=".Calendar_main" />
         <activity android:name=".LoginActivity" >
