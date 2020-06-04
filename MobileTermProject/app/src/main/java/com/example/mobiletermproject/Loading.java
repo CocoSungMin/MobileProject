@@ -13,11 +13,25 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+
 public class Loading extends Activity {
     TextView LoadingState;
     ProgressBar bar;
     ProgressHandler handler;
+    ProgressHandler DB;
     boolean isRunning = false;
+    ArrayList<Schedule> schedules = new ArrayList<>();//디비에서 불러온 스케줄들 다 여기 있습니다.
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,6 +40,7 @@ public class Loading extends Activity {
         bar = (ProgressBar) findViewById(R.id.progress);
         LoadingState = findViewById(R.id.LoadingText);
         handler = new ProgressHandler();
+        updateSchedules();
 
     }
     @Override
@@ -60,12 +75,43 @@ public class Loading extends Activity {
             bar.incrementProgressBy(5);
             if (bar.getProgress() == bar.getMax()) {
                 LoadingState.setText("Done");
-                startActivity(new Intent(Loading.this, Calendar_main.class));
+                Intent intent = new Intent(Loading.this, Calendar_main.class);
+                intent.putExtra("DB",schedules);
+                startActivity(intent);
                 finish();
             } else {
                 LoadingState.setText("Loading..." + bar.getProgress());
             }
         }
     }
+
+    public void updateSchedules() {
+        String id = null;
+        FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
+        if (user1 != null) {
+            id = user1.getUid();
+        }
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(id).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.d("Update Schedules", "Listen failed.", e);
+                    return;
+                }
+                if (queryDocumentSnapshots != null) {
+                    schedules.clear();
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        Schedule sch = doc.toObject(Schedule.class);
+                        sch.setID(doc.getId());
+                        schedules.add(sch);
+                        Log.d("dbtest", doc.getId());
+                    }
+                }
+            }
+        });
+    }
+
 }
 

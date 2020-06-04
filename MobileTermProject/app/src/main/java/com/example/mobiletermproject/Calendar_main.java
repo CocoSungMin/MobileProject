@@ -95,6 +95,8 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_main);
 
+        Intent intent = getIntent();
+        schedules = (ArrayList<Schedule>) intent.getSerializableExtra("DB");
         //drawble 메뉴
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(" ");
