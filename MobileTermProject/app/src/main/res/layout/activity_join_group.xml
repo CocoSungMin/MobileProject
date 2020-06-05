@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
         android:fontFamily="@font/font"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="150dp"
         android:text="Join Group"
         android:textColor="#ffffff"
         android:textSize="20sp" />
