@@ -53,38 +53,6 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
     CalendarDay selectedDay;
     EventDecorator eventDecorator;
 
-    //drawble 메뉴 사용하면서 주석처리
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.appbar_menu, menu);
-        this.menu = menu;
-        menu.getItem(0).setChecked(true);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.search:
-                Toast.makeText(getApplicationContext(), "이거 누르면 마이페이지로 화면 변환", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.option:
-                Toast.makeText(getApplicationContext(), "이거 누르면 그룹관리(사용자 추가)로 화면 변환", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.group1:
-                Toast.makeText(getApplicationContext(), "이거 누르면 그룹1로 화면 변환", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.group2:
-                Toast.makeText(getApplicationContext(), "이거 누르면 그룹2로 화면 변환", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.group3:
-                Toast.makeText(getApplicationContext(), "이거 누르면 그룹3로 화면 변환", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }*/
 
 
     @Override

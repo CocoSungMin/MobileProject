@@ -1,5 +1,6 @@
 package com.example.mobiletermproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -62,9 +64,11 @@ public class JoinGroup extends AppCompatActivity {
         });
 
         createBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                Log.d("dbtest", "create");
+                Intent intent = new Intent(JoinGroup.this, CreateGroup.class);
+                startActivity(intent);
             }
         });
 
