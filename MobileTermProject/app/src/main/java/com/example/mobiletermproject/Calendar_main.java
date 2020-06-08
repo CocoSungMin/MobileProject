@@ -1,6 +1,7 @@
 package com.example.mobiletermproject;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -8,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +54,10 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
 
     CalendarDay selectedDay;
     EventDecorator eventDecorator;
+    String userName;
+    String userEmail;
+    Uri userPhoto;
+
 
 
 
@@ -63,6 +69,9 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             schedules = (ArrayList<Schedule>) bundle.getSerializable("schedules");
+            userName = bundle.getString("Name");
+            userEmail = bundle.getString("Email");
+            userPhoto = bundle.getParcelable("Photo");
         }
         // 오늘 설정
         selectedDay = CalendarDay.today();
@@ -83,6 +92,16 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
 
         botSheetDate = findViewById(R.id.botsheetDate);
 
+        //drawer_header에 유저 정보 입력하는 코드 99~107
+        View headerView = navigationView.getHeaderView(0);
+        TextView Nametxt = headerView.findViewById(R.id.userIDText);
+        TextView Emailtxt = headerView.findViewById(R.id.emailText);
+        ImageView Imageuri = headerView.findViewById(R.id.imageView2);
+
+        Nametxt.setText(userName);
+        Emailtxt.setText(userEmail);
+        Imageuri.setImageURI(userPhoto);
+//이미지 출력이 안되네 ㅎ 망할....
 
         /*                 캘린더 설정                */
         calenderView = findViewById(R.id.calendarView);

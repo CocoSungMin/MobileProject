@@ -4,6 +4,7 @@ package com.example.mobiletermproject;
 import android.app.Activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -39,6 +41,11 @@ public class Loading extends Activity {
     ProgressHandler DB;
     boolean isRunning = false;
     ArrayList<Schedule> schedules = new ArrayList<>();//디비에서 불러온 스케줄들 다 여기 있습니다.
+
+    String userName;
+    String userEmail;
+    Uri userPhoto;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,6 +87,9 @@ public class Loading extends Activity {
         //로딩에서 미리 받아서 메인으로 스케줄 보냄
         Bundle bundle = new Bundle();
         bundle.putSerializable("schedules", schedules);
+        bundle.putString("Name",userName);
+        bundle.putString("Email",userEmail);
+        bundle.putParcelable("Photo",userPhoto);
 
         Intent intent = new Intent(getApplicationContext(), Calendar_main.class);
         intent.putExtras(bundle);
@@ -103,6 +113,13 @@ public class Loading extends Activity {
         FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
         if (user1 != null) {
             id = user1.getUid();
+            for (UserInfo profile : user1.getProviderData()) {
+                userName = profile.getDisplayName();
+                userEmail = profile.getEmail();
+                userPhoto = profile.getPhotoUrl();
+                //user 정보 얻음
+            }
+
         }
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
