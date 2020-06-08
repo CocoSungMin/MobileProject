@@ -2,14 +2,28 @@ package com.example.mobiletermproject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CreateGroup extends AppCompatActivity {
 
@@ -30,23 +44,57 @@ public class CreateGroup extends AppCompatActivity {
                 //데이터 전달하고 액티비티 닫기
                 String name = gr_name.getText().toString();
                 String number = gr_number.getText().toString();
-                Intent intent = new Intent();
-                intent.putExtra("그룹이름 : ", name);
-                intent.putExtra("인원 제한 : ", number);
-                setResult(RESULT_OK, intent);
-                finish();
+
+                if (name != "") {
+                    createGroup(name);
+                } else {
+                    Toast.makeText(getApplicationContext(), "이름을 입력하세요", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
-
     //바깥영역 클릭 방지와 백 버튼 차단
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if(event.getAction()== MotionEvent.ACTION_OUTSIDE){
+        if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
             return false;
         }
         return true;
+    }
+
+    // 그룹 생성
+    private void createGroup(String groupName) {
+        FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user1 != null) {
+            Map<String, Object> docData = new HashMap<>();
+            docData.clear();
+
+            ArrayList<String> memberList = new ArrayList<>();
+            memberList.add(user1.getUid());
+
+            docData.put("GroupName", groupName);
+            docData.put("Manager", user1.getUid());
+            docData.put("Member", memberList);
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            db.collection("Group").add(docData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    Log.d("dbtest", "DocumentSnapshot written with ID: " + documentReference.getId());
+                    Toast.makeText(getApplicationContext(), "그룹이 성공적으로 생성 되었습니다.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w("dbtest", "Error adding document", e);
+                    Toast.makeText(getApplicationContext(), "DB 에러, 잠시후 다시 시도하세요.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }
 

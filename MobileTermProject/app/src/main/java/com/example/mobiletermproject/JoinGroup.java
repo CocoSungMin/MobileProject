@@ -82,57 +82,57 @@ public class JoinGroup extends AppCompatActivity {
 
     /*그룹 조인 메소드*/
     private void joinGroup(final String groupID) {
-        final Map<String, Object> docData = new HashMap<String, Object>();
+        final FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
 
-        String id = null;
-        FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
         if (user1 != null) {
-            String uid = user1.getUid();
-            id = uid;
-        }
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        if (id != null) {
-            final FirebaseFirestore db = FirebaseFirestore.getInstance();
-            final String finalId = id;
             db.collection("Group").document(groupID).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    // DOCUMENT 받아오기 성공
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
+
                         if (document.exists()) {
                             // 문서 받아와서 사용자 추가
+                            Map<String, Object> docData = new HashMap<String, Object>();
                             docData.clear();
                             docData.put("GroupName", document.getData().get("GroupName"));
+                            docData.put("Manager", document.getData().get("Manager"));
 
                             ArrayList<String> memList = (ArrayList<String>) document.getData().get("Member");
-
-                            if (memList.contains(finalId)) {
+                            if (memList.contains(user1.getUid())) { // 이미 가입된 그룹인지 확인
                                 Log.d("JoinGroup", "Already joined this group.");
-                                Toast.makeText(getApplicationContext(), "이미 가입된 그룹입니다.",Toast.LENGTH_SHORT).show();
-                            } else {
-                                memList.add(finalId);
+                                Toast.makeText(getApplicationContext(), "이미 가입된 그룹입니다.", Toast.LENGTH_SHORT).show();
+
+                            } else { // 그룹에 가입
+                                memList.add(user1.getUid());
                                 docData.put("Member", memList);
+
                                 FirebaseFirestore.getInstance().collection("Group").document(groupID).set(docData).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Log.d("JoinGroup", "DocumentSnapshot successfully written");
-                                        Toast.makeText(getApplicationContext(), "그룹 가입 완료!",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "그룹 가입 완료!", Toast.LENGTH_SHORT).show();
                                         finish();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         Log.d("JoinGroup", "Error writing document", e);
-                                        Toast.makeText(getApplicationContext(), "DB 오류",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), "DB 오류", Toast.LENGTH_SHORT).show();
                                     }
                                 });
+
                             }
-                        } else {
-                            Toast.makeText(getApplicationContext(), "존재하지 않는 그룹입니다.",Toast.LENGTH_SHORT).show();
+                        } else {// DOCUMENT가 없을 때 (그룹 존재 X)
+                            Toast.makeText(getApplicationContext(), "존재하지 않는 그룹입니다.", Toast.LENGTH_SHORT).show();
+
                         }
-                    } else {
+                    } else {// DOCUMENT 받아오기 실패
                         Log.d("JoinGroup", "join Group failed.", task.getException());
-                        Toast.makeText(getApplicationContext(), "DB 오류",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "DB 오류", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
