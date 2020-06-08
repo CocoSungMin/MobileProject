@@ -83,14 +83,14 @@ public class CreateGroup extends AppCompatActivity {
             db.collection("Group").add(docData).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
-                    Log.d("dbtest", "DocumentSnapshot written with ID: " + documentReference.getId());
+                    Log.d("CreateGroup", "DocumentSnapshot written with ID: " + documentReference.getId());
                     Toast.makeText(getApplicationContext(), "그룹이 성공적으로 생성 되었습니다.", Toast.LENGTH_SHORT).show();
                     finish();
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.w("dbtest", "Error adding document", e);
+                    Log.w("CreateGroup", "Error adding document", e);
                     Toast.makeText(getApplicationContext(), "DB 에러, 잠시후 다시 시도하세요.", Toast.LENGTH_SHORT).show();
                 }
             });

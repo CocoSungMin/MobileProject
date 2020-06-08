@@ -39,6 +39,8 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Calendar_main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
@@ -51,14 +53,13 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
     BottomSheetBehavior bottomSheetBehavior;
     TextView botSheetDate;
     ArrayList<Schedule> schedules = new ArrayList<>();//디비에서 불러온 스케줄들 다 여기 있습니다.
+    Map<String, String> joinedGroups = new HashMap<>();// 가입된 그룹 / key: id, value: name
 
     CalendarDay selectedDay;
     EventDecorator eventDecorator;
     String userName;
     String userEmail;
     Uri userPhoto;
-
-
 
 
     @Override
@@ -72,6 +73,7 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
             userName = bundle.getString("Name");
             userEmail = bundle.getString("Email");
             userPhoto = bundle.getParcelable("Photo");
+            joinedGroups = ((ArrayList<Map<String, String>>)bundle.getSerializable("groups")).get(0);
         }
         // 오늘 설정
         selectedDay = CalendarDay.today();
@@ -266,11 +268,28 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
                 }
             }
         });
+
+        db.collection("Group").whereArrayContains("Member", id).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if(e!= null){
+                    Log.d("Update Schedules", "Listen failed.", e);
+                }
+                if (queryDocumentSnapshots != null) {
+                    joinedGroups.clear();
+                    for(QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                        //Log.d("dbtest", doc.getId() + "-->" + doc.getData());
+                        joinedGroups.put(doc.getId(), doc.get("GroupName").toString());
+                    }
+                }
+            }
+        });
     }
 
     public void showPopUp(Schedule schedule) {
         Intent popUp = new Intent(this, SchedulePopUp.class);
 
+        //GroupSchedule groupSchedule = new GroupSchedule("asdf", "그룹입니당", schedule);
         popUp.putExtra("schedule", schedule);
         startActivity(popUp);
     }

@@ -33,6 +33,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import org.w3c.dom.Document;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Loading extends Activity {
     TextView LoadingState;
@@ -40,7 +42,8 @@ public class Loading extends Activity {
     ProgressHandler handler;
     ProgressHandler DB;
     boolean isRunning = false;
-    ArrayList<Schedule> schedules = new ArrayList<>();//디비에서 불러온 스케줄들 다 여기 있습니다.
+    ArrayList<Schedule> schedules = new ArrayList<>();
+    Map<String, String> joinedGroups = new HashMap<>();
 
     String userName;
     String userEmail;
@@ -86,10 +89,13 @@ public class Loading extends Activity {
 
         //로딩에서 미리 받아서 메인으로 스케줄 보냄
         Bundle bundle = new Bundle();
-        bundle.putSerializable("schedules", schedules);
         bundle.putString("Name",userName);
         bundle.putString("Email",userEmail);
         bundle.putParcelable("Photo",userPhoto);
+        bundle.putSerializable("schedules", schedules);
+        ArrayList<Map<String, String>> tempList = new ArrayList<>();
+        tempList.add(joinedGroups);
+        bundle.putSerializable("groups", tempList);
 
         Intent intent = new Intent(getApplicationContext(), Calendar_main.class);
         intent.putExtras(bundle);
@@ -136,6 +142,21 @@ public class Loading extends Activity {
                     }
                 } else {
                     Log.d("Loading", "data get failed: ", task.getException());
+                }
+            }
+        });
+
+        // 속한 그룹 찾기
+        db.collection("Group").whereArrayContains("Member", id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        //Log.d("dbtest", document.getId() + " => " + document.getData());
+                        joinedGroups.put(document.getId(), document.get("GroupName").toString());
+                    }
+                } else {
+                    Log.d("Loading", "Joined Group get failed: ", task.getException());
                 }
             }
         });

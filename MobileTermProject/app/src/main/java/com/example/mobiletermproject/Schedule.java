@@ -38,6 +38,14 @@ public class Schedule implements Serializable {
         this.endTime = end.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
+    public Schedule(Schedule schedule){
+        this.ID = schedule.getID();
+        this.title = schedule.getTitle();
+        this.content = schedule.getContent();
+        this.startTime = schedule.getStartTime();
+        this.endTime = schedule.getEndTime();
+    }
+
     public void setID(String ID) {
         this.ID = ID;
     }

@@ -25,6 +25,8 @@ public class SchedulePopUp extends Activity {
     TextView startPopUpSheetTime;
     TextView endPopUpSheetTime;
     TextView popUpSheetContent;
+    TextView groupNameWin;
+    TextView groupName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +43,21 @@ public class SchedulePopUp extends Activity {
         startPopUpSheetTime = findViewById(R.id.startscheduleTime);
         endPopUpSheetTime = findViewById(R.id.endscheduleTime);
         popUpSheetContent = findViewById(R.id.scheduleContent);
+        groupNameWin = findViewById(R.id.groupNameWin);
+        groupName = findViewById(R.id.groupName);
 
         popUpSheetName.setText(schedule.getTitle());
         startPopUpSheetTime.setText(schedule.getStartTime());
         endPopUpSheetTime.setText(schedule.getEndTime());
         popUpSheetContent.setText(schedule.getContent());
+
+        // 그룹 스케줄일 경우
+        if(schedule instanceof GroupSchedule){
+            groupNameWin.setVisibility(View.VISIBLE);
+            groupName.setVisibility(View.VISIBLE);
+            groupName.setText(((GroupSchedule) schedule).getGroupName());
+            //((GroupSchedule) schedule).getGroupID();
+        }
 
         Button editBtn = (Button) findViewById(R.id.scheduleEdit);
         Button delBtn = (Button) findViewById(R.id.scheduleDel);

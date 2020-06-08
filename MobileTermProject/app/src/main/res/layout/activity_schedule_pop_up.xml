@@ -15,15 +15,15 @@
         android:padding="8dp">
 
         <TextView
+            android:id="@+id/scheduleName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="일정 정보"
-            android:textSize="20sp"
             android:layout_gravity="center"
-            android:textStyle="bold"
             android:fontFamily="@font/font"
+            android:text="일정 정보"
             android:textColor="#FFFFFF"
-            android:id="@+id/scheduleName"/>
+            android:textSize="20sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -37,66 +37,94 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ScheduleTime : "
-            android:textSize="30sp"
-            android:fontFamily="@font/font"
-            android:textColor="@color/loginIcon"
+            android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_gravity="center" />
+            android:fontFamily="@font/font"
+            android:text="ScheduleTime : "
+            android:textColor="@color/loginIcon"
+            android:textSize="30sp" />
+
         <TextView
+            android:id="@+id/startscheduleTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/startscheduleTime"
-            android:textSize="15sp"
-            android:textColor="#ffffff"
             android:layout_gravity="center"
             android:fontFamily="@font/font"
-            android:text="2020-6-20 17:00:00 ~ 2020-6-20 18:00:00"/>
+            android:text="2020-6-20 17:00:00 ~ 2020-6-20 18:00:00"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/font"
             android:text="To"
             android:textColor="#ffffff"
-            android:layout_gravity="center"
-            android:textSize="15sp"
-            android:fontFamily="@font/font"/>
+            android:textSize="15sp" />
+
         <TextView
+            android:id="@+id/endscheduleTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/endscheduleTime"
-            android:textSize="15sp"
-            android:textColor="#ffffff"
             android:layout_gravity="center"
             android:fontFamily="@font/font"
-            android:text="2020-6-20 17:00:00 ~ 2020-6-20 18:00:00"/>
-
+            android:text="2020-6-20 17:00:00 ~ 2020-6-20 18:00:00"
+            android:textColor="#ffffff"
+            android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/groupNameWin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Schedule Contents"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:fontFamily="@font/font"
+            android:text="Group : "
             android:textColor="@color/loginIcon"
             android:textSize="30sp"
-            android:fontFamily="@font/font"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/groupName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="15dp" />
+            android:fontFamily="@font/font"
+            android:gravity="center"
+            android:text="그룹이름"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/font"
+            android:text="Schedule Contents"
+            android:textColor="@color/loginIcon"
+            android:textSize="30sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/backgroundline">
+
             <TextView
-                android:padding="6dp"
-                android:fontFamily="@font/font"
+                android:id="@+id/scheduleContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/scheduleContent"
                 android:layout_marginTop="5dp"
-                android:textSize="15sp"
+                android:fontFamily="@font/font"
+                android:padding="6dp"
                 android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                 android:textColor="#ffffff"
-                />
+                android:textSize="15sp" />
         </LinearLayout>
     </LinearLayout>
 
