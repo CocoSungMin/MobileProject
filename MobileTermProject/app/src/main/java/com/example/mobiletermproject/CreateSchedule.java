@@ -51,6 +51,10 @@ public class CreateSchedule extends AppCompatActivity {
     boolean isEdit = false;
     String editID;
 
+    //날짜, 시간 선택했는지 확인하기 위한 값
+    int flag1 = 0;
+    int flag2 = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,81 +166,97 @@ public class CreateSchedule extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 getDatestr = findViewById(R.id.DayButton);
                 String temp = data.getStringExtra("result");
+                flag1 += 1;
                 getDatestr.setText(temp);
             }
         } else if (requestCode == 2) {
             if (resultCode == RESULT_OK) {
                 getDataend = findViewById(R.id.endDayButton);
                 String temp = data.getStringExtra("result");
+                flag1 += 1;
                 getDataend.setText(temp);
             }
         }
     }
 
     public void registerSchedule(View v) {
-        String[] startDate = getDatestr.getText().toString().split("[.]");
-        String[] endDate = getDataend.getText().toString().split("[.]");
 
-        int strH = Integer.parseInt(Hourstr.getSelectedItem().toString());
-        int strM = Integer.parseInt(Mitstr.getSelectedItem().toString());
-        int endH = Integer.parseInt(HourEnd.getSelectedItem().toString());
-        int endM = Integer.parseInt(MitEnd.getSelectedItem().toString());
 
-        Schedule schedule = new Schedule(title.getText().toString(), content.getText().toString(),
-                LocalDateTime.of(Integer.parseInt(startDate[0]), Integer.parseInt(startDate[1]), Integer.parseInt(startDate[2]), strH, strM),
-                LocalDateTime.of(Integer.parseInt(endDate[0]), Integer.parseInt(endDate[1]), Integer.parseInt(endDate[2]), endH, endM));
-
-        ////////////////////////////////////////////
-
-        String id = null;
-        FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
-        if (user1 != null) {
-            String uid = user1.getUid();
-            id = uid;
+        //오류 메세지 출력
+        if (flag1 != 2) {
+            Toast.makeText(CreateSchedule.this, "일정 날짜가 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
         }
+        else if (content.getText().toString().equals("")) {
+            Toast.makeText(CreateSchedule.this, "일정 내용이 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
+        }
+        else if (title.getText().toString().equals("")) {
+            Toast.makeText(CreateSchedule.this, "일정 제목이 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
+        }
+        else {
 
-        if (id != null) {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            Map<String, Object> user = new HashMap<>();
+            String[] startDate = getDatestr.getText().toString().split("[.]");
+            String[] endDate = getDataend.getText().toString().split("[.]");
 
-            user.put("schedule", schedule);
+            int strH = Integer.parseInt(Hourstr.getSelectedItem().toString());
+            int strM = Integer.parseInt(Mitstr.getSelectedItem().toString());
+            int endH = Integer.parseInt(HourEnd.getSelectedItem().toString());
+            int endM = Integer.parseInt(MitEnd.getSelectedItem().toString());
 
-            final String finalId = id;
-            if (isEdit) {//수정일 경우
-                db.collection(finalId).document(editID).set(schedule, SetOptions.merge())
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "DocumentSnapshot successfully written!");
-                                finish();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error writing document", e);
-                            }
-                        });
-            } else {// 그냥 추가일 경우
-                db.collection(finalId).document()
-                        .set(schedule, SetOptions.merge())
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "DocumentSnapshot successfully written!");
-                                finish();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error writing document", e);
-                            }
-                        });
+            Schedule schedule = new Schedule(title.getText().toString(), content.getText().toString(),
+                    LocalDateTime.of(Integer.parseInt(startDate[0]), Integer.parseInt(startDate[1]), Integer.parseInt(startDate[2]), strH, strM),
+                    LocalDateTime.of(Integer.parseInt(endDate[0]), Integer.parseInt(endDate[1]), Integer.parseInt(endDate[2]), endH, endM));
+
+            ////////////////////////////////////////////
+
+            String id = null;
+            FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
+            if (user1 != null) {
+                String uid = user1.getUid();
+                id = uid;
             }
-        } else {
-            Toast.makeText(this, "Fail", Toast.LENGTH_SHORT);
+
+            if (id != null) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                Map<String, Object> user = new HashMap<>();
+
+                user.put("schedule", schedule);
+
+                final String finalId = id;
+                if (isEdit) {//수정일 경우
+                    db.collection(finalId).document(editID).set(schedule, SetOptions.merge())
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    finish();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error writing document", e);
+                                }
+                            });
+                } else {// 그냥 추가일 경우
+                    db.collection(finalId).document()
+                            .set(schedule, SetOptions.merge())
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    finish();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error writing document", e);
+                                }
+                            });
+                }
+            } else {
+                Toast.makeText(this, "Fail", Toast.LENGTH_SHORT);
+            }
         }
     }
-
 }
