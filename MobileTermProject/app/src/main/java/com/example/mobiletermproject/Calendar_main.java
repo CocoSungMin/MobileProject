@@ -1,13 +1,18 @@
 package com.example.mobiletermproject;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -36,11 +41,16 @@ import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class Calendar_main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
@@ -60,6 +70,9 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
     String userName;
     String userEmail;
     Uri userPhoto;
+
+
+    ListView groupList;
 
 
     @Override
@@ -94,16 +107,30 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
 
         botSheetDate = findViewById(R.id.botsheetDate);
 
+        //drawer menu listview에 정보 표기
+        Collection<String> Gm = joinedGroups.values();
+        final ArrayList<String> gList = new ArrayList<String>(Gm);
+        menuListviewAdapter Gdapter = new menuListviewAdapter(getApplicationContext(),gList);
+        groupList = findViewById(R.id.groupList);
+        groupList.setAdapter(Gdapter);
+        groupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), gList.get(position)+" 화면으로 전환", Toast.LENGTH_SHORT).show();
+            }
+        });;
+
+
+
         //drawer_header에 유저 정보 입력하는 코드 99~107
         View headerView = navigationView.getHeaderView(0);
         TextView Nametxt = headerView.findViewById(R.id.userIDText);
         TextView Emailtxt = headerView.findViewById(R.id.emailText);
-        ImageView Imageuri = headerView.findViewById(R.id.imageView2);
 
         Nametxt.setText(userName);
         Emailtxt.setText(userEmail);
-        Imageuri.setImageURI(userPhoto);
-//이미지 출력이 안되네 ㅎ 망할....
+        new DownloadFilesTask().execute(userPhoto.toString());
+
 
         /*                 캘린더 설정                */
         calenderView = findViewById(R.id.calendarView);
@@ -310,5 +337,41 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    // 그룹 추가 버튼
+    public void addGroup(View view){
+        Intent intent = new Intent(Calendar_main.this, JoinGroup.class);
+        startActivity(intent);
+    }
+
+    // 요 아래 전부다 프로필 사진 가져오는 거입니다.
+    private class DownloadFilesTask extends AsyncTask<String,Void, Bitmap> {
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            Bitmap bmp = null;
+            try {
+                String img_url = strings[0]; //url of the image
+                URL url = new URL(img_url);
+                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bmp;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            // doInBackground 에서 받아온 total 값 사용 장소
+            ImageView Imageuri = findViewById(R.id.imageView2);
+            Imageuri.setImageBitmap(result);
+        }
     }
 }
