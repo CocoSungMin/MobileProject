@@ -82,9 +82,7 @@ public class Schedule implements Serializable {
         return startTime;
     }
 
-    public String getEndTime() {
-        return endTime;
-    }
+    public String getEndTime() { return endTime; }
 
     // Time 값 이용할떄는 이 함수로 출력 바랍니다...
     public LocalDateTime startTimeByClass() {

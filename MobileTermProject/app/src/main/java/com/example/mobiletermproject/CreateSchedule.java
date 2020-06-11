@@ -71,11 +71,11 @@ public class CreateSchedule extends AppCompatActivity {
         title = findViewById(R.id.schduleTitle);
         content = findViewById(R.id.schduleContent);
 
-        stramfm = findViewById(R.id.stramfm);
-        endamfm = findViewById(R.id.endamfm);
-        adapter = ArrayAdapter.createFromResource(this, R.array.amfm, android.R.layout.simple_spinner_dropdown_item);
-        stramfm.setAdapter(adapter);
-        endamfm.setAdapter(adapter);
+        //stramfm = findViewById(R.id.stramfm);
+        //endamfm = findViewById(R.id.endamfm);
+        //adapter = ArrayAdapter.createFromResource(this, R.array.amfm, android.R.layout.simple_spinner_dropdown_item);
+        //stramfm.setAdapter(adapter);
+        //endamfm.setAdapter(adapter);
 
         Hourstr = findViewById(R.id.Hour);
         adapter = ArrayAdapter.createFromResource(this, R.array.Hour, android.R.layout.simple_spinner_dropdown_item);
@@ -192,7 +192,7 @@ public class CreateSchedule extends AppCompatActivity {
         int endM = Integer.parseInt(MitEnd.getSelectedItem().toString());
 
         //오류 메세지 출력
-        if (flag1 != 2) {
+        if (flag1 != 2 && !isEdit) {
             Toast.makeText(CreateSchedule.this, "일정 날짜가 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
         }
         else if (getDatestr.getText().toString().equals("") || getDataend.getText().toString().equals("") ) {
@@ -239,6 +239,7 @@ public class CreateSchedule extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    Toast.makeText(CreateSchedule.this, "일정이 수정되었습니다.", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
                             })
@@ -255,6 +256,7 @@ public class CreateSchedule extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    Toast.makeText(CreateSchedule.this, "일정이 등록되었습니다.", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
                             })

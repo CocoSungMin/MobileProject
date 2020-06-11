@@ -31,9 +31,10 @@ public class RegisterActicity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_acticity);
 
-        spinner = (Spinner) findViewById(R.id.jobSpinner);
-        adapter = ArrayAdapter.createFromResource(this, R.array.job, android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        //직업 스피너
+        //spinner = (Spinner) findViewById(R.id.jobSpinner);
+        //adapter = ArrayAdapter.createFromResource(this, R.array.job, android.R.layout.simple_spinner_dropdown_item);
+        //spinner.setAdapter(adapter);
 
         emailJoin = (EditText) findViewById(R.id.idText);
         pwdJoin = (EditText) findViewById(R.id.passwordText);
