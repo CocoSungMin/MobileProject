@@ -27,6 +27,7 @@ import com.google.firebase.firestore.SetOptions;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -166,14 +167,14 @@ public class CreateSchedule extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 getDatestr = findViewById(R.id.DayButton);
                 String temp = data.getStringExtra("result");
-                flag1 += 1;
+                flag1 = 1;
                 getDatestr.setText(temp);
             }
         } else if (requestCode == 2) {
             if (resultCode == RESULT_OK) {
                 getDataend = findViewById(R.id.endDayButton);
                 String temp = data.getStringExtra("result");
-                flag1 += 1;
+                flag1 = 2;
                 getDataend.setText(temp);
             }
         }
@@ -182,9 +183,27 @@ public class CreateSchedule extends AppCompatActivity {
     public void registerSchedule(View v) {
 
 
+        String[] startDate = getDatestr.getText().toString().split("[.]");
+        String[] endDate = getDataend.getText().toString().split("[.]");
+
+        int strH = Integer.parseInt(Hourstr.getSelectedItem().toString());
+        int strM = Integer.parseInt(Mitstr.getSelectedItem().toString());
+        int endH = Integer.parseInt(HourEnd.getSelectedItem().toString());
+        int endM = Integer.parseInt(MitEnd.getSelectedItem().toString());
+
         //오류 메세지 출력
         if (flag1 != 2) {
             Toast.makeText(CreateSchedule.this, "일정 날짜가 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
+        }
+        else if (getDatestr.getText().toString().equals("") || getDataend.getText().toString().equals("") ) {
+            Toast.makeText(CreateSchedule.this, "일정 날짜가 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
+        }
+        else if (Integer.parseInt(startDate[1] + startDate[2]) - Integer.parseInt(endDate[1] + endDate[2]) > 0) {
+            Toast.makeText(CreateSchedule.this, "일정 날짜가 정상적으로 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
+        }
+        else if (Integer.parseInt(startDate[1] + startDate[2]) - Integer.parseInt(endDate[1] + endDate[2]) == 0 &&
+                ((strH - endH > 0)||((strH - endH == 0)&&(strM - endM > 0)))) {
+            Toast.makeText(CreateSchedule.this, "시간이 정상적으로 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
         }
         else if (content.getText().toString().equals("")) {
             Toast.makeText(CreateSchedule.this, "일정 내용이 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
@@ -193,14 +212,6 @@ public class CreateSchedule extends AppCompatActivity {
             Toast.makeText(CreateSchedule.this, "일정 제목이 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
         }
         else {
-
-            String[] startDate = getDatestr.getText().toString().split("[.]");
-            String[] endDate = getDataend.getText().toString().split("[.]");
-
-            int strH = Integer.parseInt(Hourstr.getSelectedItem().toString());
-            int strM = Integer.parseInt(Mitstr.getSelectedItem().toString());
-            int endH = Integer.parseInt(HourEnd.getSelectedItem().toString());
-            int endM = Integer.parseInt(MitEnd.getSelectedItem().toString());
 
             Schedule schedule = new Schedule(title.getText().toString(), content.getText().toString(),
                     LocalDateTime.of(Integer.parseInt(startDate[0]), Integer.parseInt(startDate[1]), Integer.parseInt(startDate[2]), strH, strM),
