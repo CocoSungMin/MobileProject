@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -25,9 +26,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
+import java.security.acl.Group;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,21 +37,27 @@ public class CreateSchedule extends AppCompatActivity {
     private static final String TAG = "tag";
 
     private ArrayAdapter adapter;
+    private ArrayAdapter groupNameAdap;
     private Spinner Hourstr;
     private Spinner Mitstr;
-    private Spinner stramfm;
     private Spinner HourEnd;
     private Spinner MitEnd;
-    private Spinner endamfm;
     private Button getDatestr;
     private Button getDataend;
     private EditText title;
     private EditText content;
+    private Spinner groupSpinner;
+    private CheckBox groupCheck;
     //DatePickerDialog로 UI변경해볼까 해서 임시로 추가한 코드(64)
     EditText dateTimeIn;
 
+    String[] groupID;
+    String[] groupName;
+
     boolean isEdit = false;
     String editID;
+    String editGID;
+    String editGName;
 
     //날짜, 시간 선택했는지 확인하기 위한 값
     int flag1 = 0;
@@ -93,7 +100,21 @@ public class CreateSchedule extends AppCompatActivity {
         MitEnd = findViewById(R.id.endMinute);
         adapter = ArrayAdapter.createFromResource(this, R.array.Minute, android.R.layout.simple_spinner_dropdown_item);
         MitEnd.setAdapter(adapter);
-        //DatePickerDialog로 UI변경해볼까 해서 임시로 추가한 코드(104~109)
+
+        groupCheck = findViewById(R.id.group_checkbox);
+        groupCheck.setOnClickListener(new CheckBox.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox) v).isChecked()) {
+                    groupSpinner.setVisibility(View.VISIBLE);
+                } else {
+                    groupSpinner.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        groupSpinner = findViewById(R.id.group_spinner);
+
         dateTimeIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,24 +122,46 @@ public class CreateSchedule extends AppCompatActivity {
             }
         });
 
-        //일정 수정으로 왔을 시
+
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
-            isEdit = true;
             Schedule sch = (Schedule) bundle.getSerializable("selSchedule");
-            editID = sch.getID();
+            if (sch != null) { // 수정시
+                isEdit = true;
+                editID = sch.getID();
 
-            title.setText(sch.getTitle());
-            content.setText(sch.getContent());
+                title.setText(sch.getTitle());
+                content.setText(sch.getContent());
 
-            getDatestr.setText(sch.startDateToString());
-            getDataend.setText(sch.endDateToString());
+                getDatestr.setText(sch.startDateToString());
+                getDataend.setText(sch.endDateToString());
 
-            Hourstr.setSelection(sch.startTimeByClass().getHour());
-            Mitstr.setSelection(sch.startTimeByClass().getMinute() / 5);
-            HourEnd.setSelection(sch.endTimeByClass().getHour());
-            MitEnd.setSelection(sch.endTimeByClass().getMinute() / 5);
+                Hourstr.setSelection(sch.startTimeByClass().getHour());
+                Mitstr.setSelection(sch.startTimeByClass().getMinute() / 5);
+                HourEnd.setSelection(sch.endTimeByClass().getHour());
+                MitEnd.setSelection(sch.endTimeByClass().getMinute() / 5);
+
+
+                editGID = bundle.getString("gid");
+                editGName = bundle.getString("gName");
+                if (editGID != null) { //그룹 일정 수정시
+                    String[] gn = {editGName};
+                    groupNameAdap = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, gn);
+                    groupCheck.setChecked(true);
+                    groupCheck.setEnabled(false);
+                    groupSpinner.setAdapter(groupNameAdap);
+                    groupSpinner.setVisibility(View.VISIBLE);
+                    //groupSpinner.setClickable(false);
+                    groupSpinner.setEnabled(false);
+                }
+            } else { // 그냥
+                groupID = bundle.getStringArray("groupID");
+                groupName = bundle.getStringArray("groupName");
+
+                groupNameAdap = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, groupName);
+                groupSpinner.setAdapter(groupNameAdap);
+            }
         }
     }
 
@@ -181,8 +224,6 @@ public class CreateSchedule extends AppCompatActivity {
     }
 
     public void registerSchedule(View v) {
-
-
         String[] startDate = getDatestr.getText().toString().split("[.]");
         String[] endDate = getDataend.getText().toString().split("[.]");
 
@@ -194,82 +235,138 @@ public class CreateSchedule extends AppCompatActivity {
         //오류 메세지 출력
         if (flag1 != 2 && !isEdit) {
             Toast.makeText(CreateSchedule.this, "일정 날짜가 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
-        }
-        else if (getDatestr.getText().toString().equals("") || getDataend.getText().toString().equals("") ) {
+        } else if (getDatestr.getText().toString().equals("") || getDataend.getText().toString().equals("")) {
             Toast.makeText(CreateSchedule.this, "일정 날짜가 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
-        }
-        else if (Integer.parseInt(startDate[1] + startDate[2]) - Integer.parseInt(endDate[1] + endDate[2]) > 0) {
+        } else if (Integer.parseInt(startDate[1] + startDate[2]) - Integer.parseInt(endDate[1] + endDate[2]) > 0) {
             Toast.makeText(CreateSchedule.this, "일정 날짜가 정상적으로 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
-        }
-        else if (Integer.parseInt(startDate[1] + startDate[2]) - Integer.parseInt(endDate[1] + endDate[2]) == 0 &&
-                ((strH - endH > 0)||((strH - endH == 0)&&(strM - endM > 0)))) {
+        } else if (Integer.parseInt(startDate[1] + startDate[2]) - Integer.parseInt(endDate[1] + endDate[2]) == 0 &&
+                ((strH - endH > 0) || ((strH - endH == 0) && (strM - endM > 0)))) {
             Toast.makeText(CreateSchedule.this, "시간이 정상적으로 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
-        }
-        else if (content.getText().toString().equals("")) {
+        } else if (content.getText().toString().equals("")) {
             Toast.makeText(CreateSchedule.this, "일정 내용이 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
-        }
-        else if (title.getText().toString().equals("")) {
+        } else if (title.getText().toString().equals("")) {
             Toast.makeText(CreateSchedule.this, "일정 제목이 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
 
             Schedule schedule = new Schedule(title.getText().toString(), content.getText().toString(),
                     LocalDateTime.of(Integer.parseInt(startDate[0]), Integer.parseInt(startDate[1]), Integer.parseInt(startDate[2]), strH, strM),
                     LocalDateTime.of(Integer.parseInt(endDate[0]), Integer.parseInt(endDate[1]), Integer.parseInt(endDate[2]), endH, endM));
 
-            ////////////////////////////////////////////
+            //////////////////////////////////////////////
 
-            String id = null;
-            FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
-            if (user1 != null) {
-                String uid = user1.getUid();
-                id = uid;
-            }
-
-            if (id != null) {
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                Map<String, Object> user = new HashMap<>();
-
-                user.put("schedule", schedule);
-
-                final String finalId = id;
-                if (isEdit) {//수정일 경우
-                    db.collection(finalId).document(editID).set(schedule, SetOptions.merge())
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                                    Toast.makeText(CreateSchedule.this, "일정이 수정되었습니다.", Toast.LENGTH_SHORT).show();
-                                    finish();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error writing document", e);
-                                }
-                            });
-                } else {// 그냥 추가일 경우
-                    db.collection(finalId).document()
-                            .set(schedule, SetOptions.merge())
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d(TAG, "DocumentSnapshot successfully written!");
-                                    Toast.makeText(CreateSchedule.this, "일정이 등록되었습니다.", Toast.LENGTH_SHORT).show();
-                                    finish();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error writing document", e);
-                                }
-                            });
+            if (!groupCheck.isChecked()) { // 개인 일정 추가 수정
+                String id = null;
+                FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
+                if (user1 != null) {
+                    String uid = user1.getUid();
+                    id = uid;
                 }
-            } else {
-                Toast.makeText(this, "Fail", Toast.LENGTH_SHORT);
+
+                if (id != null) {
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    Map<String, Object> user = new HashMap<>();
+
+                    user.put("schedule", schedule);
+
+                    final String finalId = id;
+                    if (isEdit) {//수정일 경우
+                        db.collection(finalId).document(editID).set(schedule, SetOptions.merge())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                        Toast.makeText(CreateSchedule.this, "일정이 수정되었습니다.", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+                    } else {// 그냥 추가일 경우
+                        db.collection(finalId).document()
+                                .set(schedule, SetOptions.merge())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                        Toast.makeText(CreateSchedule.this, "일정이 등록되었습니다.", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+                    }
+                } else {
+                    Toast.makeText(this, "Fail", Toast.LENGTH_SHORT).show();
+                }
+
+
+            } else { // 그룹 일정 추가 수정
+                int groupIDIndex = groupSpinner.getSelectedItemPosition();
+
+                String id = null;
+                FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
+                if (user1 != null) {
+                    String uid = user1.getUid();
+                    id = uid;
+                }
+
+                if (id != null) {
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    Map<String, Object> user = new HashMap<>();
+
+                    user.put("schedule", schedule);
+
+                    final String finalId = id;
+                    if (isEdit) {//수정일 경우
+                        db.collection("Group").document(editGID)
+                                .collection("GroupSchedule").document(editID).set(schedule, SetOptions.merge())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                        Toast.makeText(CreateSchedule.this, "일정이 수정되었습니다.", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+                    } else {// 그냥 추가일 경우
+                        db.collection("Group").document(editGID)
+                                .collection("GroupSchedule").document()
+                                .set(schedule, SetOptions.merge())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                        Toast.makeText(CreateSchedule.this, "일정이 등록되었습니다.", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+                    }
+                } else {
+                    Toast.makeText(this, "Fail", Toast.LENGTH_SHORT).show();
+                }
             }
+
+            //////////////////////////////////////////////
         }
     }
 }

@@ -40,4 +40,16 @@ public class GroupSchedule extends Schedule{
     public String getGroupName() {
         return groupName;
     }
+
+    public boolean equals(Object o) {
+        if (super.equals(o))
+            return true;
+
+        if (o instanceof GroupSchedule) {
+            if (super.getID().equals(((GroupSchedule) o).getID()))
+                return true;
+        }
+
+        return false;
+    }
 }

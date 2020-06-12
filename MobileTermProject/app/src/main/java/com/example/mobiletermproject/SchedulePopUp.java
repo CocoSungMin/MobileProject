@@ -27,6 +27,7 @@ public class SchedulePopUp extends Activity {
     TextView popUpSheetContent;
     TextView groupNameWin;
     TextView groupName;
+    boolean isGroup = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,8 @@ public class SchedulePopUp extends Activity {
         popUpSheetContent.setText(schedule.getContent());
 
         // 그룹 스케줄일 경우
-        if(schedule instanceof GroupSchedule){
+        if (schedule instanceof GroupSchedule) {
+            isGroup = true;
             groupNameWin.setVisibility(View.VISIBLE);
             groupName.setVisibility(View.VISIBLE);
             groupName.setText(((GroupSchedule) schedule).getGroupName());
@@ -70,8 +72,13 @@ public class SchedulePopUp extends Activity {
                 Bundle bundle = new Bundle();
 
                 bundle.putSerializable("selSchedule", schedule);
-                intent.putExtras(bundle);
 
+                if (isGroup) { // 그룹일경우
+                    bundle.putString("gid", ((GroupSchedule) schedule).getGroupID());
+                    bundle.putString("gName", ((GroupSchedule) schedule).getGroupName());
+                }
+
+                intent.putExtras(bundle);
                 startActivity(intent);
                 finish();
             }
@@ -88,20 +95,40 @@ public class SchedulePopUp extends Activity {
                 }
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-                db.collection(id).document(schedule.getID()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("dbtest", "DocumentSnapshot successfully deleted!");
-                        Toast.makeText(SchedulePopUp.super.getApplicationContext(),"일정 삭제",Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("dbtest", "Error deleting document", e);
-                        Toast.makeText(SchedulePopUp.super.getApplicationContext(),"일정 삭제에 실패하였습니다.",Toast.LENGTH_SHORT).show();
-                    }
-                });
+
+                if (isGroup) {
+                    db.collection("Group").document(((GroupSchedule) schedule).getGroupID())
+                            .collection("GroupSchedule").document(schedule.getID()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d("dbtest", "DocumentSnapshot successfully deleted!");
+                            Toast.makeText(SchedulePopUp.super.getApplicationContext(), "일정 삭제", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w("dbtest", "Error deleting document", e);
+                            Toast.makeText(SchedulePopUp.super.getApplicationContext(), "일정 삭제에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                } else {
+                    db.collection(id).document(schedule.getID()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d("dbtest", "DocumentSnapshot successfully deleted!");
+                            Toast.makeText(SchedulePopUp.super.getApplicationContext(), "일정 삭제", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w("dbtest", "Error deleting document", e);
+                            Toast.makeText(SchedulePopUp.super.getApplicationContext(), "일정 삭제에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         });
     }

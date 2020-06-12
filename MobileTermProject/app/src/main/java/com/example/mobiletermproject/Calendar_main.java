@@ -31,9 +31,11 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -63,10 +65,13 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
     BottomSheetBehavior bottomSheetBehavior;
     TextView botSheetDate;
     ArrayList<Schedule> schedules = new ArrayList<>();//디비에서 불러온 스케줄들 다 여기 있습니다.
+    ArrayList<GroupSchedule> groupSchedules = new ArrayList<>();// 그룹 스케쥴
     Map<String, String> joinedGroups = new HashMap<>();// 가입된 그룹 / key: id, value: name
+    Map<String, ListenerRegistration> groupSCHListeners = new HashMap<>();
 
     CalendarDay selectedDay;
     EventDecorator eventDecorator;
+    EventDecorator groupEventDecorator;
     String userName;
     String userEmail;
     Uri userPhoto;
@@ -86,7 +91,7 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
             userName = bundle.getString("Name");
             userEmail = bundle.getString("Email");
             userPhoto = bundle.getParcelable("Photo");
-            joinedGroups = ((ArrayList<Map<String, String>>)bundle.getSerializable("groups")).get(0);
+            joinedGroups = ((ArrayList<Map<String, String>>) bundle.getSerializable("groups")).get(0);
         }
         // 오늘 설정
         selectedDay = CalendarDay.today();
@@ -110,16 +115,16 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         //drawer menu listview에 정보 표기
         Collection<String> Gm = joinedGroups.values();
         final ArrayList<String> gList = new ArrayList<String>(Gm);
-        menuListviewAdapter Gdapter = new menuListviewAdapter(getApplicationContext(),gList);
+        menuListviewAdapter Gdapter = new menuListviewAdapter(getApplicationContext(), gList);
         groupList = findViewById(R.id.groupList);
         groupList.setAdapter(Gdapter);
         groupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), gList.get(position)+" 화면으로 전환", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), gList.get(position) + " 화면으로 전환", Toast.LENGTH_SHORT).show();
             }
-        });;
-
+        });
+        ;
 
 
         //drawer_header에 유저 정보 입력하는 코드 99~107
@@ -148,7 +153,8 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         calenderView.addDecorators(
                 new SundayDecorator(),
                 new SaturdayDecorator(),
-                eventDecorator = new EventDecorator(this, schedules)
+                eventDecorator = new EventDecorator(this, schedules, false),
+                groupEventDecorator = new EventDecorator(this, groupSchedules, true)
         );
 
         calenderView.setOnDateChangedListener(new OnDateSelectedListener() {
@@ -194,6 +200,12 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Calendar_main.this, CreateSchedule.class);
+                Bundle bundle = new Bundle();
+
+                bundle.putStringArray("groupID", joinedGroups.keySet().toArray(new String[joinedGroups.size()]));
+                bundle.putStringArray("groupName", joinedGroups.values().toArray(new String[joinedGroups.size()]));
+
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
@@ -208,8 +220,12 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         super.onResume();
 
         calenderView.removeDecorator(eventDecorator);
-        eventDecorator = new EventDecorator(this, schedules);
+        eventDecorator = new EventDecorator(this, schedules, false);
         calenderView.addDecorators(eventDecorator);
+
+        calenderView.removeDecorator(groupEventDecorator);
+        eventDecorator = new EventDecorator(this, groupSchedules, true);
+        calenderView.addDecorators(groupEventDecorator);
 
         updateBotSheet(selectedDay);
         calenderView.setDateSelected(selectedDay, true);
@@ -243,7 +259,12 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showPopUp(schedules.get(schedules.indexOf(new Schedule(selectedSchedule.get(position).ID))));
+                if (schedules.contains(new Schedule(selectedSchedule.get(position).ID))) {
+                    showPopUp(schedules.get(schedules.indexOf(new Schedule(selectedSchedule.get(position).ID))));
+
+                } else if (groupSchedules.contains(new Schedule(selectedSchedule.get(position).ID))) {
+                    showPopUp(groupSchedules.get(groupSchedules.indexOf(new Schedule(selectedSchedule.get(position).ID))));
+                }
             }
         });
     }
@@ -252,6 +273,18 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         ArrayList<ItemData> list = new ArrayList<>();
 
         for (Schedule sch : schedules) {
+            if (sch.containsDate(d)) {
+                ItemData item = new ItemData();
+                item.ID = sch.getID();
+                item.Title = sch.getTitle();
+                item.Time = sch.getStartTime() + " ~ " + sch.getEndTime();
+                item.Content = sch.getContent();
+
+                list.add(item);
+            }
+        }
+
+        for (Schedule sch : groupSchedules) {
             if (sch.containsDate(d)) {
                 ItemData item = new ItemData();
                 item.ID = sch.getID();
@@ -299,18 +332,61 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         db.collection("Group").whereArrayContains("Member", id).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if(e!= null){
+                if (e != null) {
                     Log.d("Update Schedules", "Listen failed.", e);
                 }
-                if (queryDocumentSnapshots != null) {
-                    joinedGroups.clear();
-                    for(QueryDocumentSnapshot doc : queryDocumentSnapshots){
-                        //Log.d("dbtest", doc.getId() + "-->" + doc.getData());
-                        joinedGroups.put(doc.getId(), doc.get("GroupName").toString());
+                for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
+                    switch (dc.getType()) {
+                        case ADDED:
+                            joinedGroups.put(dc.getDocument().getId(), dc.getDocument().get("GroupName").toString());
+                            updateGroupSchedule(dc.getDocument().getId(), dc.getDocument().get("GroupName").toString());
+                            break;
+                        case REMOVED:
+                            joinedGroups.remove(dc.getDocument().getId());
+                            groupSCHListeners.get(dc.getDocument().getId()).remove();
+                            groupSCHListeners.remove(dc.getDocument().getId());
+                            break;
                     }
                 }
             }
         });
+    }
+
+    public void updateGroupSchedule(final String Gid, final String GName) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        ListenerRegistration listenerRegistration = db.collection("Group").document(Gid).collection("GroupSchedule")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.d("Update Group Schedules", "Listen failed.", e);
+                        }
+
+                        for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
+                            switch (dc.getType()) {
+                                case ADDED:
+                                    Schedule Asch = dc.getDocument().toObject(Schedule.class);
+                                    Asch.setID(dc.getDocument().getId());
+                                    GroupSchedule Agsch = new GroupSchedule(Gid, GName, Asch);
+                                    groupSchedules.add(Agsch);
+                                    break;
+                                case MODIFIED:
+                                    Schedule Msch = dc.getDocument().toObject(Schedule.class);
+                                    Msch.setID(dc.getDocument().getId());
+                                    GroupSchedule Mgsch = new GroupSchedule(Gid, GName, Msch);
+                                    groupSchedules.set(groupSchedules.indexOf(Mgsch), Mgsch);
+                                    break;
+                                case REMOVED:
+                                    Schedule Dsch = dc.getDocument().toObject(Schedule.class);
+                                    Dsch.setID(dc.getDocument().getId());
+                                    groupSchedules.remove(new GroupSchedule(Gid, GName, Dsch));
+                                    break;
+                            }
+                        }
+                    }
+                });
+        groupSCHListeners.put(Gid, listenerRegistration);
     }
 
     public void showPopUp(Schedule schedule) {
@@ -338,14 +414,15 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     // 그룹 추가 버튼
-    public void addGroup(View view){
+    public void addGroup(View view) {
         Intent intent = new Intent(Calendar_main.this, JoinGroup.class);
         startActivity(intent);
     }
 
     // 요 아래 전부다 프로필 사진 가져오는 거입니다.
-    private class DownloadFilesTask extends AsyncTask<String,Void, Bitmap> {
+    private class DownloadFilesTask extends AsyncTask<String, Void, Bitmap> {
         @Override
         protected Bitmap doInBackground(String... strings) {
             Bitmap bmp = null;
