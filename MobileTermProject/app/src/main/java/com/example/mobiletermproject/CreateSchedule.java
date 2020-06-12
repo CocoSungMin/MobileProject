@@ -38,10 +38,6 @@ public class CreateSchedule extends AppCompatActivity {
 
     private ArrayAdapter adapter;
     private ArrayAdapter groupNameAdap;
-    private Spinner Hourstr;
-    private Spinner Mitstr;
-    private Spinner HourEnd;
-    private Spinner MitEnd;
     private Button getDatestr;
     private Button getDataend;
     private EditText title;
@@ -68,12 +64,9 @@ public class CreateSchedule extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_schedule);
-        //DatePickerDialog로 UI변경해볼까 해서 임시로 추가한 코드(72~23)
-        dateTimeIn = findViewById(R.id.date_time_input);
-        dateTimeIn.setInputType(InputType.TYPE_NULL);
 
         getDataend = findViewById(R.id.endDayButton);
-        getDatestr = findViewById(R.id.DayButton);
+        getDatestr = findViewById(R.id.startDayButton);
 
         title = findViewById(R.id.schduleTitle);
         content = findViewById(R.id.schduleContent);
@@ -84,22 +77,6 @@ public class CreateSchedule extends AppCompatActivity {
         //stramfm.setAdapter(adapter);
         //endamfm.setAdapter(adapter);
 
-        Hourstr = findViewById(R.id.Hour);
-        adapter = ArrayAdapter.createFromResource(this, R.array.Hour, android.R.layout.simple_spinner_dropdown_item);
-        Hourstr.setAdapter(adapter);
-
-        Mitstr = findViewById(R.id.Minute);
-        adapter = ArrayAdapter.createFromResource(this, R.array.Minute, android.R.layout.simple_spinner_dropdown_item);
-        Mitstr.setAdapter(adapter);
-
-
-        HourEnd = findViewById(R.id.endHour);
-        adapter = ArrayAdapter.createFromResource(this, R.array.Hour, android.R.layout.simple_spinner_dropdown_item);
-        HourEnd.setAdapter(adapter);
-
-        MitEnd = findViewById(R.id.endMinute);
-        adapter = ArrayAdapter.createFromResource(this, R.array.Minute, android.R.layout.simple_spinner_dropdown_item);
-        MitEnd.setAdapter(adapter);
 
         groupCheck = findViewById(R.id.group_checkbox);
         groupCheck.setOnClickListener(new CheckBox.OnClickListener() {
@@ -115,10 +92,16 @@ public class CreateSchedule extends AppCompatActivity {
 
         groupSpinner = findViewById(R.id.group_spinner);
 
-        dateTimeIn.setOnClickListener(new View.OnClickListener() {
+        getDatestr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDateTimeDialog(dateTimeIn);
+                showDateTimeDialog(getDatestr);
+            }
+        });
+        getDataend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDateTimeDialog(getDataend);
             }
         });
 
@@ -137,10 +120,6 @@ public class CreateSchedule extends AppCompatActivity {
                 getDatestr.setText(sch.startDateToString());
                 getDataend.setText(sch.endDateToString());
 
-                Hourstr.setSelection(sch.startTimeByClass().getHour());
-                Mitstr.setSelection(sch.startTimeByClass().getMinute() / 5);
-                HourEnd.setSelection(sch.endTimeByClass().getHour());
-                MitEnd.setSelection(sch.endTimeByClass().getMinute() / 5);
 
 
                 editGID = bundle.getString("gid");
@@ -165,8 +144,8 @@ public class CreateSchedule extends AppCompatActivity {
         }
     }
 
-    //DatePickerDialog로 UI변경해볼까 해서 임시로 추가한 코드(113~136)
-    private void showDateTimeDialog(final EditText date_time_in) {
+    //DatePickerDialog
+    private void showDateTimeDialog(final Button date_time_in) {
         final Calendar calendar = Calendar.getInstance();
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -179,7 +158,7 @@ public class CreateSchedule extends AppCompatActivity {
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         calendar.set(Calendar.MINUTE, minute);
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd HH:mm");
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy/MM/dd HH:mm");
                         date_time_in.setText(simpleDateFormat.format(calendar.getTime()));
 
                     }
@@ -208,7 +187,7 @@ public class CreateSchedule extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                getDatestr = findViewById(R.id.DayButton);
+                getDatestr = findViewById(R.id.startDayButton);
                 String temp = data.getStringExtra("result");
                 flag1 = 1;
                 getDatestr.setText(temp);
@@ -224,18 +203,23 @@ public class CreateSchedule extends AppCompatActivity {
     }
 
     public void registerSchedule(View v) {
-        String[] startDate = getDatestr.getText().toString().split("[.]");
-        String[] endDate = getDataend.getText().toString().split("[.]");
+        String start = getDatestr.getText().toString().substring(0,8);
+        String end=getDataend.getText().toString().substring(0,8);
+        String[] startDate = start.split("[/]");
+        String[] endDate = end.split("[/]");
+        startDate[0]="20".concat(startDate[0]);
+        endDate[0]="20".concat(endDate[0]);
+        int strH = Integer.parseInt(getDatestr.getText().toString().substring(9,11));
+        int strM = Integer.parseInt(getDatestr.getText().toString().substring(12,14));
+        int endH = Integer.parseInt(getDataend.getText().toString().substring(9,11));
+        int endM = Integer.parseInt(getDataend.getText().toString().substring(12,14));
 
-        int strH = Integer.parseInt(Hourstr.getSelectedItem().toString());
-        int strM = Integer.parseInt(Mitstr.getSelectedItem().toString());
-        int endH = Integer.parseInt(HourEnd.getSelectedItem().toString());
-        int endM = Integer.parseInt(MitEnd.getSelectedItem().toString());
 
         //오류 메세지 출력
-        if (flag1 != 2 && !isEdit) {
+        /*if (flag1 != 2 && !isEdit) {
             Toast.makeText(CreateSchedule.this, "일정 날짜가 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
-        } else if (getDatestr.getText().toString().equals("") || getDataend.getText().toString().equals("")) {
+        } else*/
+        if (getDatestr.getText().toString().equals("") || getDataend.getText().toString().equals("")) {
             Toast.makeText(CreateSchedule.this, "일정 날짜가 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
         } else if (Integer.parseInt(startDate[1] + startDate[2]) - Integer.parseInt(endDate[1] + endDate[2]) > 0) {
             Toast.makeText(CreateSchedule.this, "일정 날짜가 정상적으로 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
