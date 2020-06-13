@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -26,20 +25,20 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
-import java.security.acl.Group;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CreateSchedule extends AppCompatActivity {
     private static final String TAG = "tag";
+    private static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-    private ArrayAdapter adapter;
     private ArrayAdapter groupNameAdap;
     private Button getDatestr;
-    private Button getDataend;
+    private Button getDateend;
     private EditText title;
     private EditText content;
     private Spinner groupSpinner;
@@ -63,20 +62,27 @@ public class CreateSchedule extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_schedule);
 
-        getDataend = findViewById(R.id.endDayButton);
+        getDateend = findViewById(R.id.endDayButton);
         getDatestr = findViewById(R.id.startDayButton);
 
         title = findViewById(R.id.schduleTitle);
         content = findViewById(R.id.schduleContent);
 
-        //stramfm = findViewById(R.id.stramfm);
-        //endamfm = findViewById(R.id.endamfm);
-        //adapter = ArrayAdapter.createFromResource(this, R.array.amfm, android.R.layout.simple_spinner_dropdown_item);
-        //stramfm.setAdapter(adapter);
-        //endamfm.setAdapter(adapter);
-
-
         groupCheck = findViewById(R.id.group_checkbox);
+        groupSpinner = findViewById(R.id.group_spinner);
+
+        getDatestr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDateTimeDialog(getDatestr);
+            }
+        });
+        getDateend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDateTimeDialog(getDateend);
+            }
+        });
         groupCheck.setOnClickListener(new CheckBox.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,22 +93,6 @@ public class CreateSchedule extends AppCompatActivity {
                 }
             }
         });
-
-        groupSpinner = findViewById(R.id.group_spinner);
-
-        getDatestr.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDateTimeDialog(getDatestr);
-            }
-        });
-        getDataend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDateTimeDialog(getDataend);
-            }
-        });
-
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -115,13 +105,12 @@ public class CreateSchedule extends AppCompatActivity {
                 title.setText(sch.getTitle());
                 content.setText(sch.getContent());
 
-                getDatestr.setText(sch.startDateToString());
-                getDataend.setText(sch.endDateToString());
-
-
+                getDatestr.setText(sch.getStartTime().substring(2, 16));
+                getDateend.setText(sch.getEndTime().substring(2, 16));
 
                 editGID = bundle.getString("gid");
                 editGName = bundle.getString("gName");
+
                 if (editGID != null) { //그룹 일정 수정시
                     String[] gn = {editGName};
                     groupNameAdap = new ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, gn);
@@ -156,16 +145,16 @@ public class CreateSchedule extends AppCompatActivity {
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         calendar.set(Calendar.MINUTE, minute);
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy/MM/dd HH:mm");
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd HH:mm");
                         date_time_in.setText(simpleDateFormat.format(calendar.getTime()));
 
                     }
                 };
-                new TimePickerDialog(CreateSchedule.this,R.style.my_dialog_theme, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show();
+                new TimePickerDialog(CreateSchedule.this, R.style.my_dialog_theme, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show();
 
             }
         };
-        new DatePickerDialog(CreateSchedule.this,R.style.my_dialog_theme, dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+        new DatePickerDialog(CreateSchedule.this, R.style.my_dialog_theme, dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     public void mOnPopupClick(View v) {
@@ -192,47 +181,36 @@ public class CreateSchedule extends AppCompatActivity {
             }
         } else if (requestCode == 2) {
             if (resultCode == RESULT_OK) {
-                getDataend = findViewById(R.id.endDayButton);
+                getDateend = findViewById(R.id.endDayButton);
                 String temp = data.getStringExtra("result");
                 flag1 = 2;
-                getDataend.setText(temp);
+                getDateend.setText(temp);
             }
         }
     }
 
     public void registerSchedule(View v) {
-        String start = getDatestr.getText().toString().substring(0,8);
-        String end=getDataend.getText().toString().substring(0,8);
-        String[] startDate = start.split("[/]");
-        String[] endDate = end.split("[/]");
-        startDate[0]="20".concat(startDate[0]);
-        endDate[0]="20".concat(endDate[0]);
-        int strH = Integer.parseInt(getDatestr.getText().toString().substring(9,11));
-        int strM = Integer.parseInt(getDatestr.getText().toString().substring(12,14));
-        int endH = Integer.parseInt(getDataend.getText().toString().substring(9,11));
-        int endM = Integer.parseInt(getDataend.getText().toString().substring(12,14));
-
-
         //오류 메세지 출력
         /*if (flag1 != 2 && !isEdit) {
             Toast.makeText(CreateSchedule.this, "일정 날짜가 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
         } else*/
-        if (getDatestr.getText().toString().equals("") || getDataend.getText().toString().equals("")) {
-            Toast.makeText(CreateSchedule.this, "일정 날짜가 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
-        } else if (Integer.parseInt(startDate[1] + startDate[2]) - Integer.parseInt(endDate[1] + endDate[2]) > 0) {
-            Toast.makeText(CreateSchedule.this, "일정 날짜가 정상적으로 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
-        } else if (Integer.parseInt(startDate[1] + startDate[2]) - Integer.parseInt(endDate[1] + endDate[2]) == 0 &&
-                ((strH - endH > 0) || ((strH - endH == 0) && (strM - endM > 0)))) {
-            Toast.makeText(CreateSchedule.this, "시간이 정상적으로 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
+        if (getDatestr.getText().toString().charAt(0) == 'Y' || getDateend.getText().toString().charAt(0) == 'Y') {
+            Toast.makeText(CreateSchedule.this, "일정 시간이 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
         } else if (content.getText().toString().equals("")) {
             Toast.makeText(CreateSchedule.this, "일정 내용이 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
         } else if (title.getText().toString().equals("")) {
             Toast.makeText(CreateSchedule.this, "일정 제목이 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
         } else {
 
-            Schedule schedule = new Schedule(title.getText().toString(), content.getText().toString(),
-                    LocalDateTime.of(Integer.parseInt(startDate[0]), Integer.parseInt(startDate[1]), Integer.parseInt(startDate[2]), strH, strM),
-                    LocalDateTime.of(Integer.parseInt(endDate[0]), Integer.parseInt(endDate[1]), Integer.parseInt(endDate[2]), endH, endM));
+            LocalDateTime start = LocalDateTime.parse("20" + getDatestr.getText().toString(), dateFormat);
+            LocalDateTime end = LocalDateTime.parse("20" + getDateend.getText().toString(), dateFormat);
+
+            if (end.isBefore(start)) {
+                Toast.makeText(CreateSchedule.this, "일정 시간이 부적절합니다.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Schedule schedule = new Schedule(title.getText().toString(), content.getText().toString(), start, end);
 
             //////////////////////////////////////////////
 
