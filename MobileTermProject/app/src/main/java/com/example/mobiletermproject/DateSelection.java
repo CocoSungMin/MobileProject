@@ -18,8 +18,7 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import java.util.Calendar;
 
 public class DateSelection extends AppCompatActivity {
-
-    private String selection;
+    String selection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

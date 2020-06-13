@@ -36,17 +36,16 @@ public class CreateSchedule extends AppCompatActivity {
     private static final String TAG = "tag";
     private static DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-    private ArrayAdapter groupNameAdap;
-    private Button getDatestr;
-    private Button getDateend;
-    private EditText title;
-    private EditText content;
-    private Spinner groupSpinner;
-    private CheckBox groupCheck;
+    ArrayAdapter groupNameAdap;
+    Button getDatestr;
+    Button getDateend;
+    EditText title;
+    EditText content;
+    Spinner groupSpinner;
+    CheckBox groupCheck;
 
     String[] groupID;
     String[] groupName;
-
     boolean isEdit = false;
     String editID;
     String editGID;
@@ -303,7 +302,7 @@ public class CreateSchedule extends AppCompatActivity {
                                     }
                                 });
                     } else {// 그냥 추가일 경우
-                        db.collection("Group").document(editGID)
+                        db.collection("Group").document(groupID[groupIDIndex])
                                 .collection("GroupSchedule").document()
                                 .set(schedule, SetOptions.merge())
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {

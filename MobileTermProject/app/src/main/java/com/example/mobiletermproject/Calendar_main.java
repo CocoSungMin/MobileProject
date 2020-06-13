@@ -55,29 +55,28 @@ import java.util.Map;
 import java.util.Set;
 
 public class Calendar_main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    DrawerLayout drawerLayout;
-    ActionBarDrawerToggle actionBarDrawerToggle;
-    Toolbar toolbar;
-    NavigationView navigationView;
-
-    Menu menu;
-    MaterialCalendarView calenderView = null;
-    BottomSheetBehavior bottomSheetBehavior;
-    TextView botSheetDate;
+    /*DB 관련*/
     ArrayList<Schedule> schedules = new ArrayList<>();//디비에서 불러온 스케줄들 다 여기 있습니다.
     ArrayList<GroupSchedule> groupSchedules = new ArrayList<>();// 그룹 스케쥴
     Map<String, String> joinedGroups = new HashMap<>();// 가입된 그룹 / key: id, value: name
     Map<String, ListenerRegistration> groupSCHListeners = new HashMap<>();
 
+    /*Activity에서 가져오는 것들*/
+    Toolbar toolbar;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    ActionBarDrawerToggle actionBarDrawerToggle;
+    TextView botSheetDate;
+    MaterialCalendarView calenderView = null;
+    ListView groupList;
+
+    /*내부 변수*/
     CalendarDay selectedDay;
     EventDecorator eventDecorator;
     EventDecorator groupEventDecorator;
     String userName;
     String userEmail;
     Uri userPhoto;
-
-
-    ListView groupList;
 
 
     @Override
@@ -88,10 +87,11 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             schedules = (ArrayList<Schedule>) bundle.getSerializable("schedules");
+            joinedGroups = ((ArrayList<Map<String, String>>) bundle.getSerializable("groups")).get(0);
+            groupSchedules = (ArrayList<GroupSchedule>) bundle.getSerializable("groupschedules");
             userName = bundle.getString("Name");
             userEmail = bundle.getString("Email");
             userPhoto = bundle.getParcelable("Photo");
-            joinedGroups = ((ArrayList<Map<String, String>>) bundle.getSerializable("groups")).get(0);
         }
         // 오늘 설정
         selectedDay = CalendarDay.today();
@@ -124,7 +124,6 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
                 Toast.makeText(getApplicationContext(), gList.get(position) + " 화면으로 전환", Toast.LENGTH_SHORT).show();
             }
         });
-        ;
 
 
         //drawer_header에 유저 정보 입력하는 코드 99~107
@@ -142,6 +141,8 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         // calender set up
         calenderView.setTopbarVisible(true);
 
+        Log.d("dbtest", "calendar" + groupSchedules.toString());
+
         calenderView.state().edit()
                 .setFirstDayOfWeek(Calendar.SUNDAY)
                 .setMinimumDate(CalendarDay.from(2017, 0, 1))
@@ -153,9 +154,12 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         calenderView.addDecorators(
                 new SundayDecorator(),
                 new SaturdayDecorator(),
-                eventDecorator = new EventDecorator(this, schedules, false),
-                groupEventDecorator = new EventDecorator(this, groupSchedules, true)
+                groupEventDecorator = new EventDecorator(this, groupSchedules, true),
+                eventDecorator = new EventDecorator(this, schedules, false)
         );
+
+        Log.d("dbtest", "calendar end" + groupSchedules.toString());
+
 
         calenderView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
@@ -164,35 +168,6 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
                 selectedDay = date;
             }
         });
-
-
-//        Bottom Sheet 올릴 때 모션이 안좋아서 잠깐 빼뒀습니당
-//        //BottomSheet
-//        LinearLayout linearLayout = findViewById(R.id.schedule_bottom_sheet);
-//        bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
-//        //초기 높이 조절
-//        bottomSheetBehavior.setPeekHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,230,getResources().getDisplayMetrics()));
-//
-//        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-//            @Override
-//            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-//
-//            }
-//
-//            @Override
-//            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-//                //내려간 상태
-//                if(slideOffset == bottomSheet.SCREEN_STATE_OFF){
-//                    calenderView.state().edit().setCalendarDisplayMode(CalendarMode.MONTHS).commit();
-//                }
-//                //올라간 상태
-//                else if(slideOffset == bottomSheet.SCREEN_STATE_ON){
-//                    calenderView.state().edit().setCalendarDisplayMode(CalendarMode.WEEKS).commit();
-//                }
-//            }
-//        });
-        //////////////////////////////////////////////////////////////////////////////
-
 
         //스케쥴 추가 버튼
         Button btnAdd = findViewById(R.id.btnAddSchedule);
@@ -211,7 +186,6 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         });
 
         updateSchedules();
-
     }
 
 
@@ -224,7 +198,7 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         calenderView.addDecorators(eventDecorator);
 
         calenderView.removeDecorator(groupEventDecorator);
-        eventDecorator = new EventDecorator(this, groupSchedules, true);
+        groupEventDecorator = new EventDecorator(this, groupSchedules, true);
         calenderView.addDecorators(groupEventDecorator);
 
         updateBotSheet(selectedDay);
@@ -299,7 +273,6 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         return list;
     }
 
-
     // 디비 값 변동 생길시 자동 업데이트 (근데 너무 자주함...)
     public void updateSchedules() {
         String id = null;
@@ -352,7 +325,15 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         });
     }
 
+    boolean first = true;
+
     public void updateGroupSchedule(final String Gid, final String GName) {
+        if (first) {
+            first = false;
+            Log.d("dbtest", "first");
+            groupSchedules.clear();
+        }
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         ListenerRegistration listenerRegistration = db.collection("Group").document(Gid).collection("GroupSchedule")
