@@ -44,8 +44,6 @@ public class CreateSchedule extends AppCompatActivity {
     private EditText content;
     private Spinner groupSpinner;
     private CheckBox groupCheck;
-    //DatePickerDialog로 UI변경해볼까 해서 임시로 추가한 코드(64)
-    EditText dateTimeIn;
 
     String[] groupID;
     String[] groupName;
@@ -163,11 +161,11 @@ public class CreateSchedule extends AppCompatActivity {
 
                     }
                 };
-                new TimePickerDialog(CreateSchedule.this, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show();
+                new TimePickerDialog(CreateSchedule.this,R.style.my_dialog_theme, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show();
 
             }
         };
-        new DatePickerDialog(CreateSchedule.this, dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+        new DatePickerDialog(CreateSchedule.this,R.style.my_dialog_theme, dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     public void mOnPopupClick(View v) {
