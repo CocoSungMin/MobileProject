@@ -52,6 +52,15 @@ public class CreateGroup extends AppCompatActivity {
                 }
             }
         });
+
+        Button button_no = (Button) findViewById(R.id.bt_no);
+        button_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                finish();
+            }
+        });
     }
 
     //바깥영역 클릭 방지와 백 버튼 차단

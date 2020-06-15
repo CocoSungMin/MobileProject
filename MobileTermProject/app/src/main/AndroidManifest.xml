@@ -21,6 +21,8 @@
         <activity android:name=".Calendar_main" />
         <activity android:name=".ManageGroup" />
         <activity android:name=".CreateGroup" android:theme="@style/AppTheme.MyDialog"></activity>
+        <activity android:name=".Withdrawal" android:theme="@style/AppTheme.MyDialog"></activity>
+        <activity android:name=".ChangeGroupName" android:theme="@style/AppTheme.MyDialog"></activity>
         <activity android:name=".LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

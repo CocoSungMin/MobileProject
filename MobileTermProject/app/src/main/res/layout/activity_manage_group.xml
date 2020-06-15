@@ -16,6 +16,7 @@
         android:layout_gravity="center"
         android:fontFamily="@font/font"
         android:layout_marginTop="40dp"
+        android:id="@+id/groupName"
         android:text="그룹 이름"
         android:textColor="#ffffff"
         android:textSize="40sp" />
@@ -37,7 +38,6 @@
             android:drawablePadding="8dp"
             android:drawableTint="#E6FFFFFF"
             android:fontFamily="@font/font"
-            android:hint="그룹 아이디 들어갈 곳 "
             android:paddingLeft="12dp"
             android:textColor="@color/colorWhite"
             android:textColorHint="#E6FFFFFF" />
@@ -80,18 +80,17 @@
             android:textSize="25sp" />
 
         <TextView
-            android:id="@+id/GroupMaster"
+            android:id="@+id/groupMaster"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:fontFamily="@font/font"
-            android:text="모바일"
             android:textColor="#ffffff"
             android:textSize="25sp" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/joinGroupID"
+    <TextView
+        android:id="@+id/groupMember"
         android:layout_width="300dp"
         android:layout_height="200dp"
         android:layout_gravity="center"
@@ -99,8 +98,8 @@
         android:background="@drawable/group_member"
         android:drawablePadding="8dp"
         android:drawableTint="#E6FFFFFF"
+        android:padding="15dp"
         android:fontFamily="@font/font"
-        android:text="오성원(lee@com)\n이성민(lee@com)\n이수빈(lee@com)\n이재윤(lee@com)\n"
         android:paddingLeft="12dp"
         android:textSize="25sp"
         android:textColor="@color/colorWhite"
@@ -125,7 +124,7 @@
 
         <TableRow>
         <Button
-            android:id="@+id/RecommendSch"
+            android:id="@+id/recommendSch"
             android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="60dp"
@@ -137,7 +136,7 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/ChangeName"
+            android:id="@+id/changeName"
             android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -151,7 +150,7 @@
 
         <TableRow>
             <Button
-                android:id="@+id/ChangeMaster"
+                android:id="@+id/changeMaster"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"

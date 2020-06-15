@@ -157,7 +157,7 @@
             android:layout_height="70dp"
             android:layout_gravity="center"
             android:layout_marginTop="7dp"
-            android:background="@drawable/login_id_input"
+            android:background="@drawable/group_member"
             android:drawableTint="#E6FFFFFF"
             android:fontFamily="@font/font"
             android:hint="내용을 입력하세요."
