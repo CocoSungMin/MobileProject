@@ -18,8 +18,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterActicity extends AppCompatActivity {
-    private ArrayAdapter adapter;
-    private Spinner spinner;
     private EditText emailJoin;
     private EditText pwdJoin;
     private Button registerBtn;
@@ -31,10 +29,7 @@ public class RegisterActicity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register_acticity);
 
-        //직업 스피너
-        //spinner = (Spinner) findViewById(R.id.jobSpinner);
-        //adapter = ArrayAdapter.createFromResource(this, R.array.job, android.R.layout.simple_spinner_dropdown_item);
-        //spinner.setAdapter(adapter);
+
 
         emailJoin = (EditText) findViewById(R.id.idText);
         pwdJoin = (EditText) findViewById(R.id.passwordText);

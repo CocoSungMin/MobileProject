@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background"
+    android:orientation="vertical"
+    tools:context=".JoinGroup">
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/font"
+        android:layout_marginTop="40dp"
+        android:text="그룹 이름"
+        android:textColor="#ffffff"
+        android:textSize="40sp" />
+
+
+
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <EditText
+            android:id="@+id/GroupID"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:background="@drawable/login_id_input"
+            android:drawableLeft="@drawable/ic_group_add"
+            android:drawablePadding="8dp"
+            android:drawableTint="#E6FFFFFF"
+            android:fontFamily="@font/font"
+            android:hint="그룹 아이디 들어갈 곳 "
+            android:paddingLeft="12dp"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="#E6FFFFFF" />
+
+        <Button
+        android:id="@+id/copyBtn"
+        android:layout_marginLeft="10dp"
+        android:layout_width="55dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:background="@drawable/login_button"
+        android:fontFamily="@font/font"
+        android:text="copy"
+        android:textColor="#ffffff"
+        android:textSize="18sp" />
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/font"
+        android:drawableStart="@drawable/ic_person_black_24dp"
+        android:text=" 구성원"
+        android:textColor="#ffffff"
+        android:textSize="35sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="70dp"
+            android:fontFamily="@font/font"
+            android:text="그룹장 :"
+            android:textColor="#ffffff"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/GroupMaster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/font"
+            android:text="모바일"
+            android:textColor="#ffffff"
+            android:textSize="25sp" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/joinGroupID"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/group_member"
+        android:drawablePadding="8dp"
+        android:drawableTint="#E6FFFFFF"
+        android:fontFamily="@font/font"
+        android:text="오성원(lee@com)\n이성민(lee@com)\n이수빈(lee@com)\n이재윤(lee@com)\n"
+        android:paddingLeft="12dp"
+        android:textSize="25sp"
+        android:textColor="@color/colorWhite"
+        android:textColorHint="#E6FFFFFF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:fontFamily="@font/font"
+        android:layout_marginTop="30dp"
+        android:drawableStart="@drawable/ic_mail_black_24dp"
+        android:text=" 그룹 메뉴"
+        android:textColor="#ffffff"
+        android:textSize="35sp" />
+
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow>
+        <Button
+            android:id="@+id/RecommendSch"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/login_button"
+            android:fontFamily="@font/font"
+            android:text="그룹 일정 추천"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/ChangeName"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/login_button"
+            android:fontFamily="@font/font"
+            android:text="그룹명 변경"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+        </TableRow>
+
+        <TableRow>
+            <Button
+                android:id="@+id/ChangeMaster"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_button"
+                android:fontFamily="@font/font"
+                android:text="관리자 전환"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/withdrawal"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_button"
+                android:fontFamily="@font/font"
+                android:text="그룹 탈퇴"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

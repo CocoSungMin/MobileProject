@@ -3,16 +3,13 @@ package com.example.mobiletermproject;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -27,7 +24,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,7 +48,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class Calendar_main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     /*DB 관련*/
@@ -121,7 +116,8 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         groupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), gList.get(position) + " 화면으로 전환", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Calendar_main.this, ManageGroup.class);
+                startActivity(intent);
             }
         });
 
@@ -383,7 +379,6 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.group1) {
-            Toast.makeText(getApplicationContext(), "그룹1 화면으로 전환", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.group2) {
             Toast.makeText(getApplicationContext(), "그룹2 화면으로 전환", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.add_group) {

@@ -34,7 +34,7 @@ public class CreateGroup extends AppCompatActivity {
         setContentView(R.layout.activity_create_group);
 
         final EditText gr_name = (EditText) findViewById(R.id.gr_name);
-        final EditText gr_number = (EditText) findViewById(R.id.gr_number);
+       // final EditText gr_number = (EditText) findViewById(R.id.gr_number); 그룹 인원 수
 
         //확인버튼 이벤트
         Button button_ok = (Button) findViewById(R.id.bt_ok);
@@ -43,7 +43,7 @@ public class CreateGroup extends AppCompatActivity {
             public void onClick(View view) {
                 //데이터 전달하고 액티비티 닫기
                 String name = gr_name.getText().toString();
-                String number = gr_number.getText().toString();
+            //    String number = gr_number.getText().toString(); 그룹 인원 수
 
                 if (name != "") {
                     createGroup(name);

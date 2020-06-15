@@ -19,6 +19,7 @@
         <activity android:name=".JoinGroup"/>
         <activity android:name=".Loading" />
         <activity android:name=".Calendar_main" />
+        <activity android:name=".ManageGroup" />
         <activity android:name=".CreateGroup" android:theme="@style/AppTheme.MyDialog"></activity>
         <activity android:name=".LoginActivity" >
             <intent-filter>
