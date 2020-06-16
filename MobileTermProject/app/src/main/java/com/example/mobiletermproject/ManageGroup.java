@@ -40,6 +40,7 @@ public class ManageGroup extends AppCompatActivity {
     String managerId;
     ArrayList<String> memberId;
     ArrayList<String> memberName;
+    String membersetting ="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +76,6 @@ public class ManageGroup extends AppCompatActivity {
 
         // 그룹장 불러와서 set 해주세요
         masterName.setText("모바일");
-
-        // 그룹 구성원 불러와서 set 해주세요 (계정 아이디까지 가능?)
-        member.setText("오성원(lee@com)\n이성민(lee@com)\n이수빈(lee@com)\n이재윤(lee@com)\n");
 
 
         copyBtn.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +138,12 @@ public class ManageGroup extends AppCompatActivity {
                     memberName = (ArrayList<String>) task.getResult().get("MemberName");
 
                     masterName.setText(memberName.get(memberId.indexOf(managerId)));
+
+                    for(int i =0 ;i<memberName.size();i++){
+                        membersetting+= memberName.get(i);
+                        membersetting+="\n";
+                    }
+                    member.setText(membersetting);
 
                 } else {
                     Log.e("ManageGroup", "Get document error.", task.getException());
