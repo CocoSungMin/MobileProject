@@ -102,13 +102,17 @@ public class JoinGroup extends AppCompatActivity {
                             docData.put("Manager", document.getData().get("Manager"));
 
                             ArrayList<String> memList = (ArrayList<String>) document.getData().get("Member");
+                            ArrayList<String> memNameList = (ArrayList<String>) document.getData().get("MemberName");
+
                             if (memList.contains(user1.getUid())) { // 이미 가입된 그룹인지 확인
                                 Log.d("JoinGroup", "Already joined this group.");
                                 Toast.makeText(getApplicationContext(), "이미 가입된 그룹입니다.", Toast.LENGTH_SHORT).show();
 
                             } else { // 그룹에 가입
                                 memList.add(user1.getUid());
+                                memNameList.add(user1.getDisplayName());
                                 docData.put("Member", memList);
+                                docData.put("MemberName", memNameList);
 
                                 FirebaseFirestore.getInstance().collection("Group").document(groupID).set(docData).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override

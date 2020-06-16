@@ -190,9 +190,6 @@ public class CreateSchedule extends AppCompatActivity {
 
     public void registerSchedule(View v) {
         //오류 메세지 출력
-        /*if (flag1 != 2 && !isEdit) {
-            Toast.makeText(CreateSchedule.this, "일정 날짜가 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
-        } else*/
         if (getDatestr.getText().toString().charAt(0) == 'Y' || getDateend.getText().toString().charAt(0) == 'Y') {
             Toast.makeText(CreateSchedule.this, "일정 시간이 입력되지 않았습니다.", Toast.LENGTH_SHORT).show();
         } else if (content.getText().toString().equals("")) {

@@ -12,24 +12,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ManageGroup extends AppCompatActivity {
 
@@ -42,17 +34,28 @@ public class ManageGroup extends AppCompatActivity {
     private TextView member;
     private TextView groupName;
     private EditText groupID;
-    private String currentGroup;
-    private ArrayList<String> GroupMember;
+
+    String gId;
+    String gName;
+    String managerId;
+    ArrayList<String> memberId;
+    ArrayList<String> memberName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_group);
 
-        currentGroup = getIntent().getStringExtra("gName");
-        Log.d("group",currentGroup);
-        groupDBManage();
+//        currentGroup = getIntent().getStringExtra("gName");
+//        Log.d("group", currentGroup);
+//        groupDBManage();
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            gId = bundle.getString("GroupId");
+            gName = bundle.getString("GroupName");
+        }
 
         changeMasterBtn = (Button) findViewById(R.id.changeMaster);
         recommendBtn = (Button) findViewById(R.id.recommendSch);
@@ -65,8 +68,10 @@ public class ManageGroup extends AppCompatActivity {
         groupID = (EditText) findViewById(R.id.GroupID);
 
 
+        groupName.setText(gName);
+
         // 그룹 아이디 불러와서 set 해주세요
-        groupID.setText("그룹 아이디 들어갈 곳");
+        groupID.setText(gId);
 
         // 그룹장 불러와서 set 해주세요
         masterName.setText("모바일");
@@ -97,7 +102,7 @@ public class ManageGroup extends AppCompatActivity {
         withdrawalBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                widthdrawlGroup();
+//                widthdrawlGroup();
                 Intent intent = new Intent(ManageGroup.this, Withdrawal.class);
                 startActivity(intent);
             }
@@ -118,40 +123,45 @@ public class ManageGroup extends AppCompatActivity {
             }
         });
 
+
+        groupDBManage();
     }
 
     //DB 멤버 값 불러오는데 다른 기능때문에 그것도 신경써야 될 듯?
     public void groupDBManage() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        db.collection("Group").whereEqualTo("GroupName",currentGroup).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection("Group").document(gId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
-                   GroupMember = (ArrayList<String>) dc.getDocument().get("Member");
-                    Log.d("group","Member result"+GroupMember.toString());
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    managerId = (String) task.getResult().get("Manager");
+                    memberId = (ArrayList<String>) task.getResult().get("Member");
+                    memberName = (ArrayList<String>) task.getResult().get("MemberName");
+
+                    masterName.setText(memberName.get(memberId.indexOf(managerId)));
+
+                } else {
+                    Log.e("ManageGroup", "Get document error.", task.getException());
                 }
             }
         });
-
     }
 
     // 그룹 멤버 받아온거 삭제
     // for 문 말고 탐색하는 방법있으면 수정해주세요......
     // DB 업데이트도 짜야 됩니다.
-    public void widthdrawlGroup(){
-        String id = null;
-        FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
-        if (user1 != null) {
-            id = user1.getUid();
-        }
-        for(int i=0; i<GroupMember.size();i++){
-            if (GroupMember.get(i).equals(id)){
-                GroupMember.remove(i);
-            }
-        }
-        Log.d("group","deletion result"+GroupMember.toString());
-    }
-
-
+//    public void widthdrawlGroup() {
+//        String id = null;
+//        FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
+//        if (user1 != null) {
+//            id = user1.getUid();
+//        }
+//        for (int i = 0; i < GroupMember.size(); i++) {
+//            if (GroupMember.get(i).equals(id)) {
+//                GroupMember.remove(i);
+//            }
+//        }
+//        Log.d("group", "deletion result" + GroupMember.toString());
+//    }
 }

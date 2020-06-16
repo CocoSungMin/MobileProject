@@ -76,7 +76,7 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
 
     menuListviewAdapter Gdapter;
     ArrayList<String> gList;
-    Collection<String> Gm;
+    ArrayList<String> Gid;
 
 
     @Override
@@ -84,7 +84,7 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_main);
 
-        Bundle bundle = getIntent().getExtras();
+        final Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             schedules = (ArrayList<Schedule>) bundle.getSerializable("schedules");
             joinedGroups = ((ArrayList<Map<String, String>>) bundle.getSerializable("groups")).get(0);
@@ -109,21 +109,22 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         actionBarDrawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        groupList = findViewById(R.id.groupList);
 
         botSheetDate = findViewById(R.id.botsheetDate);
 
         //drawer menu listview에 정보 표기
-        setMenuList(0);
         groupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(Calendar_main.this, ManageGroup.class);
-                String groupName = gList.get(position).toString();
-                intent.putExtra("gName",groupName);
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("GroupName", gList.get(position));
+                bundle1.putString("GroupId", Gid.get(position));
+                intent.putExtras(bundle1);
                 startActivity(intent);
             }
         });
-
 
 
         //drawer_header에 유저 정보 입력하는 코드 99~107
@@ -314,13 +315,13 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
                             joinedGroups.put(dc.getDocument().getId(), dc.getDocument().get("GroupName").toString());
                             updateGroupSchedule(dc.getDocument().getId(), dc.getDocument().get("GroupName").toString());
                             Log.d("group", String.valueOf(joinedGroups.values()));
-                            setMenuList(1);
+                            setMenuList();
                             break;
                         case REMOVED:
                             joinedGroups.remove(dc.getDocument().getId());
                             groupSCHListeners.get(dc.getDocument().getId()).remove();
                             groupSCHListeners.remove(dc.getDocument().getId());
-                            setMenuList(1);
+                            setMenuList();
                             break;
                     }
                 }
@@ -404,25 +405,11 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         startActivity(intent);
     }
 
-    public void setMenuList(int i){
-        switch (i){
-            case 0:
-                Gm = joinedGroups.values();
-                gList = new ArrayList<String>(Gm);
-                Gdapter = new menuListviewAdapter(getApplicationContext(), gList);
-                groupList = findViewById(R.id.groupList);
-                groupList.setAdapter(Gdapter);
-                break;
-            case 1:
-                Gm = joinedGroups.values();
-                gList.clear();
-                gList.addAll(Gm);
-                Gdapter.notifyDataSetChanged();
-                break;
-
-        }
-
-
+    public void setMenuList() {
+        Gid = new ArrayList<String>(joinedGroups.keySet());
+        gList = new ArrayList<String>(joinedGroups.values());
+        Gdapter = new menuListviewAdapter(getApplicationContext(), gList);
+        groupList.setAdapter(Gdapter);
 
     }
 

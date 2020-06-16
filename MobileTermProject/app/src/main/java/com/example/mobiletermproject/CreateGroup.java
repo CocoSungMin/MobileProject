@@ -80,12 +80,15 @@ public class CreateGroup extends AppCompatActivity {
             Map<String, Object> docData = new HashMap<>();
             docData.clear();
 
-            ArrayList<String> memberList = new ArrayList<>();
-            memberList.add(user1.getUid());
+            ArrayList<String> memberIdList = new ArrayList<>();
+            ArrayList<String> memberNameList = new ArrayList<>();
+            memberIdList.add(user1.getUid());
+            memberNameList.add(user1.getDisplayName());
 
             docData.put("GroupName", groupName);
             docData.put("Manager", user1.getUid());
-            docData.put("Member", memberList);
+            docData.put("Member", memberIdList);
+            docData.put("MemberName", memberNameList);
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
