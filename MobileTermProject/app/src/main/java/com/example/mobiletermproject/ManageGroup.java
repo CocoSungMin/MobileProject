@@ -99,11 +99,10 @@ public class ManageGroup extends AppCompatActivity {
         withdrawalBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                widthdrawlGroup();
                 Intent intent = new Intent(ManageGroup.this, Withdrawal.class);
                 Bundle bundle1 = new Bundle();
                 bundle1.putString("GN", gName);
-                bundle1.putString("GID",gId);
+                bundle1.putString("GID", gId);
                 bundle1.putString("M", managerId);
                 intent.putExtras(bundle1);
                 startActivityForResult(intent, request);
@@ -121,7 +120,13 @@ public class ManageGroup extends AppCompatActivity {
         changeMasterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "관리자 변경 기능", Toast.LENGTH_SHORT).show();
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                if (!user.getUid().equals(managerId)) {
+                    Toast.makeText(getApplicationContext(), "관리자만 이용 가능합니다.", Toast.LENGTH_SHORT).show();
+                } else {
+
+                }
             }
         });
 
@@ -134,7 +139,7 @@ public class ManageGroup extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == request && resultCode == 1){
+        if (requestCode == request && resultCode == 1) {
             finish();
         }
     }
