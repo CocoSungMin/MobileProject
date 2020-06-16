@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -56,4 +57,8 @@ class menuListviewAdapter extends BaseAdapter {
 
         return convertView;
     }
+
+    public void notifyDataSetChanged(ArrayList<String> gList) {
+    }
+
 }

@@ -115,6 +115,7 @@ public class JoinGroup extends AppCompatActivity {
                                     public void onSuccess(Void aVoid) {
                                         Log.d("JoinGroup", "DocumentSnapshot successfully written");
                                         Toast.makeText(getApplicationContext(), "그룹 가입 완료!", Toast.LENGTH_SHORT).show();
+
                                         finish();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {

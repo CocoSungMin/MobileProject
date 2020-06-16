@@ -3,6 +3,7 @@ package com.example.mobiletermproject;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -73,6 +74,10 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
     String userEmail;
     Uri userPhoto;
 
+    menuListviewAdapter Gdapter;
+    ArrayList<String> gList;
+    Collection<String> Gm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,18 +113,17 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         botSheetDate = findViewById(R.id.botsheetDate);
 
         //drawer menu listview에 정보 표기
-        Collection<String> Gm = joinedGroups.values();
-        final ArrayList<String> gList = new ArrayList<String>(Gm);
-        menuListviewAdapter Gdapter = new menuListviewAdapter(getApplicationContext(), gList);
-        groupList = findViewById(R.id.groupList);
-        groupList.setAdapter(Gdapter);
+        setMenuList(0);
         groupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(Calendar_main.this, ManageGroup.class);
+                String groupName = gList.get(position).toString();
+                intent.putExtra("gName",groupName);
                 startActivity(intent);
             }
         });
+
 
 
         //drawer_header에 유저 정보 입력하는 코드 99~107
@@ -309,11 +313,14 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
                         case ADDED:
                             joinedGroups.put(dc.getDocument().getId(), dc.getDocument().get("GroupName").toString());
                             updateGroupSchedule(dc.getDocument().getId(), dc.getDocument().get("GroupName").toString());
+                            Log.d("group", String.valueOf(joinedGroups.values()));
+                            setMenuList(1);
                             break;
                         case REMOVED:
                             joinedGroups.remove(dc.getDocument().getId());
                             groupSCHListeners.get(dc.getDocument().getId()).remove();
                             groupSCHListeners.remove(dc.getDocument().getId());
+                            setMenuList(1);
                             break;
                     }
                 }
@@ -395,6 +402,28 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
     public void addGroup(View view) {
         Intent intent = new Intent(Calendar_main.this, JoinGroup.class);
         startActivity(intent);
+    }
+
+    public void setMenuList(int i){
+        switch (i){
+            case 0:
+                Gm = joinedGroups.values();
+                gList = new ArrayList<String>(Gm);
+                Gdapter = new menuListviewAdapter(getApplicationContext(), gList);
+                groupList = findViewById(R.id.groupList);
+                groupList.setAdapter(Gdapter);
+                break;
+            case 1:
+                Gm = joinedGroups.values();
+                gList.clear();
+                gList.addAll(Gm);
+                Gdapter.notifyDataSetChanged();
+                break;
+
+        }
+
+
+
     }
 
     // 요 아래 전부다 프로필 사진 가져오는 거입니다.

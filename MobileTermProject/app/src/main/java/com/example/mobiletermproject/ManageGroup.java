@@ -4,13 +4,32 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ManageGroup extends AppCompatActivity {
 
@@ -23,12 +42,17 @@ public class ManageGroup extends AppCompatActivity {
     private TextView member;
     private TextView groupName;
     private EditText groupID;
+    private String currentGroup;
+    private ArrayList<String> GroupMember;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_group);
 
+        currentGroup = getIntent().getStringExtra("gName");
+        Log.d("group",currentGroup);
+        groupDBManage();
 
         changeMasterBtn = (Button) findViewById(R.id.changeMaster);
         recommendBtn = (Button) findViewById(R.id.recommendSch);
@@ -73,6 +97,7 @@ public class ManageGroup extends AppCompatActivity {
         withdrawalBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                widthdrawlGroup();
                 Intent intent = new Intent(ManageGroup.this, Withdrawal.class);
                 startActivity(intent);
             }
@@ -94,5 +119,39 @@ public class ManageGroup extends AppCompatActivity {
         });
 
     }
+
+    //DB 멤버 값 불러오는데 다른 기능때문에 그것도 신경써야 될 듯?
+    public void groupDBManage() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("Group").whereEqualTo("GroupName",currentGroup).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
+                   GroupMember = (ArrayList<String>) dc.getDocument().get("Member");
+                    Log.d("group","Member result"+GroupMember.toString());
+                }
+            }
+        });
+
+    }
+
+    // 그룹 멤버 받아온거 삭제
+    // for 문 말고 탐색하는 방법있으면 수정해주세요......
+    // DB 업데이트도 짜야 됩니다.
+    public void widthdrawlGroup(){
+        String id = null;
+        FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
+        if (user1 != null) {
+            id = user1.getUid();
+        }
+        for(int i=0; i<GroupMember.size();i++){
+            if (GroupMember.get(i).equals(id)){
+                GroupMember.remove(i);
+            }
+        }
+        Log.d("group","deletion result"+GroupMember.toString());
+    }
+
 
 }
