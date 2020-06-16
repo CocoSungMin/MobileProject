@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,19 +41,17 @@ public class ManageGroup extends AppCompatActivity {
     String managerId;
     ArrayList<String> memberId;
     ArrayList<String> memberName;
-    String membersetting ="";
+    String membersetting = "";
+
+    int request = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_group);
 
-//        currentGroup = getIntent().getStringExtra("gName");
-//        Log.d("group", currentGroup);
-//        groupDBManage();
-
         Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
+        final Bundle bundle = intent.getExtras();
         if (bundle != null) {
             gId = bundle.getString("GroupId");
             gName = bundle.getString("GroupName");
@@ -102,7 +101,12 @@ public class ManageGroup extends AppCompatActivity {
             public void onClick(View v) {
 //                widthdrawlGroup();
                 Intent intent = new Intent(ManageGroup.this, Withdrawal.class);
-                startActivity(intent);
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("GN", gName);
+                bundle1.putString("GID",gId);
+                bundle1.putString("M", managerId);
+                intent.putExtras(bundle1);
+                startActivityForResult(intent, request);
             }
         });
 
@@ -125,23 +129,33 @@ public class ManageGroup extends AppCompatActivity {
         groupDBManage();
     }
 
-    //DB 멤버 값 불러오는데 다른 기능때문에 그것도 신경써야 될 듯?
+    // 탈퇴시 그룹페이지 종료
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == request && resultCode == 1){
+            finish();
+        }
+    }
+
+    //그룹정보 가져오기
     public void groupDBManage() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         db.collection("Group").document(gId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     managerId = (String) task.getResult().get("Manager");
                     memberId = (ArrayList<String>) task.getResult().get("Member");
                     memberName = (ArrayList<String>) task.getResult().get("MemberName");
 
                     masterName.setText(memberName.get(memberId.indexOf(managerId)));
 
-                    for(int i =0 ;i<memberName.size();i++){
-                        membersetting+= memberName.get(i);
-                        membersetting+="\n";
+                    for (int i = 0; i < memberName.size(); i++) {
+                        membersetting += memberName.get(i);
+                        membersetting += "\n";
                     }
                     member.setText(membersetting);
 
@@ -152,20 +166,5 @@ public class ManageGroup extends AppCompatActivity {
         });
     }
 
-    // 그룹 멤버 받아온거 삭제
-    // for 문 말고 탐색하는 방법있으면 수정해주세요......
-    // DB 업데이트도 짜야 됩니다.
-//    public void widthdrawlGroup() {
-//        String id = null;
-//        FirebaseUser user1 = FirebaseAuth.getInstance().getCurrentUser();
-//        if (user1 != null) {
-//            id = user1.getUid();
-//        }
-//        for (int i = 0; i < GroupMember.size(); i++) {
-//            if (GroupMember.get(i).equals(id)) {
-//                GroupMember.remove(i);
-//            }
-//        }
-//        Log.d("group", "deletion result" + GroupMember.toString());
-//    }
+
 }
