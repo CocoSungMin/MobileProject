@@ -11,19 +11,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SchedulePopUp"
-            android:theme="@style/Theme.AppCompat.Dialog"
-            android:parentActivityName=".Calendar_main"/>
-        <activity android:name=".DateSelection" android:theme="@style/AppTheme.MyDialog"/>
+        <activity android:name=".ChangeGroupManager"></activity>
+        <activity
+            android:name=".SchedulePopUp"
+            android:parentActivityName=".Calendar_main"
+            android:theme="@style/Theme.AppCompat.Dialog" />
+        <activity
+            android:name=".DateSelection"
+            android:theme="@style/AppTheme.MyDialog" />
         <activity android:name=".CreateSchedule" />
-        <activity android:name=".JoinGroup"/>
+        <activity android:name=".JoinGroup" />
         <activity android:name=".Loading" />
         <activity android:name=".Calendar_main" />
         <activity android:name=".ManageGroup" />
-        <activity android:name=".CreateGroup" android:theme="@style/AppTheme.MyDialog"></activity>
-        <activity android:name=".Withdrawal" android:theme="@style/AppTheme.MyDialog"></activity>
-        <activity android:name=".ChangeGroupName" android:theme="@style/AppTheme.MyDialog"></activity>
-        <activity android:name=".LoginActivity" >
+        <activity
+            android:name=".CreateGroup"
+            android:theme="@style/AppTheme.MyDialog" />
+        <activity
+            android:name=".Withdrawal"
+            android:theme="@style/AppTheme.MyDialog" />
+        <activity
+            android:name=".ChangeGroupName"
+            android:theme="@style/AppTheme.MyDialog" />
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -125,11 +125,22 @@ public class ManageGroup extends AppCompatActivity {
                 if (!user.getUid().equals(managerId)) {
                     Toast.makeText(getApplicationContext(), "관리자만 이용 가능합니다.", Toast.LENGTH_SHORT).show();
                 } else {
+                    Intent changeManagerintent = new Intent(ManageGroup.this, ChangeGroupManager.class);
+                    Bundle CMB = new Bundle();
+                    CMB.putString("GID", gId);
+                    CMB.putStringArrayList("MI", memberId);
+                    CMB.putStringArrayList("MN", memberName);
+                    changeManagerintent.putExtras(CMB);
 
+                    startActivity(changeManagerintent);
                 }
             }
         });
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         groupDBManage();
     }
@@ -158,6 +169,7 @@ public class ManageGroup extends AppCompatActivity {
 
                     masterName.setText(memberName.get(memberId.indexOf(managerId)));
 
+                    membersetting = "";
                     for (int i = 0; i < memberName.size(); i++) {
                         membersetting += memberName.get(i);
                         membersetting += "\n";

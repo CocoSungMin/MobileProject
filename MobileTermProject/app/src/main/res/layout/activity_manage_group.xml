@@ -9,25 +9,23 @@
     tools:context=".JoinGroup">
 
 
-
     <TextView
+        android:id="@+id/groupName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:fontFamily="@font/font"
         android:layout_marginTop="40dp"
-        android:id="@+id/groupName"
+        android:fontFamily="@font/font"
         android:text="그룹 이름"
         android:textColor="#ffffff"
         android:textSize="40sp" />
 
 
-
     <LinearLayout
-        android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp">
 
         <EditText
             android:id="@+id/GroupID"
@@ -43,32 +41,32 @@
             android:textColorHint="#E6FFFFFF" />
 
         <Button
-        android:id="@+id/copyBtn"
-        android:layout_marginLeft="10dp"
-        android:layout_width="55dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:background="@drawable/login_button"
-        android:fontFamily="@font/font"
-        android:text="copy"
-        android:textColor="#ffffff"
-        android:textSize="18sp" />
-</LinearLayout>
+            android:id="@+id/copyBtn"
+            android:layout_width="55dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/login_button"
+            android:fontFamily="@font/font"
+            android:text="copy"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+    </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp">
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="30dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/font"
-        android:drawableStart="@drawable/ic_person_black_24dp"
-        android:text=" 구성원"
-        android:textColor="#ffffff"
-        android:textSize="35sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_person_black_24dp"
+            android:fontFamily="@font/font"
+            android:text=" 구성원"
+            android:textColor="#ffffff"
+            android:textSize="35sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -98,24 +96,23 @@
         android:background="@drawable/group_member"
         android:drawablePadding="8dp"
         android:drawableTint="#E6FFFFFF"
-        android:padding="15dp"
         android:fontFamily="@font/font"
+        android:padding="15dp"
         android:paddingLeft="12dp"
-        android:textSize="25sp"
         android:textColor="@color/colorWhite"
-        android:textColorHint="#E6FFFFFF" />
+        android:textColorHint="#E6FFFFFF"
+        android:textSize="25sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
-        android:fontFamily="@font/font"
         android:layout_marginTop="30dp"
         android:drawableStart="@drawable/ic_mail_black_24dp"
+        android:fontFamily="@font/font"
         android:text=" 그룹 메뉴"
         android:textColor="#ffffff"
         android:textSize="35sp" />
-
 
 
     <TableLayout
@@ -123,32 +120,34 @@
         android:layout_height="wrap_content">
 
         <TableRow>
-        <Button
-            android:id="@+id/recommendSch"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/login_button"
-            android:fontFamily="@font/font"
-            android:text="그룹 일정 추천"
-            android:textColor="#ffffff"
-            android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/changeName"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/login_button"
-            android:fontFamily="@font/font"
-            android:text="그룹명 변경"
-            android:textColor="#ffffff"
-            android:textSize="20sp" />
+            <Button
+                android:id="@+id/recommendSch"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_button"
+                android:fontFamily="@font/font"
+                android:text="그룹 일정 추천"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/changeName"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_button"
+                android:fontFamily="@font/font"
+                android:text="그룹명 변경"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
         </TableRow>
 
         <TableRow>
+
             <Button
                 android:id="@+id/changeMaster"
                 android:layout_width="140dp"
