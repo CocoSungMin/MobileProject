@@ -1,4 +1,4 @@
-package com.example.mobiletermproject;
+package com.LEGENO.SaveTheTime;
 
 import android.os.Bundle;
 import android.view.MotionEvent;

@@ -1,4 +1,4 @@
-package com.example.mobiletermproject;
+package com.LEGENO.SaveTheTime;
 
 // 사실상 보여주는 때만 쓸 듯
 public class GroupSchedule extends Schedule{

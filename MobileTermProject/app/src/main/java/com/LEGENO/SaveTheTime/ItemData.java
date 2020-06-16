@@ -1,4 +1,4 @@
-package com.example.mobiletermproject;
+package com.LEGENO.SaveTheTime;
 
 import java.io.Serializable;
 

@@ -1,15 +1,13 @@
-package com.example.mobiletermproject;
+package com.LEGENO.SaveTheTime;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class EventDecorator implements DayViewDecorator {

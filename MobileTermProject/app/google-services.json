@@ -8,12 +8,49 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:840926468561:android:8fa5431bab18816e6be8f0",
+        "android_client_info": {
+          "package_name": "com.LEGENO.SaveTheTime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "840926468561-iummn2co96f2f5u2jp6os96kvv2ngbs1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHLisBYiERE0EZNR244NwNtt1MtNdSd6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "840926468561-iummn2co96f2f5u2jp6os96kvv2ngbs1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:840926468561:android:50463f4f4bf86b346be8f0",
         "android_client_info": {
           "package_name": "com.example.mobiletermproject"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "840926468561-30gerd0oighinvrll8j2lne6r8ule578.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mobiletermproject",
+            "certificate_hash": "728fcd40e16f609fc9f2471b55c780369e71d9a5"
+          }
+        },
         {
           "client_id": "840926468561-n2ek9okuets54g8351ksdn6k852c5ok5.apps.googleusercontent.com",
           "client_type": 1,

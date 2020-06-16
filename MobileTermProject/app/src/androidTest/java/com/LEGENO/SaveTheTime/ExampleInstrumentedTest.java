@@ -1,4 +1,4 @@
-package com.example.mobiletermproject;
+package com.LEGENO.SaveTheTime;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.example.mobiletermproject", appContext.getPackageName());
+        assertEquals("com.LEGENO.SaveTheTime", appContext.getPackageName());
     }
 }

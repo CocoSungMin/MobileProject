@@ -1,4 +1,4 @@
-package com.example.mobiletermproject;
+package com.LEGENO.SaveTheTime;
 
 import android.content.Context;
 import android.util.Log;

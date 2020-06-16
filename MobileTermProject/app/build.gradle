@@ -8,7 +8,7 @@ android {
     apply plugin: 'com.google.gms.google-services'
 
     defaultConfig {
-        applicationId "com.example.mobiletermproject"
+        applicationId "com.LEGENO.SaveTheTime"
         minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
