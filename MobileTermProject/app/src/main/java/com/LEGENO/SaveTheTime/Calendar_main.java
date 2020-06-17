@@ -139,8 +139,18 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         settingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Calendar_main.this, Setting.class);
-                startActivity(intent);
+                Log.d("userProfile","Main\n"+userName+userEmail);
+                Bundle bundle2 = new Bundle();
+                if(userName!=null && userEmail!=null) {
+                    bundle2.putString("UN", userName);
+                    bundle2.putString("UE", userEmail);
+                    bundle2.putString("UP", userPhoto.toString());
+                }
+
+                    Intent intent = new Intent(Calendar_main.this, Setting.class);
+                intent.putExtras(bundle2);
+                    startActivity(intent);
+
             }
         });
 

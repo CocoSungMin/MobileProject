@@ -2,6 +2,7 @@ package com.LEGENO.SaveTheTime;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,17 +19,20 @@ public class Setting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
+
+
         //개인 이름이랑 이메일 받아오려고 calendar main에 있는 코드 가져왔는데 데이터를 못가져오네요..
-        final Bundle bundle = getIntent().getExtras();
+        Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            userName = bundle.getString("Name");
-            userEmail = bundle.getString("Email");
+            userName = bundle.getString("UN");
+            userEmail = bundle.getString("UE");
+            Log.d("userProfile",userName+userEmail);
         }
 
         TextView Nametxt = findViewById(R.id.userID);
         TextView Emailtxt = findViewById(R.id.email);
-        //Nametxt.setText(userName);
-        //Emailtxt.setText(userEmail);
+        Nametxt.setText(userName);
+        Emailtxt.setText(userEmail);
 
 
         //로그아웃 버튼 이벤트
