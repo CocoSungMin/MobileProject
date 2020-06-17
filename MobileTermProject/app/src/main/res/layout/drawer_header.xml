@@ -57,19 +57,6 @@
         app:layout_constraintStart_toEndOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/userIDText" />
 
-    <TextView
-        android:id="@+id/jobText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/font"
-        android:text="직업 출력"
-        android:textColor="@color/colorWhite"
-        android:textSize="15sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/emailText" />
 
     <ImageView
         android:id="@+id/setting_button"
@@ -82,6 +69,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_settings" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

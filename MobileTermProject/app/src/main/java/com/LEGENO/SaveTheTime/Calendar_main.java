@@ -3,6 +3,7 @@ package com.LEGENO.SaveTheTime;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -133,6 +134,15 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         Nametxt.setText(userName);
         Emailtxt.setText(userEmail);
         new DownloadFilesTask().execute(userPhoto.toString());
+
+        ImageView settingBtn=headerView.findViewById(R.id.setting_button);
+        settingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Calendar_main.this, Setting.class);
+                startActivity(intent);
+            }
+        });
 
 
         /*                 캘린더 설정                */

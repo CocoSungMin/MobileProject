@@ -24,6 +24,9 @@
         <activity android:name="com.LEGENO.SaveTheTime.Loading" />
         <activity android:name="com.LEGENO.SaveTheTime.Calendar_main" />
         <activity android:name="com.LEGENO.SaveTheTime.ManageGroup" />
+        <activity android:name="com.LEGENO.SaveTheTime.Setting" />
+        <activity android:name="com.LEGENO.SaveTheTime.ConfirmWithdrawal" />
+        <activity android:name="com.LEGENO.SaveTheTime.ConfirmDeleteAllSchedule" />
         <activity
             android:name="com.LEGENO.SaveTheTime.CreateGroup"
             android:theme="@style/AppTheme.MyDialog" />
