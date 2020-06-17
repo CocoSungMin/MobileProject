@@ -93,6 +93,11 @@ public class ManageGroup extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "그룹 일정 시간 추천 기능", Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(ManageGroup.this, RecommendSchedule.class);
+                Bundle bundle2 = new Bundle();
+
+                intent1.putExtras(bundle2);
+                startActivity(intent1);
             }
         });
 

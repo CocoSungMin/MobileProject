@@ -11,33 +11,35 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.LEGENO.SaveTheTime.ChangeGroupManager"
+        <activity android:name=".RecommendSchedule"></activity>
+        <activity
+            android:name=".ChangeGroupManager"
             android:theme="@style/AppTheme.MyDialog" />
         <activity
-            android:name="com.LEGENO.SaveTheTime.SchedulePopUp"
-            android:parentActivityName="com.LEGENO.SaveTheTime.Calendar_main"
+            android:name=".SchedulePopUp"
+            android:parentActivityName=".Calendar_main"
             android:theme="@style/Theme.AppCompat.Dialog" />
         <activity
-            android:name="com.LEGENO.SaveTheTime.DateSelection"
+            android:name=".DateSelection"
             android:theme="@style/AppTheme.MyDialog" />
-        <activity android:name="com.LEGENO.SaveTheTime.CreateSchedule" />
-        <activity android:name="com.LEGENO.SaveTheTime.JoinGroup" />
-        <activity android:name="com.LEGENO.SaveTheTime.Loading" />
-        <activity android:name="com.LEGENO.SaveTheTime.Calendar_main" />
-        <activity android:name="com.LEGENO.SaveTheTime.ManageGroup" />
-        <activity android:name="com.LEGENO.SaveTheTime.Setting" />
-        <activity android:name="com.LEGENO.SaveTheTime.ConfirmWithdrawal" />
-        <activity android:name="com.LEGENO.SaveTheTime.ConfirmDeleteAllSchedule" />
+        <activity android:name=".CreateSchedule" />
+        <activity android:name=".JoinGroup" />
+        <activity android:name=".Loading" />
+        <activity android:name=".Calendar_main" />
+        <activity android:name=".ManageGroup" />
+        <activity android:name=".Setting" />
+        <activity android:name=".ConfirmWithdrawal" />
+        <activity android:name=".ConfirmDeleteAllSchedule" />
         <activity
-            android:name="com.LEGENO.SaveTheTime.CreateGroup"
-            android:theme="@style/AppTheme.MyDialog" />
-        <activity
-            android:name="com.LEGENO.SaveTheTime.Withdrawal"
+            android:name=".CreateGroup"
             android:theme="@style/AppTheme.MyDialog" />
         <activity
-            android:name="com.LEGENO.SaveTheTime.ChangeGroupName"
+            android:name=".Withdrawal"
             android:theme="@style/AppTheme.MyDialog" />
-        <activity android:name="com.LEGENO.SaveTheTime.LoginActivity">
+        <activity
+            android:name=".ChangeGroupName"
+            android:theme="@style/AppTheme.MyDialog" />
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,9 +47,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.LEGENO.SaveTheTime.RegisterActicity"
+            android:name=".RegisterActicity"
             android:label="@string/app_name"
-            android:parentActivityName="com.LEGENO.SaveTheTime.LoginActivity" />
+            android:parentActivityName=".LoginActivity" />
     </application>
 
 </manifest>
