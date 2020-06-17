@@ -52,4 +52,14 @@ public class GroupSchedule extends Schedule{
 
         return false;
     }
+
+    public boolean groupEquals(GroupSchedule g){
+        if (g.groupID.equals(this.groupID))
+            return true;
+        return false;
+    }
+
+    public String toString(){
+        return groupID + " / " + groupName + super.toString();
+    }
 }

@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 public class Calendar_main extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     /*DB 관련*/
@@ -135,21 +136,21 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
         Emailtxt.setText(userEmail);
         new DownloadFilesTask().execute(userPhoto.toString());
 
-        ImageView settingBtn=headerView.findViewById(R.id.setting_button);
+        ImageView settingBtn = headerView.findViewById(R.id.setting_button);
         settingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("userProfile","Main\n"+userName+userEmail);
+                Log.d("userProfile", "Main\n" + userName + userEmail);
                 Bundle bundle2 = new Bundle();
-                if(userName!=null && userEmail!=null) {
+                if (userName != null && userEmail != null) {
                     bundle2.putString("UN", userName);
                     bundle2.putString("UE", userEmail);
                     bundle2.putString("UP", userPhoto.toString());
                 }
 
-                    Intent intent = new Intent(Calendar_main.this, Setting.class);
+                Intent intent = new Intent(Calendar_main.this, Setting.class);
                 intent.putExtras(bundle2);
-                    startActivity(intent);
+                startActivity(intent);
 
             }
         });
@@ -335,10 +336,26 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
                             Log.d("group", String.valueOf(joinedGroups.values()));
                             setMenuList();
                             break;
+
+                        case MODIFIED:
+                            if (!joinedGroups.get(dc.getDocument().getId()).equals(dc.getDocument().get("GroupName").toString())) {
+                                joinedGroups.put(dc.getDocument().getId(), dc.getDocument().get("GroupName").toString());
+                                groupSCHListeners.get(dc.getDocument().getId()).remove();
+                                groupSCHListeners.remove(dc.getDocument().getId());
+
+                                groupSchedules.removeIf(s -> s.groupEquals(new GroupSchedule(dc.getDocument().getId())));
+
+                                updateGroupSchedule(dc.getDocument().getId(), dc.getDocument().get("GroupName").toString());
+                                setMenuList();
+                            }
+                            break;
+
                         case REMOVED:
                             joinedGroups.remove(dc.getDocument().getId());
                             groupSCHListeners.get(dc.getDocument().getId()).remove();
                             groupSCHListeners.remove(dc.getDocument().getId());
+
+                            groupSchedules.removeIf(s -> s.groupEquals(new GroupSchedule(dc.getDocument().getId())));
                             setMenuList();
                             break;
                     }
