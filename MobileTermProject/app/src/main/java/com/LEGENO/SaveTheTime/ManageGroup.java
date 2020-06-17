@@ -113,7 +113,10 @@ public class ManageGroup extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ManageGroup.this, ChangeGroupName.class);
-                startActivity(intent);
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("GID",gId);
+                intent.putExtras(bundle2);
+                startActivityForResult(intent,1);
             }
         });
 
@@ -153,7 +156,12 @@ public class ManageGroup extends AppCompatActivity {
         if (requestCode == request && resultCode == 1) {
             finish();
         }
+        else if (requestCode == 1 && resultCode == 1){
+            groupName.setText(data.getStringExtra("GN"));
+        }
+
     }
+
 
     //그룹정보 가져오기
     public void groupDBManage() {
@@ -182,6 +190,8 @@ public class ManageGroup extends AppCompatActivity {
             }
         });
     }
+
+
 
 
 }
