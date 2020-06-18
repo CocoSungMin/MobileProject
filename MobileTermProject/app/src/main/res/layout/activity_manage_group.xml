@@ -38,7 +38,8 @@
             android:fontFamily="@font/font"
             android:paddingLeft="12dp"
             android:textColor="@color/colorWhite"
-            android:textColorHint="#E6FFFFFF" />
+            android:textColorHint="#E6FFFFFF"
+            android:enabled="false"/>
 
         <Button
             android:id="@+id/copyBtn"

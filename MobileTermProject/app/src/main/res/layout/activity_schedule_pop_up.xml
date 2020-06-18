@@ -53,7 +53,7 @@
             android:fontFamily="@font/font"
             android:text="2020-6-20 17:00:00 ~ 2020-6-20 18:00:00"
             android:textColor="#ffffff"
-            android:textSize="15sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
             android:fontFamily="@font/font"
             android:text="To"
             android:textColor="#ffffff"
-            android:textSize="15sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/endscheduleTime"
@@ -72,7 +72,7 @@
             android:fontFamily="@font/font"
             android:text="2020-6-20 17:00:00 ~ 2020-6-20 18:00:00"
             android:textColor="#ffffff"
-            android:textSize="15sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/groupNameWin"
@@ -124,7 +124,7 @@
                 android:padding="6dp"
                 android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                 android:textColor="#ffffff"
-                android:textSize="15sp" />
+                android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
 

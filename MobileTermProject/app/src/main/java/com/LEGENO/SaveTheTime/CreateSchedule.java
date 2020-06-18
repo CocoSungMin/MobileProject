@@ -119,6 +119,8 @@ public class CreateSchedule extends AppCompatActivity {
                     groupSpinner.setVisibility(View.VISIBLE);
                     //groupSpinner.setClickable(false);
                     groupSpinner.setEnabled(false);
+                } else {
+                    groupCheck.setEnabled(false);
                 }
             } else { // 그냥
                 groupID = bundle.getStringArray("groupID");
