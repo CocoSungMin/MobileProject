@@ -3,6 +3,7 @@ package com.LEGENO.SaveTheTime;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -51,6 +52,7 @@ public class SchedulePopUp extends Activity {
         startPopUpSheetTime.setText(schedule.getStartTime());
         endPopUpSheetTime.setText(schedule.getEndTime());
         popUpSheetContent.setText(schedule.getContent());
+        popUpSheetContent.setMovementMethod(new ScrollingMovementMethod());
 
         // 그룹 스케줄일 경우
         if (schedule instanceof GroupSchedule) {
