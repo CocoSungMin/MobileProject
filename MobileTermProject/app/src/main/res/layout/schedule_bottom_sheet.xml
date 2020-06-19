@@ -49,7 +49,7 @@
                 android:fontFamily="@font/font"
                 android:text="날짜 :"
                 android:textColor="@android:color/white"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -62,7 +62,7 @@
                 android:paddingRight="30dp"
                 android:text="Date"
                 android:textColor="@android:color/white"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
 

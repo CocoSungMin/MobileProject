@@ -34,7 +34,6 @@ public class Setting extends AppCompatActivity {
 
 
 
-        //개인 이름이랑 이메일 받아오려고 calendar main에 있는 코드 가져왔는데 데이터를 못가져오네요..
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             userName = bundle.getString("UN");

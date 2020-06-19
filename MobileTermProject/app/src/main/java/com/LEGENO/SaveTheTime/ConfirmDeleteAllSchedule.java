@@ -22,7 +22,7 @@ public class ConfirmDeleteAllSchedule extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"스케줄 전체 삭제",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"스케줄이 전부 삭제되었습니다.",Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

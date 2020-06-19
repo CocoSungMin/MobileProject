@@ -22,7 +22,7 @@ public class ConfirmWithdrawal extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"회원탈퇴",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"회원탈퇴가 성공적으로 됐습니다.",Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

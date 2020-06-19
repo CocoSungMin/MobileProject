@@ -22,7 +22,7 @@
             android:fontFamily="@font/font"
             android:text="일정 정보"
             android:textColor="#FFFFFF"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -41,16 +41,18 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
             android:fontFamily="@font/font"
             android:text="ScheduleTime : "
             android:textColor="@color/loginIcon"
-            android:textSize="30sp" />
+            android:textSize="27sp" />
 
         <TextView
             android:id="@+id/startscheduleTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="3dp"
             android:fontFamily="@font/font"
             android:text="2020-6-20 17:00:00 ~ 2020-6-20 18:00:00"
             android:textColor="#ffffff"
@@ -82,10 +84,11 @@
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
             android:fontFamily="@font/font"
             android:text="Group : "
             android:textColor="@color/loginIcon"
-            android:textSize="30sp"
+            android:textSize="27sp"
             android:visibility="gone" />
 
         <TextView
@@ -109,7 +112,7 @@
             android:fontFamily="@font/font"
             android:text="Schedule Contents"
             android:textColor="@color/loginIcon"
-            android:textSize="30sp" />
+            android:textSize="27sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -119,10 +122,11 @@
             <TextView
                 android:id="@+id/scheduleContent"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="120dp"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/font"
                 android:scrollbars="vertical"
+
                 android:padding="6dp"
                 android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                 android:textColor="#ffffff"
@@ -134,20 +138,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/popupContent"
-        android:weightSum="2">
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center">
 
         <Button
             android:id="@+id/scheduleEdit"
-            android:layout_width="0dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:background="@drawable/schedule_info_button"
+            android:layout_marginRight="20dp"
             android:text="수정" />
 
         <Button
             android:id="@+id/scheduleDel"
-            android:layout_width="0dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:background="@drawable/schedule_info_button"
             android:text="삭제" />
     </LinearLayout>
 </RelativeLayout>

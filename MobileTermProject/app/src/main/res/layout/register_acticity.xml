@@ -107,7 +107,6 @@
                 android:textColor="@color/colorWhite"
                 android:fontFamily="@font/font"
                 android:hint="E-mail"
-                android:inputType="textPassword"
                 android:padding="10dp"
                 android:paddingLeft="12dp"
                 android:textColorHint="#E6FFFFFF" />
