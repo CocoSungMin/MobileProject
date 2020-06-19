@@ -24,18 +24,19 @@
         >
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="wrap_content"
             android:text="   그룹"
             android:layout_marginTop="150dp"
+            android:padding="10dp"
             android:fontFamily="@font/font"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:background="@drawable/textlines"
             />
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/groupList"
-            android:layout_marginTop="180dp"
+            android:layout_marginTop="190dp"
             android:divider="@color/colorPrimary"
             android:dividerHeight="2dp"
             />
@@ -49,6 +50,7 @@
             android:layout_marginBottom="10dp"
             android:id="@+id/add_group"
             android:textSize="20sp"
+            android:fontFamily="@font/font"
             android:text="그룹 추가"
             android:drawablePadding="10dp"
             android:drawableLeft="@drawable/ic_group_add"

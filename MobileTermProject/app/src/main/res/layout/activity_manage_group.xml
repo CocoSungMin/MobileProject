@@ -57,8 +57,9 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="70dp"
-        android:layout_marginTop="30dp">
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        >
 
         <TextView
             android:layout_width="wrap_content"
@@ -72,11 +73,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="70dp"
+            android:layout_marginLeft="50dp"
             android:fontFamily="@font/font"
             android:text="그룹장 :"
             android:textColor="#ffffff"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/groupMaster"
@@ -85,7 +86,7 @@
             android:layout_marginLeft="10dp"
             android:fontFamily="@font/font"
             android:textColor="#ffffff"
-            android:textSize="25sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
     <TextView
@@ -99,11 +100,10 @@
         android:drawableTint="#E6FFFFFF"
         android:fontFamily="@font/font"
         android:padding="15dp"
-        android:paddingLeft="12dp"
         android:textColor="@color/colorWhite"
         android:textColorHint="#E6FFFFFF"
         android:scrollbarFadeDuration="0"
-        android:scrollbarAlwaysDrawVerticalTrack="True"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
         android:scrollbarSize="2dp"
         android:textSize="25sp" />
 
@@ -122,23 +122,24 @@
         android:id="@+id/recommendSch"
         android:layout_width="290dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="60dp"
+        android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:background="@drawable/login_button"
         android:fontFamily="@font/font"
         android:text="그룹 일정 추천"
         android:textColor="#ffffff"
         android:textSize="20sp" />
+
     <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-z
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
         <TableRow>
             <Button
                 android:id="@+id/deleteGroup"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="60dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/login_button"
                 android:fontFamily="@font/font"
@@ -163,9 +164,8 @@ z
 
             <Button
                 android:id="@+id/changeMaster"
-                android:layout_width="140dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="60dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/login_button"
                 android:fontFamily="@font/font"
@@ -175,7 +175,7 @@ z
 
             <Button
                 android:id="@+id/withdrawal"
-                android:layout_width="140dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"

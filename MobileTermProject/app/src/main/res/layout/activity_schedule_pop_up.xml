@@ -27,6 +27,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/popupContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/popupTop"
@@ -112,15 +113,16 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@drawable/backgroundline">
 
             <TextView
                 android:id="@+id/scheduleContent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="250dp"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/font"
+                android:scrollbars="vertical"
                 android:padding="6dp"
                 android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                 android:textColor="#ffffff"
@@ -131,7 +133,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/popupContent"
         android:weightSum="2">
 
         <Button
