@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".DeleteGroup"
+            android:theme="@style/AppTheme.MyDialog" />
+        <activity
             android:name=".ChangeGroupManager"
             android:theme="@style/AppTheme.MyDialog" />
         <activity

@@ -173,6 +173,20 @@
                 android:textColor="#ffffff"
                 android:textSize="20sp" />
         </TableRow>
+
+        <TableRow>
+            <Button
+                android:id="@+id/deleteGroup"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_button"
+                android:fontFamily="@font/font"
+                android:text="그룹 삭제"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+        </TableRow>
     </TableLayout>
 
 </LinearLayout>

@@ -25,10 +25,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:text="   Groups"
+            android:text="   그룹"
             android:layout_marginTop="150dp"
             android:fontFamily="@font/font"
-            android:textSize="20sp"
+            android:textSize="25sp"
             android:background="@drawable/textlines"
             />
         <ListView
@@ -49,7 +49,7 @@
             android:layout_marginBottom="10dp"
             android:id="@+id/add_group"
             android:textSize="20sp"
-            android:text="Add group"
+            android:text="그룹 추가"
             android:drawablePadding="10dp"
             android:drawableLeft="@drawable/ic_group_add"
             android:onClick="addGroup"/>

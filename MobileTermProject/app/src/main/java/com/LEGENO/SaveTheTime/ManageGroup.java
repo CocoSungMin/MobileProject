@@ -31,6 +31,7 @@ public class ManageGroup extends AppCompatActivity {
     private Button changeNameBtn;
     private Button changeMasterBtn;
     private Button withdrawalBtn;
+    private Button deleteGroupBtn;
     private TextView masterName;
     private TextView member;
     private TextView groupName;
@@ -62,6 +63,7 @@ public class ManageGroup extends AppCompatActivity {
         copyBtn = (Button) findViewById(R.id.copyBtn);
         changeNameBtn = (Button) findViewById(R.id.changeName);
         withdrawalBtn = (Button) findViewById(R.id.withdrawal);
+        deleteGroupBtn = (Button) findViewById(R.id.deleteGroup);
         masterName = (TextView) findViewById(R.id.groupMaster);
         groupName = (TextView) findViewById(R.id.groupName);
         member = (TextView) findViewById(R.id.groupMember);
@@ -118,11 +120,17 @@ public class ManageGroup extends AppCompatActivity {
         changeNameBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ManageGroup.this, ChangeGroupName.class);
-                Bundle bundle2 = new Bundle();
-                bundle2.putString("GID",gId);
-                intent.putExtras(bundle2);
-                startActivityForResult(intent,1);
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                if (!user.getUid().equals(managerId)) {
+                    Toast.makeText(getApplicationContext(), "관리자만 이용 가능합니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(ManageGroup.this, ChangeGroupName.class);
+                    Bundle bundle2 = new Bundle();
+                    bundle2.putString("GID", gId);
+                    intent.putExtras(bundle2);
+                    startActivityForResult(intent, 1);
+                }
             }
         });
 
@@ -145,6 +153,25 @@ public class ManageGroup extends AppCompatActivity {
                 }
             }
         });
+
+        deleteGroupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                if (!user.getUid().equals(managerId)) {
+                    Toast.makeText(getApplicationContext(), "관리자만 이용 가능합니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent deleteGroupIntent = new Intent(ManageGroup.this, DeleteGroup.class);
+
+                    Bundle DGB = new Bundle();
+                    DGB.putString("GID", gId);
+                    deleteGroupIntent.putExtras(DGB);
+
+                    startActivityForResult(deleteGroupIntent, request);
+                }
+            }
+        });
     }
 
     @Override
@@ -161,8 +188,7 @@ public class ManageGroup extends AppCompatActivity {
 
         if (requestCode == request && resultCode == 1) {
             finish();
-        }
-        else if (requestCode == 1 && resultCode == 1){
+        } else if (requestCode == 1 && resultCode == 1) {
             groupName.setText(data.getStringExtra("GN"));
         }
 
@@ -196,8 +222,6 @@ public class ManageGroup extends AppCompatActivity {
             }
         });
     }
-
-
 
 
 }
