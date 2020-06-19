@@ -52,7 +52,7 @@ class menuListviewAdapter extends BaseAdapter {
         ImageView Image = (ImageView) convertView.findViewById(R.id.groupImage);
         GroupName.setText(m_oData.get(position));
         Image.setImageResource(R.drawable.ic_group);
-        Image.setColorFilter(Color.parseColor("#FF0000FF"), PorterDuff.Mode.SRC_IN);
+        Image.setColorFilter(Color.parseColor("#846243"), PorterDuff.Mode.SRC_IN);
 
         return convertView;
     }

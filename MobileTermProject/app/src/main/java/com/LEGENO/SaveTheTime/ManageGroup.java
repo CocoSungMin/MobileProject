@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -69,6 +70,8 @@ public class ManageGroup extends AppCompatActivity {
         member = (TextView) findViewById(R.id.groupMember);
         groupID = (EditText) findViewById(R.id.GroupID);
 
+        member.setVerticalScrollBarEnabled(true);
+        member.setMovementMethod(new ScrollingMovementMethod());
 
         groupName.setText(gName);
 
