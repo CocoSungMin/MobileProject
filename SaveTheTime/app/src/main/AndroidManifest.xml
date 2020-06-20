@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".DeleteGroup"
             android:theme="@style/AppTheme.MyDialog" />
@@ -44,6 +45,9 @@
         <activity
             android:name=".RecommendSchedule"
             android:theme="@style/AppTheme.MyDialog" />
+
+
+
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,6 +59,7 @@
             android:name=".RegisterActicity"
             android:label="@string/app_name"
             android:parentActivityName=".LoginActivity" />
+
     </application>
 
 </manifest>
