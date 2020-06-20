@@ -52,7 +52,7 @@
                 android:drawableTint="#E6FFFFFF"
                 android:textColor="@color/colorWhite"
                 android:fontFamily="@font/font"
-                android:hint="ID"
+                android:hint="E-mail"
                 android:padding="10dp"
                 android:paddingLeft="12dp"
                 android:textColorHint="#E6FFFFFF" />
@@ -95,7 +95,7 @@
                 android:textColorHint="#E6FFFFFF" />
 
             <EditText
-                android:id="@+id/emailText"
+                android:id="@+id/signUpNameText"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -106,7 +106,7 @@
                 android:drawableTint="#E6FFFFFF"
                 android:textColor="@color/colorWhite"
                 android:fontFamily="@font/font"
-                android:hint="E-mail"
+                android:hint="Name"
                 android:padding="10dp"
                 android:paddingLeft="12dp"
                 android:textColorHint="#E6FFFFFF" />

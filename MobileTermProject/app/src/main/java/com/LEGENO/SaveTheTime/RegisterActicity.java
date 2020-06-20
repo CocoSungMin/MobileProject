@@ -15,10 +15,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class RegisterActicity extends AppCompatActivity {
     private EditText emailJoin;
     private EditText pwdJoin;
+    private EditText nameJoin;
     private Button registerBtn;
     private Button cancelBtn;
     FirebaseAuth firebaseAuth;
@@ -32,6 +34,7 @@ public class RegisterActicity extends AppCompatActivity {
 
         emailJoin = (EditText) findViewById(R.id.idText);
         pwdJoin = (EditText) findViewById(R.id.passwordText);
+        nameJoin = findViewById(R.id.signUpNameText);
         registerBtn = (Button) findViewById(R.id.registerButton);
         cancelBtn = (Button) findViewById(R.id.cancelButton);
 
@@ -68,6 +71,19 @@ public class RegisterActicity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(nameJoin.getText().toString())
+                                        .build();
+                                user.updateProfile(profileUpdates)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                }
+                                            }
+                                        });
                                 Intent intent = new Intent(RegisterActicity.this, LoginActivity.class);
                                 Toast.makeText(RegisterActicity.this, "Success", Toast.LENGTH_SHORT).show();
                                 startActivity(intent);
@@ -80,6 +96,12 @@ public class RegisterActicity extends AppCompatActivity {
                     });
         }
     }
+
+    public void setUserInfo(){
+
+
+    }
+
     @Override
     public void onStart() {
         super.onStart();

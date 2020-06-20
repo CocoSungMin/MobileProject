@@ -134,7 +134,7 @@ public class Calendar_main extends AppCompatActivity implements NavigationView.O
 
         Nametxt.setText(userName);
         Emailtxt.setText(userEmail);
-        new DownloadFilesTask().execute(userPhoto.toString());
+//        new DownloadFilesTask().execute(userPhoto.toString());
 
         ImageView settingBtn = headerView.findViewById(R.id.setting_button);
         settingBtn.setOnClickListener(new View.OnClickListener() {
