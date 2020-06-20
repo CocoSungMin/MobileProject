@@ -96,12 +96,7 @@ public class RegisterActicity extends AppCompatActivity {
                     });
         }
     }
-
-    public void setUserInfo(){
-
-
-    }
-
+    
     @Override
     public void onStart() {
         super.onStart();
