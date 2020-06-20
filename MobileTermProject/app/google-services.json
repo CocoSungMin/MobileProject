@@ -15,8 +15,12 @@
       },
       "oauth_client": [
         {
-          "client_id": "840926468561-iummn2co96f2f5u2jp6os96kvv2ngbs1.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "840926468561-p6sa0aolfe2sbas5all882b298bal66k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.LEGENO.SaveTheTime",
+            "certificate_hash": "f17b7275e88b15ddc62771baf96ed7d057ce32e9"
+          }
         }
       ],
       "api_key": [
@@ -26,12 +30,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "840926468561-iummn2co96f2f5u2jp6os96kvv2ngbs1.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     },
@@ -42,44 +41,7 @@
           "package_name": "com.example.mobiletermproject"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "840926468561-30gerd0oighinvrll8j2lne6r8ule578.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.mobiletermproject",
-            "certificate_hash": "728fcd40e16f609fc9f2471b55c780369e71d9a5"
-          }
-        },
-        {
-          "client_id": "840926468561-n2ek9okuets54g8351ksdn6k852c5ok5.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.mobiletermproject",
-            "certificate_hash": "79e899ce09ed36161cb7cc4e6f287f525fd37569"
-          }
-        },
-        {
-          "client_id": "840926468561-g01rkqh2ut4epm9qkm35saqlsu7h4m0b.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.mobiletermproject",
-            "certificate_hash": "f17b7275e88b15ddc62771baf96ed7d057ce32e9"
-          }
-        },
-        {
-          "client_id": "840926468561-gmt6b6p6mh6acpre13dv2ei39cnv2lse.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.mobiletermproject",
-            "certificate_hash": "7a7fe4a2bcd2c7b864add80a79b7107be18c837a"
-          }
-        },
-        {
-          "client_id": "840926468561-iummn2co96f2f5u2jp6os96kvv2ngbs1.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
           "current_key": "AIzaSyDHLisBYiERE0EZNR244NwNtt1MtNdSd6s"
@@ -87,12 +49,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "840926468561-iummn2co96f2f5u2jp6os96kvv2ngbs1.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
